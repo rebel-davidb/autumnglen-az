@@ -1,0 +1,68 @@
+{% from "partials/icons.njk" import icon %}
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="brand" aria-label="{{ site.name }} — Home">
+          {# Prefers logo-light.png if you add one later; falls back to main logo with invert filter. #}
+          <img
+            src="/assets/images/logo.png"
+            alt="Azalea Estates — Assisted Living and Retirement Community"
+            class="brand-logo brand-logo--on-dark"
+            width="665"
+            height="195"
+            decoding="async"
+            loading="lazy"
+          >
+        </a>
+        <p>A premier assisted living and retirement community serving Fayette County and the greater Atlanta area for more than three decades.</p>
+        <div class="footer-socials" aria-label="Social media">
+          <a href="{{ site.social.facebook }}" aria-label="Facebook" target="_blank" rel="noopener">{{ icon('facebook', 18) }}</a>
+          <a href="{{ site.social.twitter }}" aria-label="Twitter" target="_blank" rel="noopener">{{ icon('twitter', 18) }}</a>
+          <a href="{{ site.social.pinterest }}" aria-label="Pinterest" target="_blank" rel="noopener">{{ icon('pinterest', 18) }}</a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/about/">About Azalea</a></li>
+          <li><a href="/living-options/">Living Options</a></li>
+          <li><a href="/amenities/">Services &amp; Amenities</a></li>
+          <li><a href="/floor-plans/">Floor Plans</a></li>
+          <li><a href="/gallery/">Photo Tour</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Visit</h4>
+        <ul>
+          <li><a href="/contact/">Schedule a Tour</a></li>
+          <li><a href="/contact/#directions">Map &amp; Directions</a></li>
+          <li><a href="/contact/#faq">FAQs</a></li>
+          <li><a href="/contact/#careers">Careers</a></li>
+          <li><a href="/contact/">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact">
+        <h4>Reach Us</h4>
+        <p>{{ site.contact.addressLine1 }}</p>
+        <p>{{ site.contact.addressLine2 }}</p>
+        <p style="margin-top: var(--space-3);">
+          <a href="tel:{{ site.contact.phoneRaw }}"><strong>{{ site.contact.phone }}</strong></a>
+        </p>
+        <p><a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a></p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© {{ '' | year }} Azalea Estates of Fayetteville. All rights reserved.</div>
+      <div>
+        <a href="/privacy/">Privacy Policy</a>
+        <a href="/sitemap.xml">Sitemap</a>
+        <a href="/accessibility/">Accessibility</a>
+      </div>
+    </div>
+  </div>
+</footer>

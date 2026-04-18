@@ -1,0 +1,31 @@
+{# ==========================================================================
+   Related Pages partial
+   Expects `related` (array) in context:
+     related = [
+       { url: '/amenities/', title: '…', desc: '…',
+         eyebrow: 'Life Here', cta: 'Explore amenities' }
+     ]
+   Renders a cross-linking block to the related internal pages, with
+   descriptive anchor text that helps search engines understand topical
+   relationships across the site.
+========================================================================== #}
+{% if related %}
+<section class="section related-pages" aria-labelledby="related-heading">
+  <div class="container">
+    <div class="section-heading section-heading--left reveal">
+      <span class="eyebrow">Continue Exploring</span>
+      <h2 id="related-heading">Learn more about Azalea Estates</h2>
+    </div>
+    <div class="related-grid">
+      {% for item in related %}
+      <a class="related-card reveal" href="{{ item.url }}">
+        {% if item.eyebrow %}<span class="related-card__eyebrow">{{ item.eyebrow | safe }}</span>{% endif %}
+        <h3>{{ item.title | safe }}</h3>
+        <p>{{ item.desc | safe }}</p>
+        <span class="related-card__cta">{{ (item.cta or 'Read more') | safe }} <span aria-hidden="true">→</span></span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

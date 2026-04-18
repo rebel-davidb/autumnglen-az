@@ -1,0 +1,15 @@
+{
+  "name": "azalea-estates-fayetteville",
+  "version": "1.0.0",
+  "description": "Azalea Estates of Fayetteville — modern marketing site built with Eleventy, ready to deploy on Netlify.",
+  "private": true,
+  "scripts": {
+    "build": "eleventy --input=src --output=_site",
+    "start": "eleventy --serve --quiet --input=src --output=_site",
+    "dev": "eleventy --serve --quiet --input=src --output=_site",
+    "clean": "rm -rf _site"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}

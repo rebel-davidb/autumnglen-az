@@ -1,0 +1,13 @@
+# Netlify redirects for backward compatibility with legacy URLs
+/living-options/assisted-living/     /living-options/#assisted    301
+/living-options/retirement-living/   /living-options/#independent 301
+/living-options/respite-care/        /living-options/#respite     301
+/services-amenities/                 /amenities/                  301
+/services-amenities/*                /amenities/                  301
+/photo-tour/                         /gallery/                    301
+/contact/meet-the-team/              /about/                      301
+/contact/map-directions/             /contact/#directions         301
+/contact/careers/                    /contact/#careers            301
+/contact/reviews/                    /contact/                    301
+/contact/email-signup/               /contact/                    301
+/videos/                             /gallery/                    301

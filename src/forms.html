@@ -1,0 +1,38 @@
+<!--
+  Static form stub for Netlify Forms detection.
+  Netlify parses HTML files at deploy time to register forms.
+  This file mirrors the form used in /contact/ so submissions are captured
+  even though the real form is rendered by JavaScript-hydrated templates.
+-->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Forms</title></head>
+<body>
+  <!-- Contact form (rendered on /contact/) -->
+  <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="first_name">
+    <input type="text" name="last_name">
+    <input type="email" name="email">
+    <input type="tel" name="phone">
+    <select name="relation"></select>
+    <select name="interest"></select>
+    <textarea name="message"></textarea>
+    <input type="checkbox" name="consent">
+    <input type="text" name="bot-field">
+  </form>
+
+  <!-- Floor Plan Inquiry form (rendered in modal on /floor-plans/) -->
+  <form name="floor-plan-inquiry" netlify netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="plan-name">
+    <input type="hidden" name="plan-type">
+    <input type="hidden" name="plan-specs">
+    <input type="text" name="first_name">
+    <input type="text" name="last_name">
+    <input type="email" name="email">
+    <input type="tel" name="phone">
+    <select name="timeframe"></select>
+    <textarea name="message"></textarea>
+    <input type="text" name="bot-field">
+  </form>
+</body>
+</html>

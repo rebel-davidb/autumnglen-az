@@ -1,0 +1,17 @@
+---
+layout: layouts/base.njk
+---
+<section class="page-hero">
+  <div class="page-hero__bg">
+    <img src="{{ pageHero or images.communityExterior }}" alt="" loading="eager">
+  </div>
+  <div class="container">
+    {# | safe so curly quotes, em dashes, ampersands written as entities render correctly #}
+    <p class="crumbs"><a href="/">Home</a> <span>/</span> <span>{{ title | safe }}</span></p>
+    {% if eyebrow %}<span class="eyebrow">{{ eyebrow | safe }}</span>{% endif %}
+    <h1>{{ title | safe }}</h1>
+    {% if pageIntro %}<p>{{ pageIntro | safe }}</p>{% endif %}
+  </div>
+</section>
+
+{{ content | safe }}

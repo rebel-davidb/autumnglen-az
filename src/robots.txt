@@ -1,0 +1,8 @@
+# Azalea Estates of Fayetteville
+# https://www.azaleaestatesfayetteville.com/robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+Sitemap: https://www.azaleaestatesfayetteville.com/sitemap.xml

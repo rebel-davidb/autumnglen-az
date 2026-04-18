@@ -1,0 +1,114 @@
+---
+layout: layouts/page.njk
+title: Living Options
+metaTitle: "Independent Living, Assisted Living & Respite Care in Fayetteville, GA"
+description: "Explore independent living, assisted living, and respite care at Azalea Estates in Fayetteville. Licensed 24/7 nursing, individualized care plans, and true sense of home under one roof."
+eyebrow: The Right Level of Care
+pageIntro: "Independent living, assisted living, and respite care — all under one roof, all on one single-story campus."
+eleventyComputed:
+  pageHero: "{{ images.livingRoom }}"
+permalink: /living-options/
+---
+
+{% from "partials/icons.njk" import icon %}
+
+<section id="independent" class="section">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__media reveal">
+        <img src="{{ images.residentsGarden }}" alt="Independent living residents enjoying the community" loading="lazy">
+      </div>
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Independent &amp; Retirement Living</span>
+        <h2>Freedom, with a little more ease.</h2>
+        <p class="lead">For seniors who are fully independent but tired of mowing lawns, fixing leaky faucets, and cooking every meal &mdash; this is the good life.</p>
+        <p>Independent residents enjoy all of the campus amenities while keeping a full calendar on their own terms: travel when you want, host family whenever you like, and return to a beautifully maintained apartment with dinner waiting.</p>
+        <ul class="tag-list">
+          <li>Maintenance-free living</li>
+          <li>Three chef-prepared meals daily</li>
+          <li>Weekly housekeeping &amp; linens</li>
+          <li>Full calendar of social activities</li>
+          <li>All utilities included (except phone)</li>
+          <li>Small pets welcome</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="assisted" class="section section--cream">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Assisted Living</span>
+        <h2>Personalized support, delivered with warmth.</h2>
+        <p class="lead">Care plans are built around each resident &mdash; never the other way around. We coordinate with physicians and family to provide exactly the level of assistance needed, and nothing more.</p>
+        <p>As one of only two licensed assisted living providers in Fayette County, we hold ourselves to a higher regulatory standard than personal care homes. Our on-site licensed nurses, 24/7 staffing, and 16-hour nursing coverage means help is always close at hand. See <a href="/about/">our approach to licensed senior care</a> for more.</p>
+        <ul class="tag-list">
+          <li>Individualized care plans</li>
+          <li>Medication reminders &amp; administration</li>
+          <li>Bathing &amp; dressing assistance</li>
+          <li>Transfer &amp; mobility support</li>
+          <li>Blood pressure monitoring</li>
+          <li>24-hour call system with pendant</li>
+          <li>On-site licensed RN &amp; LPN</li>
+        </ul>
+      </div>
+      <div class="intro-split__media reveal">
+        <img src="{{ images.communityExterior }}" alt="Residential exterior with landscaped grounds" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="respite" class="section">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__media reveal">
+        <img src="{{ images.bedroom }}" alt="Peaceful private respite suite" loading="lazy">
+      </div>
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Respite Care</span>
+        <h2>A short stay. A real rest.</h2>
+        <p class="lead">Recovering from surgery? Caregiver needs a vacation? Testing the waters before committing to a longer stay? Respite care offers a fully furnished suite and every community amenity for a week, a month, or anything in between.</p>
+        <p>Respite residents enjoy all the dining, wellness, activities, and <a href="/amenities/">care services of long-term residents</a> &mdash; without a long-term commitment.</p>
+        <ul class="tag-list">
+          <li>Fully furnished suites</li>
+          <li>All-inclusive daily rate</li>
+          <li>Post-surgical recovery support</li>
+          <li>Caregiver respite</li>
+          <li>Trial stays available</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% set related = [
+  { url: '/amenities/', eyebrow: 'What’s Included', title: 'Services & Amenities',
+    desc: 'Dining, saltwater pool, wellness center, transportation, and more — built into daily life.',
+    cta: 'See all amenities' },
+  { url: '/floor-plans/', eyebrow: 'Your New Home', title: 'Floor Plans',
+    desc: 'Compare four senior apartment layouts with private baths, kitchenettes, and garden views.',
+    cta: 'View floor plans' },
+  { url: '/gallery/', eyebrow: 'Take a Look', title: 'Photo Tour',
+    desc: 'Photos of our Fayetteville campus, resident spaces, and community moments.',
+    cta: 'Open the gallery' }
+] %}
+{% include "partials/related.njk" %}
+
+<section class="cta-panel">
+  <div class="container">
+    <div class="cta-panel__grid">
+      <div>
+        <span class="eyebrow" style="color: var(--c-accent-soft);">Not sure which is right?</span>
+        <h2>Let&rsquo;s talk it through.</h2>
+        <p>Our admissions team will help you sort through options, pricing, and the realities of each path &mdash; no pressure, no sales pitch.</p>
+      </div>
+      <div class="cta-panel__btns">
+        <a href="/contact/" class="btn btn--primary">Start the Conversation</a>
+        <a href="tel:{{ site.contact.phoneRaw }}" class="btn btn--outline">{{ site.contact.phone }}</a>
+      </div>
+    </div>
+  </div>
+</section>

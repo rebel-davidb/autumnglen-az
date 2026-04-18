@@ -1,0 +1,51 @@
+---
+layout: layouts/page.njk
+title: Photo Tour
+metaTitle: "Photo Tour of Azalea Estates in Fayetteville, GA"
+description: "Explore photos of our campus, resident suites, indoor pool, dining room, and community life at Azalea Estates — a family-owned senior living community in Fayetteville, GA."
+eyebrow: A Glimpse of Life Here
+pageIntro: "Browse our campus, common spaces, and community moments. Better yet — come see it in person."
+eleventyComputed:
+  pageHero: "{{ images.communityGarden }}"
+permalink: /gallery/
+---
+
+<section class="section">
+  <div class="container">
+    <div class="gallery-grid">
+      {% for photo in images.gallery %}
+        <div class="gallery-item reveal" data-full="{{ photo.src }}" role="button" tabindex="0" aria-label="{{ photo.alt }}">
+          <img src="{{ photo.src }}" alt="{{ photo.alt }}" loading="lazy">
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% set related = [
+  { url: '/living-options/', eyebrow: 'Care Levels', title: 'Living Options',
+    desc: 'Learn how independent living, assisted living, and respite care work at Azalea Estates.',
+    cta: 'Read about care' },
+  { url: '/amenities/', eyebrow: 'The Details', title: 'Services & Amenities',
+    desc: 'A closer look at the pool, dining, wellness center, salon, and more you’ve just seen.',
+    cta: 'Explore amenities' },
+  { url: '/floor-plans/', eyebrow: 'Your Suite', title: 'Floor Plans',
+    desc: 'Compare our four senior apartment layouts and find the one that feels like home.',
+    cta: 'View floor plans' }
+] %}
+{% include "partials/related.njk" %}
+
+<section class="cta-panel">
+  <div class="container">
+    <div class="cta-panel__grid">
+      <div>
+        <span class="eyebrow" style="color: var(--c-accent-soft);">Nothing beats seeing it in person</span>
+        <h2>Schedule a private tour.</h2>
+        <p>Photos can only capture so much. Visit the campus, meet the residents, and see whether Azalea Estates feels like home.</p>
+      </div>
+      <div class="cta-panel__btns">
+        <a href="/contact/" class="btn btn--primary">Schedule a Tour</a>
+      </div>
+    </div>
+  </div>
+</section>

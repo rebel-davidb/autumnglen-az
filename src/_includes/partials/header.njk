@@ -1,0 +1,33 @@
+{% from "partials/icons.njk" import icon %}
+<header class="site-header">
+  <div class="container header-top">
+    <a href="tel:{{ site.contact.phoneRaw }}">{{ icon('phone', 14) }} {{ site.contact.phone }}</a>
+    <a href="/contact/">Schedule a Tour</a>
+    <a href="/contact/#careers">Careers</a>
+  </div>
+  <div class="container header-inner">
+    <a href="/" class="brand" aria-label="{{ site.name }} — Home">
+      {# Logo contains the full wordmark, so text beside it would duplicate. #}
+      {# aria-label on the link supplies the accessible name for screen readers. #}
+      <img
+        src="/assets/images/logo.png"
+        alt="Azalea Estates — Assisted Living and Retirement Community"
+        class="brand-logo"
+        width="665"
+        height="195"
+        decoding="async"
+      >
+    </a>
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
+      {{ icon('menu', 28) }}
+    </button>
+    <nav class="nav" aria-label="Primary">
+      {% for item in site.nav %}
+        <a href="{{ item.url }}">{{ item.label }}</a>
+      {% endfor %}
+      <div class="nav-cta">
+        <a href="/contact/" class="btn btn--primary">Schedule a Tour</a>
+      </div>
+    </nav>
+  </div>
+</header>

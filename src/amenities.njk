@@ -1,0 +1,135 @@
+---
+layout: layouts/page.njk
+title: "Services & Amenities"
+metaTitle: "Senior Living Amenities: Dining, Pool & Wellness | Azalea Estates"
+description: "Chef-prepared dining, heated indoor saltwater pool, 3,000 sq. ft. wellness center, salon, courtesy transportation, and more. Every amenity at Azalea Estates in Fayetteville, GA."
+eyebrow: Everything You Love, Right Here
+pageIntro: "A community designed for today's discerning seniors — with the thoughtful touches families look for."
+eleventyComputed:
+  pageHero: "{{ images.wellnessPool }}"
+permalink: /amenities/
+---
+
+{% from "partials/icons.njk" import icon %}
+
+<section class="section">
+  <div class="container">
+    <div class="section-heading section-heading--left reveal">
+      <span class="eyebrow">Community</span>
+      <h2>Designed for easy, connected living.</h2>
+      <p>No elevators. No stairs. Just a single-story neighborhood where every amenity is a short, pleasant walk from your front door.</p>
+    </div>
+    <div class="amenities-grid">
+      <div class="amenity-chip reveal"><div class="amenity-chip__icon">{{ icon('home', 22) }}</div><div><h4>Single-Story Campus</h4><p>Accessible, walkable, and easy to navigate &mdash; for residents and visitors alike.</p></div></div>
+      <div class="amenity-chip reveal"><div class="amenity-chip__icon">{{ icon('leaf', 22) }}</div><div><h4>Landscaped Gardens</h4><p>Walking paths, seasonal blooms, and a resident communal garden to plant your own favorites.</p></div></div>
+      <div class="amenity-chip reveal"><div class="amenity-chip__icon">{{ icon('flower', 22) }}</div><div><h4>Screened Porch</h4><p>A large covered porch overlooking the courtyard &mdash; a favorite gathering spot.</p></div></div>
+      <div class="amenity-chip reveal"><div class="amenity-chip__icon">{{ icon('book', 22) }}</div><div><h4>Library &amp; Computer Room</h4><p>Quiet corners for reading, writing, and staying connected online.</p></div></div>
+      <div class="amenity-chip reveal"><div class="amenity-chip__icon">{{ icon('users', 22) }}</div><div><h4>Private Event Rooms</h4><p>Perfect for family birthdays, holidays, and special occasions.</p></div></div>
+      <div class="amenity-chip reveal"><div class="amenity-chip__icon">{{ icon('shield', 22) }}</div><div><h4>Building-Wide WiFi</h4><p>Complete coverage, with cable TV available in every suite.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container">
+    <div class="section-heading section-heading--left reveal">
+      <span class="eyebrow">Wellness</span>
+      <h2>A complete wellness experience.</h2>
+      <p>Our 3,000 square foot Wellness Center is staffed by a personal, experienced licensed fitness trainer &mdash; with group and individual programs year-round.</p>
+    </div>
+    <div class="feature-grid">
+      <article class="feature-card reveal">
+        <div class="feature-card__media"><img src="{{ images.wellnessPool }}" alt="Heated indoor saltwater pool" loading="lazy"></div>
+        <div class="feature-card__body">
+          <h3>Heated Saltwater Pool</h3>
+          <p>Indoor, year-round, and gentle on joints. Water aerobics, lap swimming, and guided classes throughout the week.</p>
+        </div>
+      </article>
+      <article class="feature-card reveal">
+        <div class="feature-card__media"><img src="{{ images.wellnessFitness }}" alt="Fitness class for seniors" loading="lazy"></div>
+        <div class="feature-card__body">
+          <h3>Fitness &amp; Strength</h3>
+          <p>Senior-friendly equipment, balance training, and one-on-one sessions with our licensed trainer.</p>
+        </div>
+      </article>
+      <article class="feature-card reveal">
+        <div class="feature-card__media"><img src="{{ images.wellnessYoga }}" alt="Gentle yoga session" loading="lazy"></div>
+        <div class="feature-card__body">
+          <h3>Mind &amp; Spirit</h3>
+          <p>Gentle yoga, meditation, music, arts &mdash; programs designed to engage every part of a life well lived.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-heading section-heading--left reveal">
+      <span class="eyebrow">Dining</span>
+      <h2>Three meals a day, every one worth looking forward to.</h2>
+      <p>Restaurant-style service in our elegant dining room. Private dining rooms available for parties and celebrations.</p>
+    </div>
+    <div class="intro-split">
+      <div class="intro-split__media reveal">
+        <img src="{{ images.diningPlate }}" alt="Chef-prepared plated meal" loading="lazy">
+      </div>
+      <div class="intro-split__body reveal">
+        <h3>Chef-led, resident-driven.</h3>
+        <p>Our culinary team plans menus around what residents actually want to eat &mdash; classic Southern favorites, lighter fare, and holiday specialties throughout the year. Dietary needs are accommodated with care, and requests are always welcome.</p>
+        <ul class="tag-list">
+          <li>Three meals daily</li>
+          <li>Restaurant-style service</li>
+          <li>Dietary accommodations</li>
+          <li>Private dining available</li>
+          <li>Seasonal menus</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container">
+    <div class="section-heading section-heading--left reveal">
+      <span class="eyebrow">Services</span>
+      <h2>The everyday details, handled.</h2>
+    </div>
+    <div class="amenities-grid">
+      <div class="amenity-chip reveal"><div class="amenity-chip__icon">{{ icon('scissors', 22) }}</div><div><h4>Salon &amp; Barbershop</h4><p>Full-service styling, cuts, and color &mdash; right on campus.</p></div></div>
+      <div class="amenity-chip reveal"><div class="amenity-chip__icon">{{ icon('car', 22) }}</div><div><h4>Courtesy Transportation</h4><p>Senior-friendly rides for doctor visits, shopping, and errands, Monday through Friday.</p></div></div>
+      <div class="amenity-chip reveal"><div class="amenity-chip__icon">{{ icon('home', 22) }}</div><div><h4>Housekeeping &amp; Linens</h4><p>Weekly housekeeping and linen service, with personal laundry options available.</p></div></div>
+      <div class="amenity-chip reveal"><div class="amenity-chip__icon">{{ icon('heart', 22) }}</div><div><h4>Pets Welcome</h4><p>Small pets are family here &mdash; and we welcome them warmly.</p></div></div>
+      <div class="amenity-chip reveal"><div class="amenity-chip__icon">{{ icon('shield', 22) }}</div><div><h4>24/7 Emergency Response</h4><p>Wireless pendants and bathroom pull cords connect to staff round the clock.</p></div></div>
+      <div class="amenity-chip reveal"><div class="amenity-chip__icon">{{ icon('users', 22) }}</div><div><h4>Daily Activities</h4><p>From bridge club to bingo to guest performers &mdash; there&rsquo;s always something happening.</p></div></div>
+    </div>
+  </div>
+</section>
+
+{% set related = [
+  { url: '/living-options/', eyebrow: 'Who It’s For', title: 'Living Options',
+    desc: 'Match these amenities to the right level of care — independent, assisted, or respite.',
+    cta: 'Explore living options' },
+  { url: '/floor-plans/', eyebrow: 'Your Private Space', title: 'Floor Plans',
+    desc: 'Four spacious suites with private baths, kitchenettes, and personal thermostats.',
+    cta: 'Compare floor plans' },
+  { url: '/gallery/', eyebrow: 'Life at Azalea', title: 'Photo Tour',
+    desc: 'See our dining room, wellness center, pool, and community spaces in use.',
+    cta: 'Browse photos' }
+] %}
+{% include "partials/related.njk" %}
+
+<section class="cta-panel">
+  <div class="container">
+    <div class="cta-panel__grid">
+      <div>
+        <span class="eyebrow" style="color: var(--c-accent-soft);">Experience it yourself</span>
+        <h2>Schedule a tour and stay for a meal.</h2>
+        <p>The best way to understand our community is to spend an afternoon in it.</p>
+      </div>
+      <div class="cta-panel__btns">
+        <a href="/contact/" class="btn btn--primary">Schedule a Tour</a>
+      </div>
+    </div>
+  </div>
+</section>

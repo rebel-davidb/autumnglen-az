@@ -1,0 +1,32 @@
+---
+layout: layouts/page.njk
+title: Privacy Policy
+metaTitle: "Privacy Policy | Azalea Estates of Fayetteville"
+description: "How Azalea Estates of Fayetteville collects, uses, and protects information submitted through our website. Read our privacy policy in full."
+eyebrow: Legal
+pageIntro: "How we handle information submitted through this website."
+eleventyComputed:
+  pageHero: "{{ images.communityGarden }}"
+permalink: /privacy/
+---
+
+<section class="section">
+  <div class="container container--narrow prose">
+    <p><em>Last updated: {{ '' | year }}</em></p>
+
+    <h2>Information We Collect</h2>
+    <p>When you contact us through this website, we collect only the information you provide &mdash; typically your name, email address, phone number, and the content of your message. We use Netlify Forms to process form submissions, which stores these messages securely on Netlify&rsquo;s infrastructure.</p>
+
+    <h2>How We Use Your Information</h2>
+    <p>We use the information you provide solely to respond to your inquiry, schedule tours, and share information about Azalea Estates of Fayetteville. We do not sell, trade, or rent your information to third parties.</p>
+
+    <h2>Cookies &amp; Analytics</h2>
+    <p>This site may use minimal cookies for essential functionality and, if configured, standard analytics tools to help us understand how visitors use our site. You can disable cookies in your browser at any time.</p>
+
+    <h2>Your Choices</h2>
+    <p>You can request that we update or delete your information at any time by contacting us at <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>.</p>
+
+    <h2>Contact</h2>
+    <p>For questions about this policy, please call {{ site.contact.phone }} or email {{ site.contact.email }}.</p>
+  </div>
+</section>

@@ -1,0 +1,269 @@
+---
+layout: layouts/base.njk
+title: Welcome Home
+metaTitle: "Assisted Living & Retirement in Fayetteville, GA | Azalea Estates"
+description: "Family-owned assisted living and retirement community in Fayetteville, GA. Independent living, assisted care, and respite stays on a 10-acre single-story campus with 24/7 licensed nursing."
+eleventyComputed:
+  heroImage: "{{ images.hero }}"
+---
+
+{% from "partials/icons.njk" import icon %}
+
+<!--
+  HERO — Background video
+  Accessibility notes:
+  • Autoplay works only when combined with muted + playsinline (mobile).
+  • <video> is aria-hidden because it is decorative; the h1 + lead prose
+    below convey equivalent information (WCAG 1.2.1).
+  • A visible pause/play toggle satisfies WCAG 2.2.2 (Pause, Stop, Hide)
+    for motion that runs longer than 5 seconds.
+  • prefers-reduced-motion: respected via JS (starts paused on that OS setting).
+  • <img> poster shown while the video buffers and if playback fails.
+-->
+<section class="hero">
+  <div class="hero__bg" aria-hidden="true">
+    <video
+      class="hero__video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster="{{ images.heroPoster }}"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <source
+        src="https://cdn.rebelwarecdn.com/azaleaestatesfayetteville.com/videos/Sterling%20Azalea%20of%20Fayetteville%20Tour%20Video%20%40azaleaestatesoffayettevill8137.mp4"
+        type="video/mp4"
+      >
+      {# Browsers that can't play MP4 will fall back to the poster image. #}
+    </video>
+  </div>
+  <button
+    type="button"
+    class="hero__video-toggle"
+    aria-label="Pause background video"
+    aria-pressed="false"
+    data-paused="false"
+  >
+    <span class="hero__video-toggle-icon" aria-hidden="true">
+      <svg class="icon-pause" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="2" width="3.2" height="12" rx="0.8"/><rect x="9.8" y="2" width="3.2" height="12" rx="0.8"/></svg>
+      <svg class="icon-play" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.2v11.6c0 .6.7 1 1.2.7l9.2-5.8c.5-.3.5-1 0-1.3L5.2 1.5C4.7 1.2 4 1.6 4 2.2z"/></svg>
+    </span>
+    <span class="hero__video-toggle-label">Pause</span>
+  </button>
+  <div class="container">
+    <div class="hero__inner">
+      <span class="eyebrow">Assisted Living &amp; Retirement · Fayetteville, GA</span>
+      <h1>A graceful place to call home.</h1>
+      <p class="lead">For more than thirty years, we&rsquo;ve welcomed seniors into a gracious, blended community of independent and assisted living &mdash; where every day feels a little lighter and a lot more like home.</p>
+      <div class="hero__cta">
+        <a href="/contact/" class="btn btn--primary">Schedule a Private Tour</a>
+        <a href="/living-options/" class="btn btn--outline">Explore Living Options</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="stats-bar__grid">
+      <div class="stats-bar__stat">
+        <span class="stats-bar__num">30+</span>
+        <span class="stats-bar__label">Years of Care</span>
+      </div>
+      <div class="stats-bar__stat">
+        <span class="stats-bar__num">79</span>
+        <span class="stats-bar__label">Private Suites</span>
+      </div>
+      <div class="stats-bar__stat">
+        <span class="stats-bar__num">10</span>
+        <span class="stats-bar__label">Acre Campus</span>
+      </div>
+      <div class="stats-bar__stat">
+        <span class="stats-bar__num">24/7</span>
+        <span class="stats-bar__label">Caring Staff</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO SPLIT -->
+<section class="section">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__media reveal">
+        <img src="{{ images.residentsLaughing }}" alt="Residents sharing a warm moment together" loading="lazy">
+      </div>
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">About Azalea Estates</span>
+        <h2>Built around the people who live here.</h2>
+        <p class="lead">Azalea Estates sits on a quiet 10-acre campus just off Highway 54 in the heart of Fayetteville, Georgia. Same owners, same thoughtful management &mdash; for more than three decades.</p>
+        <p>Every detail, from the architecture of our one-story neighborhood to the rhythm of our daily activities, is shaped by what residents tell us matters most: independence, connection, and a genuine feeling of home.</p>
+        <a href="/about/" class="btn btn--ghost">More about our community</a>
+        <div class="signature">
+          <div class="signature__avatar">{{ icon('heart', 22) }}</div>
+          <div class="signature__text">
+            <strong>Family-owned since 1993</strong>
+            Proudly serving Fayette County &amp; Peachtree City
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE CARDS: LIVING OPTIONS -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Living Options</span>
+      <h2>Choose the life that fits you.</h2>
+      <p>From spirited independent living to personalized assisted-care support, we&rsquo;ll help you find the right level of comfort and assistance &mdash; and adjust as life changes.</p>
+    </div>
+    <div class="feature-grid">
+      <article class="feature-card reveal">
+        <div class="feature-card__media">
+          <img src="{{ images.residentsGarden }}" alt="Residents enjoying independent lifestyle" loading="lazy">
+        </div>
+        <div class="feature-card__body">
+          <h3>Independent &amp; Retirement Living</h3>
+          <p>Maintenance-free apartment living with dining, wellness, housekeeping, and an endless calendar of social events. Come and go as you please.</p>
+          <a href="/living-options/#independent" class="btn btn--ghost">Learn more</a>
+        </div>
+      </article>
+
+      <article class="feature-card reveal">
+        <div class="feature-card__media">
+          <img src="{{ images.communityExterior }}" alt="Assisted living private suite exterior" loading="lazy">
+        </div>
+        <div class="feature-card__body">
+          <h3>Assisted Living</h3>
+          <p>Individualized care plans, on-site licensed nursing, and 24/7 assistance with the activities of daily living &mdash; delivered with dignity and warmth.</p>
+          <a href="/living-options/#assisted" class="btn btn--ghost">Learn more</a>
+        </div>
+      </article>
+
+      <article class="feature-card reveal">
+        <div class="feature-card__media">
+          <img src="{{ images.communityGarden }}" alt="Respite care short-term stays" loading="lazy">
+        </div>
+        <div class="feature-card__body">
+          <h3>Respite Care</h3>
+          <p>Short-term stays for recovery, rehabilitation, or simply giving a primary caregiver a well-deserved break &mdash; fully furnished and all-inclusive.</p>
+          <a href="/living-options/#respite" class="btn btn--ghost">Learn more</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS: VALUES / LIFE AT AZALEA -->
+<section class="section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Life at Azalea Estates</span>
+      <h2>Four pillars of a life well-lived.</h2>
+    </div>
+    <div class="pillars">
+      <div class="pillar reveal">
+        <h3>Peace of Mind</h3>
+        <p>24-hour staffing, emergency response, and licensed nursing care &mdash; so families can be family again.</p>
+      </div>
+      <div class="pillar reveal">
+        <h3>Purpose &amp; Connection</h3>
+        <p>Partnerships with local churches, schools, and civic groups bring neighbors and generations together.</p>
+      </div>
+      <div class="pillar reveal">
+        <h3>Wellness in Every Form</h3>
+        <p>Daily fitness, a heated saltwater aerobic pool, and programs that engage mind, body, and spirit.</p>
+      </div>
+      <div class="pillar reveal">
+        <h3>Home-Like Comfort</h3>
+        <p>Four spacious floor plans, private baths, personal thermostats, and windows looking onto landscaped grounds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial">
+  <div class="container">
+    <div class="testimonial__inner reveal">
+      <span class="testimonial__mark">&ldquo;</span>
+      <p class="testimonial__quote">From the moment Mom moved in, the staff treated her like family. Nine months later we can say with certainty: we chose the right community.</p>
+      <p class="testimonial__attribution"><strong>The Whitaker Family</strong> · Daughter of a resident</p>
+    </div>
+  </div>
+</section>
+
+<!-- AMENITIES PREVIEW -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Services &amp; Amenities</span>
+      <h2>Everything you need, thoughtfully arranged.</h2>
+      <p>Our single-story campus means no elevators, no stairs &mdash; just easy access to the places you love to spend your days.</p>
+    </div>
+    <div class="amenities-grid">
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('utensils', 22) }}</div>
+        <div><h4>Chef-Prepared Dining</h4><p>Three restaurant-style meals daily in our elegant dining room.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('waves', 22) }}</div>
+        <div><h4>Saltwater Aerobic Pool</h4><p>Heated, indoor, gentle on joints &mdash; perfect for year-round movement.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('dumbbell', 22) }}</div>
+        <div><h4>3,000 sq. ft. Wellness Center</h4><p>Group and individual programs led by a licensed fitness trainer.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('leaf', 22) }}</div>
+        <div><h4>Community Garden</h4><p>Plant, harvest, and gather among walking paths and seasonal blooms.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('car', 22) }}</div>
+        <div><h4>Courtesy Transportation</h4><p>Senior-friendly rides to doctor visits, shopping, and errands.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('scissors', 22) }}</div>
+        <div><h4>Salon &amp; Barbershop</h4><p>Full-service styling, right on campus.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('book', 22) }}</div>
+        <div><h4>Library &amp; Computer Room</h4><p>A quiet corner for reading, writing, and staying connected with family.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('shield', 22) }}</div>
+        <div><h4>24-Hour Call System</h4><p>Bathroom pull cords and personal pendants &mdash; help is never far.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('heart', 22) }}</div>
+        <div><h4>Pets Welcome</h4><p>Small pets are part of the family here, too.</p></div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top: var(--space-6);">
+      <a href="/amenities/" class="btn btn--outline">See all amenities</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA PANEL -->
+<section class="cta-panel">
+  <div class="container">
+    <div class="cta-panel__grid reveal">
+      <div>
+        <span class="eyebrow" style="color: var(--c-accent-soft);">Come See for Yourself</span>
+        <h2>Visit us. Stay for lunch. Meet the neighbors.</h2>
+        <p>Private tours are the best way to feel whether Azalea Estates is the right fit. We&rsquo;ll walk you through our campus, show you available suites, and answer every question &mdash; at your pace.</p>
+      </div>
+      <div class="cta-panel__btns">
+        <a href="/contact/" class="btn btn--primary">Schedule a Tour</a>
+        <a href="tel:{{ site.contact.phoneRaw }}" class="btn btn--outline">{{ site.contact.phone }}</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,204 @@
+---
+layout: layouts/page.njk
+title: Contact Us
+metaTitle: "Schedule a Tour — Contact Azalea Estates in Fayetteville, GA"
+description: "Call 770-461-0039 or request a private tour of Azalea Estates in Fayetteville, GA. Our admissions team responds within one business day."
+eyebrow: "We’d Love to Hear from You"
+pageIntro: "Call, email, or drop us a note — our admissions team responds within one business day."
+eleventyComputed:
+  pageHero: "{{ images.amenitiesPorch }}"
+permalink: /contact/
+---
+
+{% from "partials/icons.njk" import icon %}
+
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+      <!-- Form -->
+      <div class="reveal">
+        <span class="eyebrow">Send a Message</span>
+        <h2>Tell us a little about what you&rsquo;re looking for.</h2>
+        <p>Whether you&rsquo;re exploring options for yourself or a loved one, we&rsquo;ll help you understand what&rsquo;s available and what it costs &mdash; with no pressure and no sales pitch.</p>
+
+        <form
+          name="contact"
+          method="POST"
+          action="/contact/thanks/"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+          class="form"
+        >
+          <!-- Required by Netlify to identify the form -->
+          <input type="hidden" name="form-name" value="contact">
+          <!-- Honeypot: hidden from humans, catches bots -->
+          <p style="display:none;">
+            <label>Don&rsquo;t fill this out if you&rsquo;re human: <input name="bot-field"></label>
+          </p>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="first_name">First Name *</label>
+              <input type="text" id="first_name" name="first_name" required autocomplete="given-name">
+            </div>
+            <div class="form-field">
+              <label for="last_name">Last Name *</label>
+              <input type="text" id="last_name" name="last_name" required autocomplete="family-name">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" required autocomplete="email">
+            </div>
+            <div class="form-field">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="relation">This inquiry is for…</label>
+              <select id="relation" name="relation">
+                <option value="self">Myself</option>
+                <option value="parent">A parent</option>
+                <option value="spouse">A spouse</option>
+                <option value="relative">Another relative</option>
+                <option value="professional">A client (I&rsquo;m a professional)</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="interest">Primary interest</label>
+              <select id="interest" name="interest">
+                <option value="independent">Independent / Retirement Living</option>
+                <option value="assisted">Assisted Living</option>
+                <option value="respite">Respite / Short-term Care</option>
+                <option value="tour">Scheduling a tour</option>
+                <option value="other">Something else</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="message">How can we help?</label>
+            <textarea id="message" name="message" placeholder="Tell us a bit about timeline, needs, or any questions you have…"></textarea>
+          </div>
+
+          <label class="form-consent">
+            <input type="checkbox" name="consent" required>
+            <span>I&rsquo;d like to be contacted about Azalea Estates. I understand I can opt out anytime.</span>
+          </label>
+
+          <button type="submit" class="btn btn--primary">Send Message</button>
+        </form>
+      </div>
+
+      <!-- Info card -->
+      <aside class="contact-info reveal">
+        <h3>Visit or call us.</h3>
+        <div class="info-row">
+          <div class="info-row__icon">{{ icon('pin', 24) }}</div>
+          <div class="info-row__body">
+            <strong>Address</strong>
+            {{ site.contact.addressLine1 }}<br>
+            {{ site.contact.addressLine2 }}<br>
+            <a href="{{ site.contact.mapsUrl }}" target="_blank" rel="noopener">Get directions →</a>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__icon">{{ icon('phone', 24) }}</div>
+          <div class="info-row__body">
+            <strong>Phone</strong>
+            <a href="tel:{{ site.contact.phoneRaw }}">{{ site.contact.phone }}</a>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__icon">{{ icon('mail', 24) }}</div>
+          <div class="info-row__body">
+            <strong>Email</strong>
+            <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__icon">{{ icon('clock', 24) }}</div>
+          <div class="info-row__body">
+            <strong>Tour Hours</strong>
+            Monday – Friday, 9:00 AM – 5:00 PM<br>
+            Saturday by appointment
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- MAP EMBED -->
+<section id="directions" class="section section--cream">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Map &amp; Directions</span>
+      <h2>Easy to find, easy to visit.</h2>
+      <p>We&rsquo;re just off Highway 54 in the center of Fayetteville, on Autumn Glen Circle.</p>
+    </div>
+    <div style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); aspect-ratio: 16/7;">
+      <iframe
+        src="https://www.google.com/maps?q=105+Autumn+Glen+Cir+Fayetteville+GA+30215&output=embed"
+        title="Map showing Azalea Estates of Fayetteville"
+        width="100%" height="100%" style="border:0;"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section">
+  <div class="container container--narrow">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Common Questions</span>
+      <h2>Frequently Asked Questions</h2>
+    </div>
+
+    <details class="reveal" style="border-bottom: 1px solid var(--c-line); padding: var(--space-4) 0;">
+      <summary style="cursor:pointer; font-weight:600; font-family: var(--font-serif); font-size: 1.2rem;">Who is Assisted Living designed for?</summary>
+      <p style="margin-top: var(--space-3);">It&rsquo;s for individuals who need some assistance with activities of daily living &mdash; bathing, dressing, medication reminders, mobility, or transportation &mdash; while still maintaining as much independence as possible. Our licensed RN and LPN are on staff to support each resident&rsquo;s individual plan.</p>
+    </details>
+
+    <details class="reveal" style="border-bottom: 1px solid var(--c-line); padding: var(--space-4) 0;">
+      <summary style="cursor:pointer; font-weight:600; font-family: var(--font-serif); font-size: 1.2rem;">What&rsquo;s included in the monthly rate?</summary>
+      <p style="margin-top: var(--space-3);">All utilities and cable (except telephone), complete building WiFi, three daily chef-prepared meals, weekly housekeeping and linen service, emergency response systems, and access to all wellness, social, and community amenities. Personal care services are added in flexible tiers based on need.</p>
+    </details>
+
+    <details class="reveal" style="border-bottom: 1px solid var(--c-line); padding: var(--space-4) 0;">
+      <summary style="cursor:pointer; font-weight:600; font-family: var(--font-serif); font-size: 1.2rem;">Can you help with long-term care insurance?</summary>
+      <p style="margin-top: var(--space-3);">Yes. Our admissions team is experienced in helping residents both apply for and submit monthly forms for long-term care insurance. Many residents have a substantial portion of their costs covered this way.</p>
+    </details>
+
+    <details class="reveal" style="border-bottom: 1px solid var(--c-line); padding: var(--space-4) 0;">
+      <summary style="cursor:pointer; font-weight:600; font-family: var(--font-serif); font-size: 1.2rem;">Are assisted living fees tax deductible?</summary>
+      <p style="margin-top: var(--space-3);">In many circumstances, yes. We can share general guidance and resources on medical-expense deductibility. We always recommend confirming with your accountant or tax advisor for your specific situation.</p>
+    </details>
+
+    <details class="reveal" style="border-bottom: 1px solid var(--c-line); padding: var(--space-4) 0;">
+      <summary style="cursor:pointer; font-weight:600; font-family: var(--font-serif); font-size: 1.2rem;">Are pets allowed?</summary>
+      <p style="margin-top: var(--space-3);">Absolutely. Small pets are very welcome at Azalea Estates &mdash; we love having them in our community.</p>
+    </details>
+
+    <details class="reveal" style="border-bottom: 1px solid var(--c-line); padding: var(--space-4) 0;">
+      <summary style="cursor:pointer; font-weight:600; font-family: var(--font-serif); font-size: 1.2rem;">How do I schedule a tour?</summary>
+      <p style="margin-top: var(--space-3);">Call us at <a href="tel:{{ site.contact.phoneRaw }}">{{ site.contact.phone }}</a>, send a message through the form above, or simply drop by during tour hours. We&rsquo;ll show you the campus, available suites, and answer every question.</p>
+    </details>
+  </div>
+</section>
+
+<!-- CAREERS -->
+<section id="careers" class="section section--ink">
+  <div class="container container--narrow" style="text-align:center;">
+    <span class="eyebrow" style="color: var(--c-accent-soft);">Careers</span>
+    <h2>Join our team.</h2>
+    <p>We&rsquo;re always looking for kind, capable people who want to make a real difference in seniors&rsquo; lives. If that sounds like you, we&rsquo;d love to hear from you.</p>
+    <a href="mailto:{{ site.contact.email }}?subject=Careers Inquiry" class="btn btn--primary" style="margin-top: var(--space-3);">Contact Our Careers Team</a>
+  </div>
+</section>

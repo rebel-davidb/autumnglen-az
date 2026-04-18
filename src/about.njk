@@ -1,0 +1,96 @@
+---
+layout: layouts/page.njk
+title: About Us
+metaTitle: "About Azalea Estates — 30+ Years of Senior Care in Fayetteville, GA"
+description: "Family-owned since 1993, Azalea Estates is one of only two licensed assisted living providers in Fayette County, GA. Meet the team behind 30 years of dignified senior care."
+eyebrow: Our Community
+pageIntro: "Thirty years of welcoming seniors home — with the same thoughtful owners and the same warm spirit."
+eleventyComputed:
+  pageHero: "{{ images.communityExterior }}"
+permalink: /about/
+---
+
+{% from "partials/icons.njk" import icon %}
+
+<section class="section">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Our Story</span>
+        <h2>Rooted in Fayetteville. Grown with its families.</h2>
+        <p class="lead">Azalea Estates has been the preferred blended community for independent and assisted living residents in Fayette County for over 30 years. We&rsquo;re proud to have grown alongside the people we serve.</p>
+        <p>Our one-story campus was designed with seniors in mind &mdash; no elevators, no stairs, and every shared space just a short walk away. The result is a community that feels unmistakably like a neighborhood: easy, familiar, connected.</p>
+        <p>We believe that aging well is a team effort. That&rsquo;s why we partner with families, physicians, local churches, schools, civic organizations, and the greater Atlanta community to fill each day with meaning. Whether you&rsquo;re exploring <a href="/living-options/">our living options</a> or curious about the <a href="/amenities/">services and amenities we provide</a>, we&rsquo;re happy to walk you through it.</p>
+      </div>
+      <div class="intro-split__media reveal">
+        <img src="{{ images.residentsActivity }}" alt="Residents engaged in a creative activity" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">What Guides Us</span>
+      <h2>Care is a relationship, not a transaction.</h2>
+    </div>
+    <div class="pillars">
+      <div class="pillar reveal">
+        <h3>Dignity First</h3>
+        <p>Every interaction starts with respect. Residents set the pace; we follow their lead.</p>
+      </div>
+      <div class="pillar reveal">
+        <h3>Continuity of Care</h3>
+        <p>Long-tenured staff means familiar faces and trusted relationships over the years.</p>
+      </div>
+      <div class="pillar reveal">
+        <h3>Family Partnership</h3>
+        <p>We keep loved ones informed and included in care decisions, every step of the way.</p>
+      </div>
+      <div class="pillar reveal">
+        <h3>Community Fabric</h3>
+        <p>School kids, church groups, and local businesses are regular visitors &mdash; by design.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container container--narrow">
+    <div class="prose reveal">
+      <span class="eyebrow">Licensed &amp; Trusted</span>
+      <h2>One of only two licensed assisted living providers in Fayette County.</h2>
+      <p>Azalea Estates holds an Assisted Living License from the State of Georgia &mdash; not a Personal Care Home designation. Our licensed registered nurse and LPN staff provide up to 16 hours of nursing care daily, and our 24-hour on-site staffing means medical support is always within reach. Learn more about <a href="/living-options/#assisted">our assisted living approach</a>.</p>
+      <p>Our approach blends homelike comfort with clinical competence: individualized care plans, medication management in partnership with third-party providers, wireless call pendants, and bathroom pull-cord response systems.</p>
+    </div>
+  </div>
+</section>
+
+{% set related = [
+  { url: '/living-options/', eyebrow: 'What We Offer', title: 'Living Options',
+    desc: 'Independent living, assisted living, and respite care under one roof.',
+    cta: 'Explore living options' },
+  { url: '/floor-plans/', eyebrow: 'Where You’ll Live', title: 'Floor Plans',
+    desc: 'Four senior apartment layouts from studios to two-bedroom deluxe suites.',
+    cta: 'See the floor plans' },
+  { url: '/gallery/', eyebrow: 'See It for Yourself', title: 'Photo Tour',
+    desc: 'A visual walk through our Fayetteville campus, suites, and community life.',
+    cta: 'Browse the gallery' }
+] %}
+{% include "partials/related.njk" %}
+
+<section class="cta-panel">
+  <div class="container">
+    <div class="cta-panel__grid">
+      <div>
+        <span class="eyebrow" style="color: var(--c-accent-soft);">Meet the Team</span>
+        <h2>The people behind the care.</h2>
+        <p>Our full-time activity director, licensed nursing team, fitness trainer, and culinary staff have made Azalea Estates what it is today. We&rsquo;d love to introduce you.</p>
+      </div>
+      <div class="cta-panel__btns">
+        <a href="/contact/" class="btn btn--primary">Schedule a Visit</a>
+      </div>
+    </div>
+  </div>
+</section>
