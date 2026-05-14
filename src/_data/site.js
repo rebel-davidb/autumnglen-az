@@ -20,11 +20,16 @@ module.exports = {
     pinterest: "https://www.pinterest.com/"
   },
   nav: [
-    { label: "About", url: "/about/" },
-    { label: "Living Options", url: "/living-options/" },
-    { label: "Amenities", url: "/amenities/" },
-    { label: "Floor Plans", url: "/floor-plans/" },
-    { label: "Gallery", url: "/gallery/" },
-    { label: "Contact", url: "/contact/" }
+    { label: "About",          url: "/about/" },
+    { label: "Living Options", url: "/living-options/", children: [
+      { label: "Independent Living", url: "/living-options/independent-living/" },
+      { label: "Assisted Living",    url: "/living-options/assisted-living/" },
+      { label: "Respite Care",       url: "/living-options/respite-care/" }
+    ]},
+    { label: "Wellness",       url: "/wellness/" },
+    { label: "Dining",         url: "/dining/" },
+    { label: "Floor Plans",    url: "/floor-plans/" },
+    { label: "Photo Tour",     url: "/gallery/" },
+    { label: "Contact",        url: "/contact/" }
   ]
 };

@@ -23,7 +23,7 @@ permalink: /about/
         <p>We believe that aging well is a team effort. That&rsquo;s why we partner with families, physicians, local churches, schools, civic organizations, and the greater Atlanta community to fill each day with meaning. Whether you&rsquo;re exploring <a href="/living-options/">our living options</a> or curious about the <a href="/amenities/">services and amenities we provide</a>, we&rsquo;re happy to walk you through it.</p>
       </div>
       <div class="intro-split__media reveal">
-        <img src="{{ images.residentsActivity }}" alt="Residents engaged in a creative activity" loading="lazy">
+        <img src="{{ images.residentsActivity }}" alt="Residents enjoying a bingo game — one of many daily activities at Azalea Estates" loading="lazy">
       </div>
     </div>
   </div>
@@ -61,22 +61,35 @@ permalink: /about/
     <div class="prose reveal">
       <span class="eyebrow">Licensed &amp; Trusted</span>
       <h2>One of only two licensed assisted living providers in Fayette County.</h2>
-      <p>Azalea Estates holds an Assisted Living License from the State of Georgia &mdash; not a Personal Care Home designation. Our licensed registered nurse and LPN staff provide up to 16 hours of nursing care daily, and our 24-hour on-site staffing means medical support is always within reach. Learn more about <a href="/living-options/#assisted">our assisted living approach</a>.</p>
+      <p>Azalea Estates holds an Assisted Living License from the State of Georgia &mdash; not a Personal Care Home designation. Our licensed registered nurse and LPN staff provide up to 16 hours of nursing care daily, and our 24-hour on-site staffing means medical support is always within reach. Learn more about <a href="/living-options/assisted-living/">our licensed assisted living program</a>.</p>
       <p>Our approach blends homelike comfort with clinical competence: individualized care plans, medication management in partnership with third-party providers, wireless call pendants, and bathroom pull-cord response systems.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICE AREA -->
+<section class="section section--cream">
+  <div class="container container--narrow">
+    <div class="prose reveal">
+      <span class="eyebrow">Who We Serve</span>
+      <h2>Serving Fayette County and the Southern Crescent region.</h2>
+      <p>Azalea Estates of Fayetteville is located at 105 Autumn Glen Circle, just off Highway 54 in Fayetteville, Georgia &mdash; the heart of Fayette County. We are approximately 13 miles from Peachtree City, 30 miles south of Atlanta, and conveniently accessible from throughout the Southern Crescent.</p>
+      <p>Families from Peachtree City, Tyrone, Brooks, Woolsey, Senoia, Newnan, and greater Atlanta have trusted us with their loved ones for more than three decades. If you&rsquo;re searching for senior living in Fayette County or the surrounding area, we would be honored to meet you.</p>
+      <p>Our address: <strong>105 Autumn Glen Circle, Fayetteville, GA 30215</strong> &middot; <a href="tel:{{ site.contact.phoneRaw }}">{{ site.contact.phone }}</a></p>
     </div>
   </div>
 </section>
 
 {% set related = [
   { url: '/living-options/', eyebrow: 'What We Offer', title: 'Living Options',
-    desc: 'Independent living, assisted living, and respite care under one roof.',
+    desc: 'Three care levels under one roof — independent, assisted, and respite. Find the right fit.',
     cta: 'Explore living options' },
-  { url: '/floor-plans/', eyebrow: 'Where You’ll Live', title: 'Floor Plans',
-    desc: 'Four senior apartment layouts from studios to two-bedroom deluxe suites.',
-    cta: 'See the floor plans' },
   { url: '/gallery/', eyebrow: 'See It for Yourself', title: 'Photo Tour',
-    desc: 'A visual walk through our Fayetteville campus, suites, and community life.',
-    cta: 'Browse the gallery' }
+    desc: 'Walk our campus in our interactive virtual tour, then browse 28+ photos of suites, dining, and community life.',
+    cta: 'Open the photo tour' },
+  { url: '/contact/', eyebrow: 'Still Have Questions?', title: 'Contact Our Team',
+    desc: 'Our admissions team is happy to answer anything — no pressure, no sales pitch.',
+    cta: 'Get in touch' }
 ] %}
 {% include "partials/related.njk" %}
 

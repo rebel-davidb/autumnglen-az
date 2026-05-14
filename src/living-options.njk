@@ -12,6 +12,37 @@ permalink: /living-options/
 
 {% from "partials/icons.njk" import icon %}
 
+<!-- CARE LEVEL GATEWAY -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Find Your Fit</span>
+      <h2>Three ways to call Azalea Estates home.</h2>
+      <p>Every resident comes to us with a different story and a different set of needs. Here&rsquo;s how to find the right starting point &mdash; and we&rsquo;re always happy to talk it through in person.</p>
+    </div>
+    <div class="feature-grid">
+      <a class="related-card reveal" href="/living-options/independent-living/" style="text-decoration:none;">
+        <span class="related-card__eyebrow">Full independence</span>
+        <h3>Independent Living</h3>
+        <p>Maintenance-free apartment living with chef-prepared dining, wellness programs, social activities, and all utilities included. Come and go as you please.</p>
+        <span class="related-card__cta">Full independent living details <span aria-hidden="true">→</span></span>
+      </a>
+      <a class="related-card reveal" href="/living-options/assisted-living/" style="text-decoration:none;">
+        <span class="related-card__eyebrow">Licensed care</span>
+        <h3>Assisted Living</h3>
+        <p>Individualized care plans, on-site licensed RN &amp; LPN, 24/7 staffing, and tiered personal care services — one of only two licensed providers in Fayette County.</p>
+        <span class="related-card__cta">Full assisted living details <span aria-hidden="true">→</span></span>
+      </a>
+      <a class="related-card reveal" href="/living-options/respite-care/" style="text-decoration:none;">
+        <span class="related-card__eyebrow">Short-term stays</span>
+        <h3>Respite Care</h3>
+        <p>Post-surgical recovery, caregiver relief, or a trial stay before committing — fully furnished, all-inclusive, and available based on suite availability.</p>
+        <span class="related-card__cta">Full respite care details <span aria-hidden="true">→</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <section id="independent" class="section">
   <div class="container">
     <div class="intro-split">
@@ -31,6 +62,7 @@ permalink: /living-options/
           <li>All utilities included (except phone)</li>
           <li>Small pets welcome</li>
         </ul>
+        <a href="/living-options/independent-living/" class="btn btn--ghost" style="margin-top: var(--space-4);">Full independent living details</a>
       </div>
     </div>
   </div>
@@ -53,6 +85,7 @@ permalink: /living-options/
           <li>24-hour call system with pendant</li>
           <li>On-site licensed RN &amp; LPN</li>
         </ul>
+        <a href="/living-options/assisted-living/" class="btn btn--ghost" style="margin-top: var(--space-4);">Full assisted living details &amp; FAQs</a>
       </div>
       <div class="intro-split__media reveal">
         <img src="{{ images.communityExterior }}" alt="Residential exterior with landscaped grounds" loading="lazy">
@@ -79,21 +112,22 @@ permalink: /living-options/
           <li>Caregiver respite</li>
           <li>Trial stays available</li>
         </ul>
+        <a href="/living-options/respite-care/" class="btn btn--ghost" style="margin-top: var(--space-4);">Full respite care details &amp; FAQs</a>
       </div>
     </div>
   </div>
 </section>
 
 {% set related = [
-  { url: '/amenities/', eyebrow: 'What’s Included', title: 'Services & Amenities',
-    desc: 'Dining, saltwater pool, wellness center, transportation, and more — built into daily life.',
-    cta: 'See all amenities' },
-  { url: '/floor-plans/', eyebrow: 'Your New Home', title: 'Floor Plans',
-    desc: 'Compare four senior apartment layouts with private baths, kitchenettes, and garden views.',
+  { url: '/floor-plans/', eyebrow: 'Your Private Suite', title: 'Floor Plans',
+    desc: 'Five layouts from efficient studios to two-bedroom deluxe suites — each with a private bath and garden views.',
     cta: 'View floor plans' },
-  { url: '/gallery/', eyebrow: 'Take a Look', title: 'Photo Tour',
-    desc: 'Photos of our Fayetteville campus, resident spaces, and community moments.',
-    cta: 'Open the gallery' }
+  { url: '/gallery/', eyebrow: 'See the Campus', title: 'Photo Tour & Virtual Tour',
+    desc: 'Walk every room in our 360° virtual tour or browse 28+ campus, suite, and community photos.',
+    cta: 'Open the photo tour' },
+  { url: '/contact/', eyebrow: 'Not Sure Which Fits?', title: 'Contact Our Team',
+    desc: 'Our admissions team will walk you through every option, including what each costs.',
+    cta: 'Talk it through' }
 ] %}
 {% include "partials/related.njk" %}
 

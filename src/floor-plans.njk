@@ -2,13 +2,15 @@
 layout: layouts/page.njk
 title: Floor Plans
 metaTitle: "Senior Living Floor Plans — Studios to 2-Bedroom Suites | Azalea Estates"
-description: "Four senior apartment floor plans at Azalea Estates in Fayetteville, GA. Studios, one-bedroom, and two-bedroom deluxe suites — all with private baths, kitchenettes, and garden views."
+description: "Five senior apartment floor plans at Azalea Estates in Fayetteville, GA. Studios, one-bedroom, and two-bedroom deluxe suites — all with private baths, kitchenettes, and garden views."
 eyebrow: Find Your Fit
-pageIntro: "Four spacious floor plans from efficient studios to roomy two-bedroom deluxe suites. Every one with a private bath, kitchen or kitchenette, personal thermostat, and a window with a view."
+pageIntro: "Five floor plans from efficient studios to roomy two-bedroom deluxe suites. Every one with a private bath, kitchen or kitchenette, personal thermostat, and a window with a view."
 eleventyComputed:
   pageHero: "{{ images.livingRoom }}"
 permalink: /floor-plans/
 ---
+
+{% from "partials/icons.njk" import icon %}
 
 <section class="section">
   <div class="container">
@@ -24,23 +26,44 @@ permalink: /floor-plans/
       populates hidden form fields, plus updates the visible modal heading.
     #}
     {%- set plans = [
-      { tag: 'Studio',              name: 'The Magnolia',  size: '385',  bed: 1, bath: 1,
-        features: ['Efficient open layout', 'Full private bath', 'Kitchenette', 'Landscape view window'] },
-      { tag: 'One Bedroom',         name: 'The Dogwood',   size: '408',  bed: 1, bath: 1,
-        features: ['Separate bedroom', 'Living area with seating', 'Kitchenette', 'Ample closet storage'] },
-      { tag: 'One Bedroom Deluxe',  name: 'The Camellia',  size: '624',  bed: 1, bath: 1,
-        features: ['Expanded living and dining areas', 'Generous bedroom suite', 'Full kitchenette', 'Walk-in closet'] },
-      { tag: 'Two Bedroom',         name: 'The Hydrangea', size: '680',  bed: 2, bath: 1,
-        features: ['Two private bedrooms', 'Shared living &amp; dining', 'Kitchenette', 'Ideal for couples'] },
-      { tag: 'Two Bedroom Deluxe',  name: 'The Azalea',    size: '925',  bed: 2, bath: 2,
-        features: ['Two bedrooms, two baths', 'Expansive living and dining', 'Full kitchen', 'Premium finishes'] }
+      { tag: 'Studio',             size: '385',  bed: 1, bath: 1,
+        pdf:   '/assets/pdfs/azalea-estates-fp-studio-rev.pdf',
+        thumb: '/assets/images/thumb_azalea-estates-thumb-studio-rev.jpg',
+        features: ['Open bedroom &amp; living area', 'Private bath', 'Kitchenette', 'Entry area', 'Landscape view window'] },
+      { tag: 'One Bedroom',        size: '411',  bed: 1, bath: 1,
+        pdf:   '/assets/pdfs/azalea-estates-fp-1bed-rev.pdf',
+        thumb: '/assets/images/thumb_azalea-estates-thumb-1bed-rev.jpg',
+        features: ['Separate master bedroom', 'Den / flex space', 'Private bath', 'Kitchen', 'Living &amp; dining area'] },
+      { tag: 'One Bedroom Deluxe', size: '624',  bed: 1, bath: 1,
+        pdf:   '/assets/pdfs/azalea-estates-fp-1bed-deluxe-rev.pdf',
+        thumb: '/assets/images/thumb_azalea-estates-thumb-1bed-deluxe-rev.jpg',
+        features: ['Master bedroom suite', 'Expanded living &amp; dining', 'Kitchen', 'Private bath', 'Additional closet storage'] },
+      { tag: 'Two Bedroom',        size: '680',  bed: 2, bath: 1,
+        pdf:   '/assets/pdfs/azalea-estates-fp-2bed-rev.pdf',
+        thumb: '/assets/images/thumb_azalea-estates-thumb-2bed-rev.jpg',
+        features: ['Two separate bedrooms', 'Den / flex space', 'Shared bath', 'Kitchen', 'Living &amp; dining area'] },
+      { tag: 'Two Bedroom Deluxe', size: '925',  bed: 2, bath: 2,
+        pdf:   '/assets/pdfs/azalea-estates-fp-2bed-deluxe-rev.pdf',
+        thumb: '/assets/images/thumb_azalea-estates-thumb-2bed-deluxe-rev.jpg',
+        features: ['Two bedrooms', 'Two private baths', 'Den / flex space', 'Kitchen', 'Living &amp; dining area', 'Additional storage'] }
     ] -%}
 
     <div class="plans-grid">
       {% for p in plans %}
       <div class="plan-card reveal">
-        <span class="plan-card__tag">{{ p.tag }}</span>
-        <h3>{{ p.name }}</h3>
+        {# Thumbnail links to the PDF — clicking the drawing is a natural shortcut #}
+        <a href="{{ p.pdf }}"
+           class="plan-card__thumb"
+           target="_blank"
+           rel="noopener noreferrer"
+           tabindex="-1"
+           aria-hidden="true">
+          <img src="{{ p.thumb }}"
+               alt="{{ p.tag }} floor plan drawing"
+               width="225" height="225"
+               loading="lazy">
+        </a>
+        <h3>{{ p.tag }}</h3>
         <div class="plan-card__specs">
           <span><strong>{{ p.size }}</strong> sq. ft.</span>
           <span><strong>{{ p.bed }}</strong> Bed</span>
@@ -49,34 +72,70 @@ permalink: /floor-plans/
         <ul>
           {% for f in p.features %}<li>{{ f | safe }}</li>{% endfor %}
         </ul>
-        <button type="button"
-                class="btn btn--ghost plan-card__cta"
-                data-open-plan-modal
-                data-plan-name="{{ p.name }}"
-                data-plan-type="{{ p.tag }}"
-                data-plan-specs="{{ p.size }} sq. ft., {{ p.bed }} bed, {{ p.bath }} bath"
-                aria-haspopup="dialog"
-                aria-controls="planModal">
-          Request pricing
-        </button>
+        <div class="plan-card__actions">
+          <button type="button"
+                  class="btn btn--ghost plan-card__cta"
+                  data-open-plan-modal
+                  data-plan-name="{{ p.tag }}"
+                  data-plan-type="{{ p.tag }}"
+                  data-plan-specs="{{ p.size }} sq. ft., {{ p.bed }} bed, {{ p.bath }} bath"
+                  aria-haspopup="dialog"
+                  aria-controls="planModal">
+            Request pricing
+          </button>
+          <a href="{{ p.pdf }}"
+             class="plan-card__pdf-link"
+             data-pdf-url="{{ p.pdf }}"
+             data-pdf-title="{{ p.tag }} Floor Plan"
+             aria-label="View {{ p.tag }} floor plan">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
+              <rect x="2" y="1" width="8" height="11" rx="1" stroke="currentColor" stroke-width="1.3"/>
+              <path d="M4 5h6M4 7.5h6M4 10h3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+            </svg>
+            View floor plan
+            <span class="plan-card__pdf-label">PDF</span>
+          </a>
+        </div>
       </div>
       {% endfor %}
 
-      <div class="plan-card reveal" style="background: var(--c-ink); color: var(--c-cream); border-color: var(--c-ink);">
-        <span class="plan-card__tag" style="color: var(--c-accent-soft);">Personalized</span>
-        <h3 style="color: var(--c-cream);">Not sure yet?</h3>
-        <p style="color: rgba(250, 246, 241, 0.85);">We&rsquo;ll walk you through availability, current pricing, and help you find the right fit based on your needs and preferences.</p>
-        <button type="button"
-                class="btn btn--primary"
-                style="margin-top: var(--space-3);"
-                data-open-plan-modal
-                data-plan-name="No specific plan yet"
-                data-plan-type="Help me choose"
-                data-plan-specs="Open to recommendations"
-                aria-haspopup="dialog"
-                aria-controls="planModal">
-          Talk to Admissions
-        </button>
+      <div class="plan-card plan-card--featured reveal" style="background: var(--c-forest); color: var(--c-cream); border-color: var(--c-forest);">
+        <div class="plan-card__cta-top" aria-hidden="true">
+          {{ icon('users', 48) }}
+        </div>
+        <span class="plan-card__tag" style="color: var(--c-forest-soft);">Personalized Guidance</span>
+        <h3 style="color: var(--c-cream);">Not sure which fits?</h3>
+        <p style="color: rgba(250, 246, 241, 0.85);">Every situation is different. Our admissions team will walk you through availability, current pricing, and help you find the right fit &mdash; no pressure, no obligation.</p>
+        <ul style="list-style:none; padding:0; margin: var(--space-3) 0 0; display:grid; gap:var(--space-2);">
+          <li style="font-size:0.9rem; color:rgba(250,246,241,0.75); padding-left:1.2rem; position:relative;">
+            <span style="position:absolute;left:0;top:0.15em;color:var(--c-forest-soft);">✓</span> Current availability
+          </li>
+          <li style="font-size:0.9rem; color:rgba(250,246,241,0.75); padding-left:1.2rem; position:relative;">
+            <span style="position:absolute;left:0;top:0.15em;color:var(--c-forest-soft);">✓</span> Pricing for each plan
+          </li>
+          <li style="font-size:0.9rem; color:rgba(250,246,241,0.75); padding-left:1.2rem; position:relative;">
+            <span style="position:absolute;left:0;top:0.15em;color:var(--c-forest-soft);">✓</span> Long-term care insurance help
+          </li>
+          <li style="font-size:0.9rem; color:rgba(250,246,241,0.75); padding-left:1.2rem; position:relative;">
+            <span style="position:absolute;left:0;top:0.15em;color:var(--c-forest-soft);">✓</span> Tour scheduling
+          </li>
+        </ul>
+        <div class="plan-card__actions">
+          <button type="button"
+                  class="btn btn--primary"
+                  data-open-plan-modal
+                  data-plan-name="No specific plan yet"
+                  data-plan-type="Help me choose"
+                  data-plan-specs="Open to recommendations"
+                  aria-haspopup="dialog"
+                  aria-controls="planModal">
+            Talk to Admissions
+          </button>
+          <a href="tel:{{ site.contact.phoneRaw }}"
+             style="display:inline-flex;align-items:center;gap:6px;font-size:0.85rem;font-weight:500;color:var(--c-forest-soft);text-decoration:none;">
+            {{ icon('phone', 13) }} {{ site.contact.phone }}
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -179,13 +238,13 @@ permalink: /floor-plans/
 
 {% set related = [
   { url: '/living-options/', eyebrow: 'Level of Care', title: 'Living Options',
-    desc: 'Find the right fit: independent living, assisted living, or short-term respite care.',
+    desc: 'Independent living, assisted living, and respite care — the same floor plans work across all levels.',
     cta: 'Compare care levels' },
-  { url: '/amenities/', eyebrow: 'Built Into Your Rate', title: 'Services & Amenities',
-    desc: 'Chef-prepared dining, weekly housekeeping, wellness programs, and more.',
-    cta: 'See what’s included' },
-  { url: '/contact/', eyebrow: 'Ready to Visit', title: 'Schedule a Tour',
-    desc: 'Walk the floor plans in person, meet the team, and stay for a meal.',
-    cta: 'Plan your tour' }
+  { url: '/amenities/', eyebrow: "What's in Your Rate", title: 'Services & Amenities',
+    desc: 'Chef-prepared dining, wellness center, pool, housekeeping, transportation, and more — all included.',
+    cta: "See what's included" },
+  { url: '/schedule-a-tour/', eyebrow: 'See the Suites in Person', title: 'Schedule a Private Tour',
+    desc: 'Walk the available suites, ask about current pricing, and stay for a complimentary lunch.',
+    cta: 'Schedule your tour' }
 ] %}
 {% include "partials/related.njk" %}

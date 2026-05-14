@@ -1,0 +1,174 @@
+---
+layout: layouts/page.njk
+title: Videos
+metaTitle: "Azalea Estates Video Tour — Campus, Wellness & Resident Stories"
+description: "Watch video tours of Azalea Estates in Fayetteville, GA. See our campus, fitness center, heated pool, gardens, and hear directly from residents and staff."
+eyebrow: "See Life at Azalea Estates"
+pageIntro: "Words and photos only go so far. Watch our campus, programs, and people in motion."
+eleventyComputed:
+  pageHero: "{{ images.communityExterior }}"
+permalink: /videos/
+---
+
+{% from "partials/icons.njk" import icon %}
+
+{#
+  VIDEO EMBED INSTRUCTIONS FOR CLIENT:
+  Each video below uses a YouTube embed ID. To update a video:
+  1. Go to the YouTube video and copy the URL.
+  2. The ID is the part after "v=" in the URL (e.g., for "youtube.com/watch?v=abc123", the ID is "abc123").
+  3. Replace the "id" value below with your new ID.
+  4. Update the "title" and "desc" to match.
+
+  Placeholder IDs are shown below — replace each with the real YouTube video ID.
+#}
+
+{%- set videos = [
+  {
+    id:    "REPLACE_CAMPUS_TOUR_ID",
+    title: "Campus Tour",
+    desc:  "A guided tour of our single-story Fayetteville campus — from the front entrance through the wellness center, dining room, and resident suites.",
+    featured: true
+  },
+  {
+    id:    "REPLACE_RESIDENTS_STAFF_ID",
+    title: "What Our Residents & Staff Have to Say",
+    desc:  "Hear directly from the people who live and work at Azalea Estates about what makes this community feel like home.",
+    featured: true
+  },
+  {
+    id:    "REPLACE_POOL_FITNESS_ID",
+    title: "Pool & Fitness Center",
+    desc:  "A look inside our 3,000 sq. ft. Wellness Center and heated indoor saltwater pool — and the programs that run every week.",
+    featured: false
+  },
+  {
+    id:    "REPLACE_PARKINSONS_ID",
+    title: "Helping Those with Parkinson's",
+    desc:  "Our Wellness Director walks through the specialized Parkinson's exercise program — one of the only programs of its kind among senior living communities in Fayette County.",
+    featured: false
+  },
+  {
+    id:    "REPLACE_AMENITIES_ID",
+    title: "Azalea Estates Amenities",
+    desc:  "From the salon and library to the screened porch and community garden — a tour of the spaces residents enjoy every day.",
+    featured: false
+  },
+  {
+    id:    "REPLACE_GARDEN_ID",
+    title: "Azalea Estates Garden",
+    desc:  "Our resident communal garden in bloom — a favorite gathering place for planting, harvesting, and spending time outdoors.",
+    featured: false
+  },
+  {
+    id:    "REPLACE_ALL_TOGETHER_ID",
+    title: "All Together Now",
+    desc:  "A glimpse of community life at Azalea Estates — the activities, connections, and moments of joy that define daily life here.",
+    featured: false
+  },
+  {
+    id:    "REPLACE_PROMO_ID",
+    title: "Azalea Estates Promo",
+    desc:  "A short overview of Azalea Estates of Fayetteville — our history, our mission, and what families can expect.",
+    featured: false
+  },
+  {
+    id:    "REPLACE_COVID_VACCINE_ID",
+    title: "1st COVID-19 Vaccine in Georgia",
+    desc:  "Azalea Estates was among the first senior living communities in Georgia to complete resident vaccinations — a milestone we are proud of.",
+    featured: false
+  }
+] -%}
+
+<!-- FEATURED VIDEOS -->
+<section class="section">
+  <div class="container">
+    <div class="section-heading section-heading--left reveal">
+      <span class="eyebrow">Start Here</span>
+      <h2>The best introduction to our community.</h2>
+    </div>
+    <div class="feature-grid">
+      {% for video in videos %}
+        {% if video.featured %}
+        <article class="video-card reveal">
+          <div class="video-card__embed">
+            <iframe
+              src="https://www.youtube.com/embed/{{ video.id }}"
+              title="{{ video.title }}"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          </div>
+          <div class="video-card__body">
+            <h3>{{ video.title }}</h3>
+            <p>{{ video.desc }}</p>
+          </div>
+        </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ALL VIDEOS GRID -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="section-heading section-heading--left reveal">
+      <span class="eyebrow">Full Video Library</span>
+      <h2>More to explore.</h2>
+    </div>
+    <div class="videos-grid">
+      {% for video in videos %}
+        {% if not video.featured %}
+        <article class="video-card video-card--compact reveal">
+          <div class="video-card__embed video-card__embed--compact">
+            <iframe
+              src="https://www.youtube.com/embed/{{ video.id }}"
+              title="{{ video.title }}"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          </div>
+          <div class="video-card__body">
+            <h3>{{ video.title }}</h3>
+            <p>{{ video.desc }}</p>
+          </div>
+        </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% set related = [
+  { url: '/floor-plans/', eyebrow: 'See the Suites', title: 'Floor Plans',
+    desc: "You've seen the campus on video — now explore the specific suite layouts and downloadable PDF drawings.",
+    cta: 'View floor plans' },
+  { url: '/gallery/', eyebrow: 'More to See', title: 'Photo Tour & Virtual Tour',
+    desc: 'Browse 28+ photos and take our 360° virtual tour — walk every room at your own pace.',
+    cta: 'Open the photo tour' },
+  { url: '/schedule-a-tour/', eyebrow: 'Better in Person', title: 'Schedule a Private Tour',
+    desc: 'Nothing replaces walking through it yourself — come visit, meet the team, and stay for lunch.',
+    cta: 'Schedule your tour' }
+] %}
+{% include "partials/related.njk" %}
+
+<section class="cta-panel">
+  <div class="container">
+    <div class="cta-panel__grid reveal">
+      <div>
+        <span class="eyebrow" style="color: var(--c-accent-soft);">Better in person</span>
+        <h2>Nothing replaces walking through it yourself.</h2>
+        <p>Come see the campus, the pool, the dining room, and the suites &mdash; and meet the staff who will be caring for your family.</p>
+      </div>
+      <div class="cta-panel__btns">
+        <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Tour</a>
+        <a href="tel:{{ site.contact.phoneRaw }}" class="btn btn--outline">{{ site.contact.phone }}</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -96,42 +96,115 @@
       "longitude": -84.4546
     },
     "areaServed": [
-      { "@type": "City", "name": "Fayetteville, GA" },
-      { "@type": "City", "name": "Peachtree City, GA" },
-      { "@type": "City", "name": "Tyrone, GA" },
-      { "@type": "AdministrativeArea", "name": "Fayette County, GA" },
-      { "@type": "AdministrativeArea", "name": "Greater Atlanta, GA" }
+      { "@type": "City", "name": "Fayetteville",   "containedInPlace": { "@type": "State", "name": "Georgia" } },
+      { "@type": "City", "name": "Peachtree City", "containedInPlace": { "@type": "State", "name": "Georgia" } },
+      { "@type": "City", "name": "Tyrone",         "containedInPlace": { "@type": "State", "name": "Georgia" } },
+      { "@type": "City", "name": "Brooks",         "containedInPlace": { "@type": "State", "name": "Georgia" } },
+      { "@type": "City", "name": "Woolsey",        "containedInPlace": { "@type": "State", "name": "Georgia" } },
+      { "@type": "City", "name": "Senoia",         "containedInPlace": { "@type": "State", "name": "Georgia" } },
+      { "@type": "City", "name": "Newnan",         "containedInPlace": { "@type": "State", "name": "Georgia" } },
+      { "@type": "AdministrativeArea", "name": "Fayette County, Georgia" },
+      { "@type": "AdministrativeArea", "name": "Greater Atlanta, Georgia" },
+      { "@type": "AdministrativeArea", "name": "Southern Crescent, Georgia" }
     ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "{{ site.contact.phone }}",
+      "contactType": "admissions",
+      "email": "{{ site.contact.email }}",
+      "areaServed": "US-GA",
+      "availableLanguage": "English",
+      "hoursAvailable": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+        "opens": "09:00",
+        "closes": "17:00"
+      }
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+        "opens": "09:00",
+        "closes": "17:00",
+        "description": "Private tours available"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "09:00",
+        "closes": "12:00",
+        "description": "By appointment"
+      }
+    ],
+    "hasMap": "{{ site.contact.mapsUrl }}",
     "makesOffer": [
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Independent Living", "url": "{{ site.url }}/living-options/#independent" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Assisted Living",    "url": "{{ site.url }}/living-options/#assisted" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Respite Care",       "url": "{{ site.url }}/living-options/#respite" } }
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Independent Living",
+          "description": "Maintenance-free retirement apartment living in Fayetteville, GA with chef-prepared dining, wellness programs, and social activities.",
+          "url": "{{ site.url }}/living-options/independent-living/",
+          "areaServed": "Fayette County, Georgia"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Assisted Living",
+          "description": "Licensed assisted living in Fayetteville, GA — one of only two State of Georgia licensed assisted living providers in Fayette County. Individualized care plans, on-site licensed RN and LPN.",
+          "url": "{{ site.url }}/living-options/assisted-living/",
+          "areaServed": "Fayette County, Georgia"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Respite Care",
+          "description": "Short-term respite care in Fayetteville, GA for post-surgical recovery, caregiver relief, and trial stays. All-inclusive daily rate, fully furnished suites.",
+          "url": "{{ site.url }}/living-options/respite-care/",
+          "areaServed": "Fayette County, Georgia"
+        }
+      }
     ],
     "amenityFeature": [
-      { "@type": "LocationFeatureSpecification", "name": "Heated indoor saltwater aerobic pool", "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "Chef-prepared dining",                  "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "24-hour on-site staffing",              "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "Licensed on-site nursing",              "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "Full-service salon & barbershop",       "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "Courtesy transportation",               "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "Pet-friendly suites",                   "value": true }
+      { "@type": "LocationFeatureSpecification", "name": "Heated indoor saltwater aerobic pool",     "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "3000 sq ft wellness center",               "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Chef-prepared dining, 3 meals daily",      "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "24-hour on-site staffing",                 "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Licensed RN and LPN on-site",              "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Full-service salon and barbershop",        "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Courtesy transportation Mon-Fri",          "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Pet-friendly suites",                      "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Single-story accessible campus",           "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Parkinson's exercise program",             "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Community garden and walking paths",       "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Library and computer room",                "value": true }
     ],
     "sameAs": [
       "{{ site.social.facebook }}"
-    ]
+    ],
+    "keywords": "assisted living Fayetteville GA, senior living Fayetteville Georgia, retirement community Fayette County, independent living Peachtree City GA, respite care Fayetteville, senior care Fayette County"
   }
   </script>
   {% endif %}
 
   {# --- Structured data: Breadcrumbs (interior pages only) ---------------- #}
+  {# 3-level for /living-options/* sub-pages; 2-level for everything else. #}
   {% if page.url != "/" and page.url != "/404.html" %}
+  {% set isCarePage = page.url.startsWith("/living-options/") and page.url != "/living-options/" %}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site.url }}/" },
-      { "@type": "ListItem", "position": 2, "name": "{{ title | safe }}", "item": "{{ canonical }}" }
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site.url }}/" }{% if isCarePage %},
+      { "@type": "ListItem", "position": 2, "name": "Living Options", "item": "{{ site.url }}/living-options/" },
+      { "@type": "ListItem", "position": 3, "name": "{{ title | safe }}", "item": "{{ canonical }}" }{% else %},
+      { "@type": "ListItem", "position": 2, "name": "{{ title | safe }}", "item": "{{ canonical }}" }{% endif %}
     ]
   }
   </script>
@@ -156,18 +229,113 @@
   <a href="#main" class="skip-link">Skip to main content</a>
   {% include "partials/header.njk" %}
 
+  <!-- Announcement bar — links to high-value content sections -->
+  <nav class="announce-bar" aria-label="Quick links">
+    <div class="announce-bar__inner container">
+      <a href="/calendar/">Monthly Activity Calendar</a>
+      <a href="/calendar/">Monthly Wellness Calendar</a>
+      <a href="/team/">Meet Our Team</a>
+      <a href="/living-options/#respite">Try a Respite Stay</a>
+    </div>
+  </nav>
+
   <main id="main">
     {{ content | safe }}
   </main>
 
   {% include "partials/footer.njk" %}
 
-  <!-- Gallery lightbox root -->
-  <div class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-    <button class="lightbox__close" aria-label="Close image">×</button>
-    <img src="" alt="">
+  <!-- PDF Viewer Modal
+       Triggered by any element with data-pdf-url attribute.
+       PDF.js is lazy-loaded from cdnjs on first use. -->
+  <div class="pdfv" id="pdfViewer" role="dialog" aria-modal="true" aria-labelledby="pdfViewerTitle" hidden>
+
+    <!-- Header bar: title + controls -->
+    <header class="pdfv__header">
+      <span class="pdfv__title" id="pdfViewerTitle"></span>
+      <div class="pdfv__controls" role="toolbar" aria-label="PDF viewer controls">
+
+        <!-- Zoom out -->
+        <button class="pdfv__btn pdfv__zoom-out" aria-label="Zoom out">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 7h5M11 11l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+
+        <!-- Zoom level -->
+        <span class="pdfv__zoom-label" aria-live="polite" aria-atomic="true">100%</span>
+
+        <!-- Zoom in -->
+        <button class="pdfv__btn pdfv__zoom-in" aria-label="Zoom in">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M7 4.5v5M4.5 7h5M11 11l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+
+        <div class="pdfv__sep" aria-hidden="true"></div>
+
+        <!-- Print -->
+        <button class="pdfv__btn pdfv__print" aria-label="Print">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="3" y="6" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.4"/><path d="M5 6V3h6v3M5 10h6M5 12h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <span class="pdfv__btn-label">Print</span>
+        </button>
+
+        <!-- Download -->
+        <a class="pdfv__btn pdfv__download" href="#" aria-label="Download PDF">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8M5 7l3 3 3-3M3 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="pdfv__btn-label">Download</span>
+        </a>
+
+        <div class="pdfv__sep" aria-hidden="true"></div>
+
+        <!-- Close -->
+        <button class="pdfv__btn pdfv__close" aria-label="Close PDF viewer">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+
+      </div>
+    </header>
+
+    <!-- Scrollable page stage -->
+    <div class="pdfv__stage">
+      <div class="pdfv__pages" id="pdfPages" aria-live="polite"></div>
+    </div>
+
+  </div>
+
+  <!-- Gallery lightbox
+       Accessible: focus-trapped, Escape closes, ArrowLeft/Right navigate,
+       focus returns to opening thumbnail on close. -->
+  <div class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption">
+    <button class="lightbox__close" aria-label="Close photo viewer">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+        <path d="M2 2l14 14M16 2L2 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <button class="lightbox__prev" aria-label="Previous photo">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+        <path d="M14 17l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="lightbox__stage">
+      <div class="lightbox__frame">
+        <img src="" alt="" class="lightbox__img">
+      </div>
+      <div class="lightbox__footer">
+        <p class="lightbox__caption" id="lightbox-caption"></p>
+        <span class="lightbox__counter" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <button class="lightbox__next" aria-label="Next photo">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+        <path d="M8 5l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <!-- Screen-reader live region announces photo changes during navigation -->
+    <span class="sr-only" aria-live="polite" aria-atomic="true" id="lightbox-status"></span>
   </div>
 
   <script src="/assets/js/main.js" defer></script>
+  <script src="/assets/js/pdf-viewer.js" defer></script>
 </body>
 </html>

@@ -135,12 +135,64 @@ permalink: /contact/
 </section>
 
 <!-- MAP EMBED -->
+<!-- SERVICE AREA -->
+<section class="section">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Who We Serve</span>
+        <h2>Proudly serving Fayette County and the Southern Crescent since 1993.</h2>
+        <p class="lead">Azalea Estates of Fayetteville is the senior living community of choice for families throughout Fayette County &mdash; and the surrounding region.</p>
+        <p>Located just off Highway 54 in the heart of Fayetteville, Georgia, we are convenient to residents and families from Peachtree City, Tyrone, Brooks, Woolsey, Senoia, Newnan, and the greater Atlanta metro area. Our campus at 105 Autumn Glen Circle is easy to reach, easy to navigate, and easy to call home.</p>
+        <p>If you are exploring senior living options for yourself or a loved one anywhere in the Southern Crescent region &mdash; from Fayette County south to Coweta County or east to Clayton County &mdash; we would be honored to be considered.</p>
+      </div>
+      <div class="intro-split__body reveal">
+        <h3 style="font-size:1.1rem; margin-bottom: var(--space-4);">Communities we serve</h3>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: var(--space-2) var(--space-5);">
+          {% set cities = ["Fayetteville, GA", "Peachtree City, GA", "Tyrone, GA", "Brooks, GA", "Woolsey, GA", "Senoia, GA", "Newnan, GA", "Union City, GA", "Jonesboro, GA", "McDonough, GA", "Fairburn, GA", "Palmetto, GA"] %}
+          {% for city in cities %}
+            <div style="display:flex; align-items:center; gap:var(--space-2); font-size:0.9rem; color:var(--c-ink-soft);">
+              <span style="color:var(--c-forest);">{{ icon('pin', 14) }}</span> {{ city }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIRTUAL TOUR -->
+<section class="section">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Can&rsquo;t Visit in Person Yet?</span>
+        <h2>Take our 360&deg; virtual tour first.</h2>
+        <p class="lead">Explore every room, hallway, and outdoor space at Azalea Estates from your phone or computer &mdash; any time, at your own pace.</p>
+        <p>Our interactive virtual tour is especially useful for out-of-town family members researching options for a loved one. Walk the dining room, peek into a private suite, see the wellness center &mdash; then call us with your questions.</p>
+        <a href="/gallery/" class="btn btn--ghost">Open full-screen virtual tour</a>
+      </div>
+      <div class="intro-split__media reveal">
+        <div class="virtual-tour virtual-tour--square">
+          <iframe
+            src="https://tourmkr.com/F1NLCFWPFI/32620506p&amp;194.98h&amp;88.35t"
+            title="Azalea Estates of Fayetteville &mdash; Interactive 360&deg; Virtual Tour"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+        <p class="virtual-tour__hint">Drag to look around &nbsp;&middot;&nbsp; Pinch or scroll to zoom</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="directions" class="section section--cream">
   <div class="container">
     <div class="section-heading reveal">
       <span class="eyebrow">Map &amp; Directions</span>
       <h2>Easy to find, easy to visit.</h2>
-      <p>We&rsquo;re just off Highway 54 in the center of Fayetteville, on Autumn Glen Circle.</p>
+      <p>We&rsquo;re just off Highway 54 in the center of Fayetteville, on Autumn Glen Circle &mdash; about 13 miles from Peachtree City and 30 miles south of Atlanta.</p>
     </div>
     <div style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); aspect-ratio: 16/7;">
       <iframe
@@ -195,10 +247,35 @@ permalink: /contact/
 
 <!-- CAREERS -->
 <section id="careers" class="section section--ink">
-  <div class="container container--narrow" style="text-align:center;">
-    <span class="eyebrow" style="color: var(--c-accent-soft);">Careers</span>
-    <h2>Join our team.</h2>
-    <p>We&rsquo;re always looking for kind, capable people who want to make a real difference in seniors&rsquo; lives. If that sounds like you, we&rsquo;d love to hear from you.</p>
-    <a href="mailto:{{ site.contact.email }}?subject=Careers Inquiry" class="btn btn--primary" style="margin-top: var(--space-3);">Contact Our Careers Team</a>
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__body reveal">
+        <span class="eyebrow" style="color: var(--c-accent-soft);">Careers at Azalea Estates</span>
+        <h2>Join a team people stay with for years.</h2>
+        <p class="lead" style="color: rgba(255,255,255,0.85);">Azalea Estates is known for the longevity of its staff &mdash; because when you love the work and the people, you tend to stay. If that sounds like where you want to be, we&rsquo;d love to talk.</p>
+        <p style="color: rgba(255,255,255,0.72);">We hire across all departments: nursing and resident care, dining and culinary, wellness and activities, housekeeping, maintenance, and administration. No open position listed? Send a general inquiry anyway &mdash; we accept r&eacute;sum&eacute;s year-round.</p>
+        <p style="color: rgba(255,255,255,0.72);">Visit our <a href="/team/" style="color: rgba(255,255,255,0.85);">Our Team page</a> to learn more about the people you&rsquo;d be working alongside.</p>
+      </div>
+      <div class="intro-split__body reveal" style="display:flex; flex-direction:column; gap: var(--space-4);">
+        <div style="background: rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: var(--space-5);">
+          <h3 style="color: var(--c-cream); font-size:1.2rem; margin-bottom: var(--space-3);">What We Offer</h3>
+          <ul style="color: rgba(255,255,255,0.80); padding-left: var(--space-5); line-height:2.1;">
+            <li>Meaningful daily work with real human impact</li>
+            <li>Stable, long-tenured team environment</li>
+            <li>Competitive pay and scheduling flexibility</li>
+            <li>On-campus dining for all staff</li>
+            <li>Genuine recognition and a culture of care</li>
+          </ul>
+        </div>
+        <a href="mailto:{{ site.contact.email }}?subject=Careers+Inquiry+%E2%80%94+Azalea+Estates"
+           class="btn btn--primary"
+           style="align-self: flex-start;">
+          Send Your R&eacute;sum&eacute;
+        </a>
+        <p style="color: rgba(255,255,255,0.50); font-size:0.875rem;">
+          Email to <a href="mailto:{{ site.contact.email }}" style="color: rgba(255,255,255,0.70);">{{ site.contact.email }}</a> with subject &ldquo;Careers Inquiry&rdquo; and a note about the role(s) you&rsquo;re interested in.
+        </p>
+      </div>
+    </div>
   </div>
 </section>

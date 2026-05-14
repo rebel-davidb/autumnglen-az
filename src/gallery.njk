@@ -1,17 +1,44 @@
 ---
 layout: layouts/page.njk
 title: Photo Tour
-metaTitle: "Photo Tour of Azalea Estates in Fayetteville, GA"
-description: "Explore photos of our campus, resident suites, indoor pool, dining room, and community life at Azalea Estates — a family-owned senior living community in Fayetteville, GA."
+metaTitle: "Virtual Tour & Photo Gallery | Azalea Estates Fayetteville, GA"
+description: "Take an interactive 360° virtual tour of Azalea Estates in Fayetteville, GA, then browse our full photo gallery — campus, suites, dining, pool, and community life."
 eyebrow: A Glimpse of Life Here
-pageIntro: "Browse our campus, common spaces, and community moments. Better yet — come see it in person."
+pageIntro: "Walk through our campus in 360° — then browse photos of the spaces and people that make Azalea Estates home."
 eleventyComputed:
   pageHero: "{{ images.communityGarden }}"
 permalink: /gallery/
 ---
 
+<!-- VIRTUAL TOUR -->
 <section class="section">
   <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Interactive 360&deg; Tour</span>
+      <h2>Walk through our campus from anywhere.</h2>
+      <p>Use your mouse, trackpad, or finger to look around every room &mdash; before you ever set foot on campus. Works on phone, tablet, and desktop.</p>
+    </div>
+    <div class="virtual-tour reveal">
+      <iframe
+        src="https://tourmkr.com/F1NLCFWPFI/32620506p&amp;194.98h&amp;88.35t"
+        title="Azalea Estates of Fayetteville &mdash; Interactive 360&deg; Virtual Tour"
+        allowfullscreen
+        loading="lazy">
+      </iframe>
+    </div>
+    <p class="virtual-tour__hint">
+      Drag to look around &nbsp;&middot;&nbsp; Scroll or pinch to zoom &nbsp;&middot;&nbsp; Click hotspots to move between rooms
+    </p>
+  </div>
+</section>
+
+<!-- PHOTO GALLERY -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="section-heading section-heading--left reveal">
+      <span class="eyebrow">Photo Gallery</span>
+      <h2>Campus, suites, dining, and daily life.</h2>
+    </div>
     <div class="gallery-grid">
       {% for photo in images.gallery %}
         <div class="gallery-item reveal" data-full="{{ photo.src }}" role="button" tabindex="0" aria-label="{{ photo.alt }}">
@@ -23,15 +50,15 @@ permalink: /gallery/
 </section>
 
 {% set related = [
+  { url: '/floor-plans/', eyebrow: 'Your Private Suite', title: 'Floor Plans',
+    desc: "You've seen the campus — now explore the specific suite layouts, sizes, and PDF drawings.",
+    cta: 'View floor plans' },
   { url: '/living-options/', eyebrow: 'Care Levels', title: 'Living Options',
-    desc: 'Learn how independent living, assisted living, and respite care work at Azalea Estates.',
-    cta: 'Read about care' },
-  { url: '/amenities/', eyebrow: 'The Details', title: 'Services & Amenities',
-    desc: 'A closer look at the pool, dining, wellness center, salon, and more you’ve just seen.',
-    cta: 'Explore amenities' },
-  { url: '/floor-plans/', eyebrow: 'Your Suite', title: 'Floor Plans',
-    desc: 'Compare our four senior apartment layouts and find the one that feels like home.',
-    cta: 'View floor plans' }
+    desc: 'Ready to think about care options? Compare independent, assisted, and respite care.',
+    cta: 'Explore care levels' },
+  { url: '/schedule-a-tour/', eyebrow: 'Nothing Beats In Person', title: 'Schedule a Private Tour',
+    desc: "You've seen the photos. Come walk through it — tours include a campus walk and complimentary lunch.",
+    cta: 'Schedule your tour' }
 ] %}
 {% include "partials/related.njk" %}
 
@@ -41,10 +68,10 @@ permalink: /gallery/
       <div>
         <span class="eyebrow" style="color: var(--c-accent-soft);">Nothing beats seeing it in person</span>
         <h2>Schedule a private tour.</h2>
-        <p>Photos can only capture so much. Visit the campus, meet the residents, and see whether Azalea Estates feels like home.</p>
+        <p>A virtual tour shows you the spaces. A visit lets you feel whether Azalea Estates is the right home &mdash; meet the residents, taste the food, and talk with our team.</p>
       </div>
       <div class="cta-panel__btns">
-        <a href="/contact/" class="btn btn--primary">Schedule a Tour</a>
+        <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Tour</a>
       </div>
     </div>
   </div>

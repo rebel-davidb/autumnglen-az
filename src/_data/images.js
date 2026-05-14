@@ -1,99 +1,169 @@
 // ==========================================================================
 // Azalea Estates — Image Manifest
-// All site imagery now sourced from /assets/images/ (community photos).
-// Each key below is mapped to the photo that best matches the context
-// where it's rendered, as determined by a visual review of the photo set.
+// All site imagery sourced from /assets/images/ (community photos).
+// Each key is mapped to the photo that best matches its render context.
 // ==========================================================================
 
 const img = (file) => `/assets/images/${file}`;
 
-// Source photos, named to make reassignments readable.
+// ── Source photos ──────────────────────────────────────────────────────────
 const PHOTO = {
+  // Campus — exterior
   exteriorHero:     "exterior-front-view-of-Fayetteville-e1674771244233.jpg", // tight dramatic cupola + red flower bed
   exteriorWide:     "azalea-estates-img.jpeg",                                // wide scenic entrance, Japanese maples
-  poolClassBright:  "ae-home-4-1500px.jpg",                                   // marquee aqua-aerobics, 6 women + trainer
-  poolClassAiry:    "01sa077-scaled.jpeg",                                    // wide bright pool w/ vaulted ceiling
+  aerial:           "community-from-above.png",                               // aerial overhead campus shot
+  fountain:         "fountain.jpg",                                           // campus fountain + landscape
+  sidewalkGarden:   "sidewalk-and-garden-at-azalea.jpg",                      // walking path + garden
+
+  // Campus — interior common spaces
+  commonArea:       "common-space.jpg",                                       // warm interior common area
+  commonArea2:      "common-space2.jpg",                                      // second common area angle
+  insideView:       "inside-view.jpg",                                        // interior overview
+
+  // Private suites
+  bedroomSuite:     "bedroom.jpg",                                            // actual private bedroom suite
+  livingRoomSuite:  "living-room.jpg",                                        // actual private living room
+
+  // Dining
+  formalDining:     "formal-dinning-room-at-azalea.jpg",                      // elegant formal dining room
+  largeDining:      "large-dining-room.jpg",                                  // wide dining room, empty
+  largeDining2:     "large-dining-room-2.jpg",                                // second dining room angle
+  groupDining:      "group-dining.jpg",                                       // residents dining together
+  chefPlate:        "az-header-inner-dining.jpg",                             // chef garnishing plated beef
+
+  // Activities — social
+  groupPorch:       "group-of-seniors-on-porch.jpg",                          // group gathered on front porch
+  womenSmiling:     "group-of-women-smiling.jpg",                             // group of women laughing
+  readingChairs:    "two-women-reading-on-chairs.jpg",                        // two women reading comfortably
+  twoWomenReading:  "two-women-reading.jpg",                                  // two women reading, alternate
+
+  // Activities — programs
+  bingo:            "bingo.jpg",                                              // bingo game in progress
+  crossword:        "crossword.jpeg",                                         // crossword puzzle activity
+  painting:         "group-painting.jpg",                                     // group painting class
+  gardening:        "gardening.jpg",                                          // residents gardening (portrait)
+  brainFitness:     "Dakim-Brain-Fitness-5-1-scaled.jpg",                     // Dakim brain-fitness touchscreen
+
+  // Wellness — pool
+  poolNew:          "group-pool-activity.jpeg",                               // pool aerobics class, front view
+  poolNew2:         "group-pool-2.jpeg",                                      // pool class, second angle
+  poolClassBright:  "ae-home-4-1500px.jpg",                                   // marquee aqua-aerobics, 6 women
+  poolClassAiry:    "01sa077-scaled.jpeg",                                    // wide bright pool, vaulted ceiling
   poolClassBack:    "01sa051-scaled.jpeg",                                    // aqua class from behind instructor
   poolClassIntimate:"azalea-estates-img-2.jpeg",                              // smaller group + trainer
   poolEmpty:        "img_5534-scaled.jpeg",                                   // architectural empty pool
-  rockingChairs:    "az-header-inner-respite.jpg",                            // 3 residents on the front porch
+  poolPhoto:        "pool.jpg",                                               // pool exterior/wide shot
+
+  // Wellness — fitness
+  groupFitness:     "group-workout.jpg",                                      // group fitness class
+  ptSession:        "personal-training.jpg",                                  // one-on-one personal training
+  ptTreadmill:      "personal-training-treadmill.jpg",                        // treadmill coaching session
+  chairStrength:    "01sa279-scaled.jpeg",                                    // seated strength class, laughing
+  stepperCoaching:  "01sa292-2048x1365.jpeg",                                 // stepper coaching
+  treadmillSupport: "01sa308-scaled.jpeg",                                    // treadmill with staff support
+
+  // Legacy / still in use
+  rockingChairs:    "az-header-inner-respite.jpg",                            // 3 residents on front porch
   sunroomChat:      "az-header-inner-service-amenities.jpg",                  // 4 ladies chatting, colorful tables
-  chefPlate:        "az-header-inner-dining.jpg",                             // chef garnishing plated beef
-  brainFitness:     "Dakim-Brain-Fitness-5-1-scaled.jpg",                     // resident at Dakim touchscreen
-  chairStrength:    "01sa279-scaled.jpeg",                                    // 3 seniors laughing in seated weights class
-  stepperCoaching:  "01sa292-2048x1365.jpeg",                                 // woman + staff at stepper
-  treadmillSupport: "01sa308-scaled.jpeg",                                    // man + staff at treadmill
 };
 
 module.exports = {
-  // ---- Hero (home page) ---------------------------------------------------
-  hero:       img(PHOTO.exteriorHero),   // used as OG/social + JSON-LD image
-  heroPoster: img(PHOTO.exteriorHero),   // shown while the hero <video> buffers
+  // ── Hero (home page) ───────────────────────────────────────────────────
+  hero:       img(PHOTO.exteriorHero),
+  heroPoster: img(PHOTO.exteriorHero),
   heroAlt:    "Azalea Estates of Fayetteville front entrance with spring blooms",
 
-  // ---- Architectural exteriors --------------------------------------------
-  // Used as page heroes on /about/, /accessibility/, and the "Assisted Living"
-  // feature card on /. Wide scenic shot reads best under the dark gradient.
-  communityExterior: img(PHOTO.exteriorWide),
+  // ── Campus / exterior ──────────────────────────────────────────────────
+  communityExterior: img(PHOTO.exteriorWide),      // wide scenic entrance
+  communityAbove:    img(PHOTO.aerial),            // aerial overview of campus
+  campusFountain:    img(PHOTO.fountain),           // fountain + landscaping
+  communityGarden:   img(PHOTO.sidewalkGarden),    // walking path + garden (was: pool class)
 
-  // Used on /privacy/, /gallery/, and the "Respite Care" feature card.
-  // Intimate pool reads as warm + healing — a fit for respite/rehab.
-  communityGarden: img(PHOTO.poolClassIntimate),
+  // ── People / life on campus ────────────────────────────────────────────
+  // Upgraded from proxy shots to real community-life photos:
+  residentsLaughing:  img(PHOTO.womenSmiling),     // warm group moment (was: sunroom chat)
+  residentsGarden:    img(PHOTO.groupPorch),       // group on porch (was: 3 rocking chairs)
+  residentsActivity:  img(PHOTO.bingo),            // bingo activity (was: Dakim machine)
+  residentsDining:    img(PHOTO.groupDining),      // residents at table together
+  residentsReading:   img(PHOTO.readingChairs),    // two women reading in chairs
 
-  // ---- People / life on campus --------------------------------------------
-  // Home page intro-split ("warm moment together") — active conversation.
-  residentsLaughing: img(PHOTO.sunroomChat),
+  // ── Interior living spaces ─────────────────────────────────────────────
+  livingRoom: img(PHOTO.livingRoomSuite),          // actual private living room (was: sunroom)
+  bedroom:    img(PHOTO.bedroomSuite),             // actual private bedroom suite (was: empty pool)
+  commonSpace: img(PHOTO.commonArea),              // interior common area
+  insideView:  img(PHOTO.insideView),              // interior overview
 
-  // Home feature #1 + living-options card #1 — "Independent Living".
-  // The rocking-chair porch is the most iconic independent-living shot.
-  residentsGarden: img(PHOTO.rockingChairs),
+  // ── Dining ─────────────────────────────────────────────────────────────
+  diningRoom:      img(PHOTO.formalDining),        // elegant dining room — page hero
+  diningHall:      img(PHOTO.largeDining),         // wide dining room shot
+  diningPlate:     img(PHOTO.chefPlate),           // chef plating — detail / content
+  diningChef:      img(PHOTO.chefPlate),           // chef — kept for content splits
+  communityDining: img(PHOTO.groupDining),         // social dining moment (was: chef plate)
 
-  // /about/ page — "residents engaged in a creative activity".
-  residentsActivity: img(PHOTO.brainFitness),
+  // ── Activities ─────────────────────────────────────────────────────────
+  activityBingo:    img(PHOTO.bingo),
+  activityPainting: img(PHOTO.painting),
+  activityCrossword:img(PHOTO.crossword),
+  activityGarden:   img(PHOTO.gardening),
+  amenitiesLibrary: img(PHOTO.brainFitness),       // Dakim brain fitness (page-specific reference)
 
-  // ---- Interior living spaces ---------------------------------------------
-  // /floor-plans/ and /living-options/ page heroes. Sunroom reads as home.
-  livingRoom: img(PHOTO.sunroomChat),
+  // ── Wellness / pool ─────────────────────────────────────────────────────
+  wellnessPool:    img(PHOTO.poolNew),             // pool aerobics class, front (was: marquee shot)
+  wellnessFitness: img(PHOTO.ptSession),           // personal training session (was: stepper)
+  wellnessYoga:    img(PHOTO.groupFitness),        // group fitness class (was: seated strength)
+  wellnessPoolWide: img(PHOTO.poolClassAiry),      // wide pool with vaulted ceiling
 
-  // /living-options/ respite card. No bedroom photo available;
-  // the empty pool is the calmest "facility" stand-in until a real private
-  // suite photo is taken. TODO: replace when a bedroom/suite photo is captured.
-  bedroom: img(PHOTO.poolEmpty),
+  // ── Amenities ──────────────────────────────────────────────────────────
+  amenitiesPorch:  img(PHOTO.groupPorch),          // group on porch (was: 3 rocking chairs)
+  amenitiesSalon:  img(PHOTO.commonArea2),         // common area proxy until salon photo exists
 
-  // Not currently referenced, but kept populated for future use.
-  kitchen:         img(PHOTO.chefPlate),
-  communityDining: img(PHOTO.chefPlate),
+  // ── Kitchen (unused but populated for future) ──────────────────────────
+  kitchen: img(PHOTO.chefPlate),
 
-  // ---- Wellness / fitness -------------------------------------------------
-  wellnessPool:    img(PHOTO.poolClassBright),   // /amenities/ hero + card #1
-  wellnessFitness: img(PHOTO.stepperCoaching),   // /amenities/ card #2
-  wellnessYoga:    img(PHOTO.chairStrength),     // /amenities/ card #3 (gentle movement)
-
-  // ---- Dining -------------------------------------------------------------
-  diningPlate: img(PHOTO.chefPlate),
-  diningChef:  img(PHOTO.chefPlate),
-
-  // ---- Amenities tiles ----------------------------------------------------
-  amenitiesLibrary: img(PHOTO.brainFitness),     // "computer room / library" proxy
-  amenitiesSalon:   img(PHOTO.sunroomChat),      // placeholder — no salon photo on file
-  amenitiesPorch:   img(PHOTO.rockingChairs),    // /contact/ page hero
-
-  // ---- Gallery ------------------------------------------------------------
-  // Ordered to move from outside → inside → activity → amenities.
+  // ── Gallery — expanded from 14 to 28 photos ────────────────────────────
+  // Ordered: campus exterior → outdoor spaces → interiors → suites
+  //          → dining → social life → activities → wellness/fitness
   gallery: [
-    { src: img(PHOTO.exteriorHero),      alt: "Azalea Estates front entrance with seasonal blooms" },
-    { src: img(PHOTO.exteriorWide),      alt: "Landscaped drive and entry, with Japanese maples in leaf" },
-    { src: img(PHOTO.rockingChairs),     alt: "Residents visiting on our front porch rockers" },
-    { src: img(PHOTO.sunroomChat),       alt: "Afternoon conversation in the sunroom" },
-    { src: img(PHOTO.brainFitness),      alt: "A resident working through a Dakim brain-fitness session" },
-    { src: img(PHOTO.chefPlate),         alt: "Chef-prepared, restaurant-style dinner plating" },
-    { src: img(PHOTO.poolClassBright),   alt: "Water aerobics class in our heated indoor pool" },
-    { src: img(PHOTO.poolClassAiry),     alt: "Group aqua class under our sunlit vaulted ceiling" },
-    { src: img(PHOTO.poolClassBack),     alt: "Aqua aerobics with our licensed fitness trainer" },
-    { src: img(PHOTO.poolClassIntimate), alt: "Smaller pool group working with a trainer" },
-    { src: img(PHOTO.poolEmpty),         alt: "Our heated indoor saltwater pool, pre-class" },
-    { src: img(PHOTO.treadmillSupport),  alt: "Treadmill session with staff guidance" },
-    { src: img(PHOTO.stepperCoaching),   alt: "One-on-one coaching on our cardio equipment" },
-    { src: img(PHOTO.chairStrength),     alt: "Seated strength and mobility class — laughing together" },
+    // Campus & outdoor
+    { src: img(PHOTO.exteriorHero),     alt: "Azalea Estates of Fayetteville front entrance with seasonal blooms" },
+    { src: img(PHOTO.exteriorWide),     alt: "Landscaped drive and entry, with Japanese maples in leaf" },
+    { src: img(PHOTO.aerial),           alt: "Aerial view of the Azalea Estates campus in Fayetteville" },
+    { src: img(PHOTO.fountain),         alt: "Campus fountain surrounded by landscaped grounds" },
+    { src: img(PHOTO.sidewalkGarden),   alt: "Walking path through the community garden at Azalea Estates" },
+    { src: img(PHOTO.groupPorch),       alt: "Residents gathering on the front porch on a sunny afternoon" },
+
+    // Interiors & suites
+    { src: img(PHOTO.insideView),       alt: "Warm interior view of Azalea Estates common areas" },
+    { src: img(PHOTO.commonArea),       alt: "Comfortable common area with seating for residents and visitors" },
+    { src: img(PHOTO.commonArea2),      alt: "Bright common area at Azalea Estates" },
+    { src: img(PHOTO.livingRoomSuite),  alt: "Private living room in a resident suite at Azalea Estates" },
+    { src: img(PHOTO.bedroomSuite),     alt: "Private bedroom in a resident suite — comfortable and well-appointed" },
+
+    // Dining
+    { src: img(PHOTO.formalDining),     alt: "Azalea Estates elegant formal dining room, set for service" },
+    { src: img(PHOTO.largeDining),      alt: "Our spacious dining room — restaurant-style service, three meals daily" },
+    { src: img(PHOTO.groupDining),      alt: "Residents enjoying a meal together in the Azalea Estates dining room" },
+    { src: img(PHOTO.chefPlate),        alt: "Chef-prepared, restaurant-style dinner plating" },
+
+    // Social life
+    { src: img(PHOTO.womenSmiling),     alt: "Residents sharing a joyful moment together at Azalea Estates" },
+    { src: img(PHOTO.readingChairs),    alt: "Two residents relaxing and reading in comfortable chairs" },
+
+    // Activities
+    { src: img(PHOTO.bingo),            alt: "Residents enjoying a lively bingo game in the community room" },
+    { src: img(PHOTO.crossword),        alt: "A resident working on a crossword puzzle — brain fitness daily" },
+    { src: img(PHOTO.painting),         alt: "Residents in an art and painting class together" },
+    { src: img(PHOTO.gardening),        alt: "Residents tending the community garden — seasonal planting" },
+    { src: img(PHOTO.brainFitness),     alt: "A resident working through a Dakim brain-fitness session" },
+
+    // Pool & aquatics
+    { src: img(PHOTO.poolNew),          alt: "Water aerobics class in our heated indoor saltwater pool" },
+    { src: img(PHOTO.poolNew2),         alt: "Group aquatic exercise class with licensed fitness instructor" },
+    { src: img(PHOTO.poolClassBright),  alt: "Aqua aerobics — six residents and trainer in our indoor pool" },
+    { src: img(PHOTO.poolClassAiry),    alt: "Our heated indoor pool under the sunlit vaulted ceiling" },
+
+    // Fitness
+    { src: img(PHOTO.groupFitness),     alt: "Group fitness class in our 3,000 sq. ft. wellness center" },
+    { src: img(PHOTO.ptSession),        alt: "One-on-one personal training session with our licensed fitness trainer" },
   ],
 };

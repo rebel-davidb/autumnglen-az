@@ -2,31 +2,60 @@
 layout: layouts/page.njk
 title: Privacy Policy
 metaTitle: "Privacy Policy | Azalea Estates of Fayetteville"
-description: "How Azalea Estates of Fayetteville collects, uses, and protects information submitted through our website. Read our privacy policy in full."
+description: "How Azalea Estates of Fayetteville collects, uses, and protects information submitted through our website."
 eyebrow: Legal
 pageIntro: "How we handle information submitted through this website."
 eleventyComputed:
   pageHero: "{{ images.communityGarden }}"
 permalink: /privacy/
+noindex: true
 ---
 
 <section class="section">
   <div class="container container--narrow prose">
-    <p><em>Last updated: {{ '' | year }}</em></p>
 
-    <h2>Information We Collect</h2>
-    <p>When you contact us through this website, we collect only the information you provide &mdash; typically your name, email address, phone number, and the content of your message. We use Netlify Forms to process form submissions, which stores these messages securely on Netlify&rsquo;s infrastructure.</p>
+    <p><em>Effective September 1, 2015. Last reviewed {{ '' | year }}.</em></p>
 
-    <h2>How We Use Your Information</h2>
-    <p>We use the information you provide solely to respond to your inquiry, schedule tours, and share information about Azalea Estates of Fayetteville. We do not sell, trade, or rent your information to third parties.</p>
+    <p>By using this website, you consent to the data privacy policies and practices described in this Privacy Policy. This Privacy Policy governs data collection and usage and applies to all visitors to <strong>azaleaestatesfayetteville.com</strong> and its related pages.</p>
 
-    <h2>Cookies &amp; Analytics</h2>
-    <p>This site may use minimal cookies for essential functionality and, if configured, standard analytics tools to help us understand how visitors use our site. You can disable cookies in your browser at any time.</p>
+    <h2>Information Automatically Collected and Stored</h2>
+    <p>When you browse through any website, certain information about you may be automatically collected. We temporarily store information about your computer hardware, software, and your visit. This information can include: your IP address, browser type, domain names, access times, and referring website addresses.</p>
+    <p>This information is used for statistical purposes and to maintain and improve the quality of our website and services. We may share aggregated, non-personally identifiable information &mdash; such as general demographics &mdash; with existing and prospective service providers and business partners.</p>
 
-    <h2>Your Choices</h2>
-    <p>You can request that we update or delete your information at any time by contacting us at <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>.</p>
+    <h2>Personally Provided Information</h2>
+    <p>Unless specifically stated otherwise, we do not collect personally identifiable information from our visitors. You do not have to provide personal information to visit this website. If you choose to provide personally identifiable information through a form, survey, or email message, we will only retain that information as needed to fulfill the stated purpose of the communication.</p>
+    <p>Azalea Estates of Fayetteville does not knowingly collect personally identifiable information from children under the age of thirteen. If you are under thirteen, you must ask your parent or guardian for permission to use this website.</p>
 
-    <h2>Contact</h2>
-    <p>For questions about this policy, please call {{ site.contact.phone }} or email {{ site.contact.email }}.</p>
+    <h2>Security of Your Personally Identifiable Information</h2>
+    <p>Azalea Estates of Fayetteville may maintain personally identifiable information on file, but does not sell, license, or otherwise share such information about our visitors, unless expressly authorized by the person providing the information or required by law enforcement or statute. We use security technology consistent with industry best practices to protect the confidentiality of any personally identifiable information received through this website.</p>
+
+    <h2>Use of Cookies</h2>
+    <p>This website may use &ldquo;cookies&rdquo; to help personalize your online experience. A cookie is a text file placed on your hard disk by a web page server. Cookies cannot run programs or deliver viruses to your computer. They are uniquely assigned to you and can only be read by a web server in the domain that issued the cookie.</p>
+    <p>You can accept or decline cookies. Most browsers automatically accept cookies, but you can modify your browser settings to decline cookies if you prefer. If you decline cookies, you may not be able to fully experience all interactive features of this website.</p>
+
+    <h2>Third-Party Applications</h2>
+    <p>There may be third-party applications and services embedded on this site, including tools intended to improve website functionality and provide a better user experience. Where applicable, privacy policies specific to those applications are provided by their respective providers.</p>
+
+    <h2>Communications and eNewsletters</h2>
+    <p>Azalea Estates of Fayetteville may offer visitors the opportunity to sign up to receive announcements, newsletters, or other email communications. To sign up, we ask for contact information such as name, email address, and mailing address.</p>
+    <p>We respect your privacy and give you the opportunity to opt out of receiving communications from us at any time. To opt out, contact us using any of the methods listed below.</p>
+
+    <h2>External Links to Third-Party Websites</h2>
+    <p>This website may provide links to third-party websites that we do not control. When you click one of these links, you will leave our website and connect to the website of the organization or company you selected. We are not responsible for the nature, quality, or accuracy of the content, opinions, or services found on linked websites. Inclusion of any linked website does not imply our approval or endorsement of that site. Each linked site maintains its own independent privacy and data collection policies.</p>
+
+    <h2>Changes to This Policy</h2>
+    <p>Azalea Estates of Fayetteville will periodically update this Privacy Policy to reflect changes in our practices or applicable law. We encourage you to review this page periodically to stay informed about how we are protecting your information.</p>
+
+    <h2>Contact Information</h2>
+    <p>If you have questions or comments about this Privacy Policy, or if you believe we have not adhered to it, please contact us:</p>
+    <ul>
+      <li><strong>Azalea Estates of Fayetteville</strong></li>
+      <li>{{ site.contact.addressLine1 }}</li>
+      <li>{{ site.contact.addressLine2 }}</li>
+      <li>Phone: <a href="tel:{{ site.contact.phoneRaw }}">{{ site.contact.phone }}</a></li>
+      <li>Email: <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a></li>
+      <li>Web: <a href="{{ site.url }}">azaleaestatesfayetteville.com</a></li>
+    </ul>
+
   </div>
 </section>

@@ -123,6 +123,7 @@ a:focus-visible {
 .nav > a,
 .brand,
 .header-top a,
+.announce-bar a,
 .site-footer a,
 .footer-socials a,
 .footer-bottom a,
@@ -153,6 +154,7 @@ h1, h2, h3, h4 {
   letter-spacing: -0.01em;
   margin: 0 0 var(--space-4) 0;
   line-height: 1.15;
+  text-wrap: pretty;
 }
 
 h1 {
@@ -181,6 +183,7 @@ p.lead {
   font-size: 1.2rem;
   line-height: 1.55;
   color: var(--c-ink);
+  text-wrap: pretty;
 }
 
 .eyebrow {
@@ -215,12 +218,38 @@ p.lead {
   background: var(--c-sand);
 }
 .section--ink {
-  background: var(--c-ink);
+  background: var(--c-forest);
   color: var(--c-cream);
 }
 .section--ink h2,
 .section--ink h3 { color: var(--c-cream); }
 .section--ink p { color: rgba(250, 246, 241, 0.85); }
+/* Buttons inside section--ink: same inversion as CTA panel */
+.section--ink .btn--primary {
+  background: var(--c-cream);
+  color: var(--c-forest);
+  border-color: var(--c-cream);
+}
+.section--ink .btn--primary:hover {
+  background: var(--c-white);
+  color: var(--c-forest-hover);
+  border-color: var(--c-white);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+.section--ink .btn--primary:focus-visible,
+.section--ink .btn--outline:focus-visible {
+  outline-color: var(--c-cream);
+}
+.section--ink .btn--outline {
+  color: var(--c-white);
+  border-color: rgba(255, 255, 255, 0.75);
+}
+.section--ink .btn--outline:hover {
+  background: var(--c-white);
+  color: var(--c-forest);
+  border-color: var(--c-white);
+}
 
 /* Buttons */
 .btn {
@@ -273,8 +302,9 @@ p.lead {
   border-color: var(--c-ink);
 }
 .btn--outline:hover {
-  background: var(--c-ink);
+  background: var(--c-forest);
   color: var(--c-white);
+  border-color: var(--c-forest);
 }
 .btn--ghost {
   background: transparent;
@@ -490,11 +520,15 @@ p.lead {
   content: "";
   position: absolute;
   inset: 0;
-  /* Stronger darkening across whole frame + extra weight at the bottom where */
-  /* the hero copy sits. Tuned so white text on any video frame clears AA.    */
-  background:
-    linear-gradient(180deg, rgba(20,18,16,0.42) 0%, rgba(20,18,16,0.58) 45%, rgba(20,18,16,0.88) 100%),
-    linear-gradient(90deg, rgba(20,18,16,0.35), rgba(20,18,16,0) 60%);
+  /* Warm forest green diagonal — same approach as page heroes.
+     Heavy on the left/bottom where copy lives, clears on the right
+     so video/photo warmth shows through. Text shadow carries AA contrast. */
+  background: linear-gradient(
+    108deg,
+    rgba(33, 59, 20, 0.72) 0%,
+    rgba(33, 59, 20, 0.42) 48%,
+    rgba(33, 59, 20, 0.12) 100%
+  );
 }
 
 /* Hero video pause/play toggle — WCAG 2.2.2 */
@@ -559,32 +593,52 @@ p.lead {
   line-height: 1.05;
   margin-bottom: var(--space-5);
   text-wrap: balance;
-  /* Soft text-shadow keeps white text legible over bright video frames */
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.35);
+  /* Stronger shadow compensates for the lighter overlay */
+  text-shadow: 0 2px 22px rgba(0, 0, 0, 0.60), 0 1px 4px rgba(0, 0, 0, 0.50);
 }
 .hero .eyebrow {
   color: var(--c-accent-soft);
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.60);
 }
 .hero p.lead {
-  color: rgba(255, 255, 255, 0.96);
+  color: rgba(255, 255, 255, 0.97);
   max-width: 640px;
   font-size: 1.25rem;
   margin-bottom: var(--space-6);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.60), 0 1px 3px rgba(0, 0, 0, 0.45);
 }
 .hero__cta {
   display: flex;
   gap: var(--space-4);
   flex-wrap: wrap;
 }
+/* ── Hero: buttons on dark green video overlay ───────────────────────────
+   btn--primary inverts to cream so it reads against the dark overlay.
+   btn--outline gets a solid white border. Both get cream focus rings. */
+.hero .btn--primary {
+  background: var(--c-cream);
+  color: var(--c-forest);
+  border-color: var(--c-cream);
+}
+.hero .btn--primary:hover {
+  background: var(--c-white);
+  color: var(--c-forest-hover);
+  border-color: var(--c-white);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+.hero .btn--primary:focus-visible,
+.hero .btn--outline:focus-visible {
+  outline-color: var(--c-cream);
+}
 .hero .btn--outline {
   color: var(--c-white);
-  border-color: var(--c-white);
+  border-color: rgba(255, 255, 255, 0.75);
 }
 .hero .btn--outline:hover {
   background: var(--c-white);
-  color: var(--c-ink);
+  color: var(--c-forest);
+  border-color: var(--c-white);
 }
 
 /* Interior page hero */
@@ -608,27 +662,32 @@ p.lead {
   content: "";
   position: absolute;
   inset: 0;
-  /* Stacked overlays: horizontal dark-to-clear weight on the text side, */
-  /* plus an overall dark veil. Keeps photo detail visible while lifting */
-  /* white-text contrast to WCAG AA on any image. */
-  background:
-    linear-gradient(90deg, rgba(20,18,16,0.55) 0%, rgba(20,18,16,0.15) 70%, rgba(20,18,16,0) 100%),
-    linear-gradient(180deg, rgba(20,18,16,0.55), rgba(20,18,16,0.80));
+  /* Single warm diagonal gradient — forest green tint, not charcoal.
+     Heavy on the left where text lives, fades to near-clear on the right
+     so the photo stays bright and welcoming. Text shadow carries legibility. */
+  background: linear-gradient(
+    108deg,
+    rgba(33, 59, 20, 0.68) 0%,
+    rgba(33, 59, 20, 0.38) 48%,
+    rgba(33, 59, 20, 0.10) 100%
+  );
 }
 .page-hero h1 {
   color: var(--c-white);
   margin-bottom: var(--space-2);
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.55), 0 1px 4px rgba(0, 0, 0, 0.45);
+  text-wrap: pretty;
 }
 .page-hero .eyebrow {
-  color: var(--c-accent-soft);
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+  color: var(--c-forest-soft);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
 .page-hero p {
-  color: rgba(255, 255, 255, 0.96);
+  color: rgba(255, 255, 255, 0.97);
   max-width: 680px;
   font-size: 1.1rem;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.4);
+  text-wrap: pretty;
 }
 
 .crumbs {
@@ -647,7 +706,7 @@ p.lead {
    MARQUEE BAR
    ========================================================================== */
 .stats-bar {
-  background: var(--c-ink);
+  background: var(--c-forest);
   color: var(--c-cream);
   padding: var(--space-6) 0;
 }
@@ -766,6 +825,23 @@ p.lead {
 .feature-card__media {
   aspect-ratio: 4/3;
   overflow: hidden;
+  position: relative;   /* anchors .feature-card__badge */
+}
+/* Icon badge — sits bottom-right of card media, same treatment as team-card__badge */
+.feature-card__badge {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-3);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--c-forest-soft);
+  color: var(--c-forest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+  pointer-events: none;
 }
 .feature-card__media img {
   width: 100%; height: 100%; object-fit: cover;
@@ -909,7 +985,7 @@ p.lead {
 
 /* CTA Panel */
 .cta-panel {
-  background: linear-gradient(135deg, var(--c-ink) 0%, #3d352f 100%);
+  background: linear-gradient(135deg, #192d10 0%, var(--c-forest) 100%);
   color: var(--c-cream);
   padding: var(--space-9) 0;
   position: relative;
@@ -934,8 +1010,34 @@ p.lead {
 .cta-panel h2 { color: var(--c-cream); margin-bottom: var(--space-3); }
 .cta-panel p { color: rgba(250, 246, 241, 0.8); margin: 0; max-width: 600px; }
 .cta-panel__btns { display: flex; gap: var(--space-3); flex-wrap: wrap; }
-.cta-panel .btn--outline { color: var(--c-white); border-color: rgba(255,255,255,0.4); }
-.cta-panel .btn--outline:hover { background: var(--c-white); color: var(--c-ink); border-color: var(--c-white); }
+/* ── CTA panel: buttons on dark green gradient ───────────────────────────
+   btn--primary inverts to cream (13.6:1 on dark green).
+   btn--outline gets a stronger white border (0.75 → 4.5:1+ on forest). */
+.cta-panel .btn--primary {
+  background: var(--c-cream);
+  color: var(--c-forest);
+  border-color: var(--c-cream);
+}
+.cta-panel .btn--primary:hover {
+  background: var(--c-white);
+  color: var(--c-forest-hover);
+  border-color: var(--c-white);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+.cta-panel .btn--primary:focus-visible,
+.cta-panel .btn--outline:focus-visible {
+  outline-color: var(--c-cream);
+}
+.cta-panel .btn--outline {
+  color: var(--c-white);
+  border-color: rgba(255, 255, 255, 0.75);
+}
+.cta-panel .btn--outline:hover {
+  background: var(--c-white);
+  color: var(--c-forest);
+  border-color: var(--c-white);
+}
 @media (max-width: 760px) {
   .cta-panel__grid { grid-template-columns: 1fr; }
 }
@@ -944,8 +1046,8 @@ p.lead {
    FOOTER
    ========================================================================== */
 .site-footer {
-  background: #1f1c1a;
-  color: rgba(250, 246, 241, 0.8);
+  background: var(--c-forest-soft);   /* #c5d4bd — light sage green */
+  color: var(--c-ink);
   padding: var(--space-9) 0 var(--space-5);
   font-size: 0.93rem;
 }
@@ -956,25 +1058,24 @@ p.lead {
   margin-bottom: var(--space-7);
 }
 .site-footer h4 {
-  color: var(--c-cream);
+  color: var(--c-forest);             /* #213b14 — dark forest for column headings */
   font-family: var(--font-sans);
   font-size: 0.85rem;
   letter-spacing: 0.18em;
   margin-bottom: var(--space-4);
 }
-.site-footer a { color: rgba(250, 246, 241, 0.75); }
-.site-footer a:hover { color: var(--c-accent-soft); }
+.site-footer a { color: var(--c-forest); }
+.site-footer a:hover { color: var(--c-forest-hover); }
 .site-footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); }
-.footer-brand .brand-name { color: var(--c-cream); }
-.footer-brand p { color: rgba(250, 246, 241, 0.78); margin: var(--space-4) 0 0; max-width: 320px; }
-/* Footer logo: tint dark-green mark to cream for visibility on dark bg. */
-/* Swap to <img src="/assets/images/logo-light.png"> when you have a reverse variant, */
-/* and remove the filter rule below. */
+.footer-brand .brand-name { color: var(--c-forest); }
+.footer-brand p { color: var(--c-ink-soft); margin: var(--space-4) 0 0; max-width: 320px; }
+/* Footer logo: show natural logo colours on the light sage background. */
+/* Remove the filter once you have a dedicated light-background logo variant. */
 .brand-logo--on-dark {
   height: 54px;
-  filter: brightness(0) invert(1) opacity(0.92);
+  filter: none;
 }
-.footer-contact p { margin: 0 0 var(--space-2) 0; color: rgba(250, 246, 241, 0.8); }
+.footer-contact p { margin: 0 0 var(--space-2) 0; color: var(--c-ink-soft); }
 
 .footer-socials {
   display: flex;
@@ -984,30 +1085,30 @@ p.lead {
 .footer-socials a {
   width: 40px; height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(250, 246, 241, 0.2);
+  border: 1px solid rgba(33, 59, 20, 0.3);  /* forest at low opacity */
   display: grid; place-items: center;
+  color: var(--c-forest);
   transition: all var(--tr);
 }
 .footer-socials a:hover {
-  background: var(--c-accent);
-  border-color: var(--c-accent);
-  color: var(--c-white);
+  background: var(--c-forest);
+  border-color: var(--c-forest);
+  color: var(--c-forest-soft);
 }
 .footer-socials svg { width: 18px; height: 18px; }
 
 .footer-bottom {
   padding-top: var(--space-5);
-  border-top: 1px solid rgba(250, 246, 241, 0.18);
+  border-top: 1px solid rgba(33, 59, 20, 0.18);  /* forest at low opacity */
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--space-3);
   font-size: 0.82rem;
-  /* 0.7 alpha → ~7:1 contrast on #1f1c1a (WCAG AA) */
-  color: rgba(250, 246, 241, 0.7);
+  color: var(--c-ink-soft);
 }
-.footer-bottom a { color: rgba(250, 246, 241, 0.85); margin-left: var(--space-3); }
-.footer-bottom a:hover { color: var(--c-cream); }
+.footer-bottom a { color: var(--c-forest); margin-left: var(--space-3); }
+.footer-bottom a:hover { color: var(--c-forest-hover); }
 
 @media (max-width: 860px) {
   .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6); }
@@ -1019,12 +1120,231 @@ p.lead {
 }
 
 /* ==========================================================================
+   PDF VIEWER MODAL
+   Full-screen modal with PDF.js canvas rendering.
+   Triggered by any element with data-pdf-url attribute.
+   ========================================================================== */
+
+.pdfv {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  background: #1a1a1a;
+}
+.pdfv[hidden] { display: none; }
+
+/* ── Header bar ──────────────────────────────────────────────────────────── */
+.pdfv__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 0 var(--space-4);
+  height: 52px;
+  background: #2a2a2a;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+.pdfv__title {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.88);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
+}
+.pdfv__controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.pdfv__sep {
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.15);
+  margin: 0 var(--space-2);
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+.pdfv__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.78);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--tr), color var(--tr);
+  white-space: nowrap;
+}
+.pdfv__btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+.pdfv__btn:focus-visible {
+  outline: 2px solid var(--c-forest-soft);
+  outline-offset: 2px;
+}
+.pdfv__btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+.pdfv__zoom-label {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.78);
+  min-width: 3.2em;
+  text-align: center;
+  padding: 0 4px;
+  user-select: none;
+}
+/* Hide text labels on small screens */
+@media (max-width: 560px) {
+  .pdfv__btn-label { display: none; }
+  .pdfv__btn       { padding: 6px 8px; }
+  .pdfv__title     { font-size: 0.8rem; }
+}
+
+/* ── Scrollable stage ────────────────────────────────────────────────────── */
+.pdfv__stage {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #404040;
+  -webkit-overflow-scrolling: touch;
+}
+.pdfv__pages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-6) var(--space-4);
+  min-height: 100%;
+}
+
+/* ── Individual page canvas ──────────────────────────────────────────────── */
+.pdfv__page {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  border-radius: 2px;
+  overflow: hidden;
+  max-width: 100%;
+  line-height: 0;  /* removes gap below canvas */
+}
+.pdfv__page canvas {
+  display: block;
+  max-width: 100%;
+  height: auto !important;  /* let width drive height on mobile */
+}
+@media (max-width: 640px) {
+  .pdfv__page { width: 100%; }
+  .pdfv__page canvas { width: 100% !important; }
+}
+
+/* ── Loading / error states ──────────────────────────────────────────────── */
+.pdfv__msg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  min-height: 200px;
+  color: rgba(255,255,255,0.65);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  text-align: center;
+}
+.pdfv__msg--err { color: rgba(255,180,180,0.9); }
+.pdfv__msg a.btn--outline {
+  color: rgba(255,255,255,0.8);
+  border-color: rgba(255,255,255,0.3);
+  margin-top: var(--space-2);
+}
+/* Loading spinner */
+.pdfv__spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(255,255,255,0.15);
+  border-top-color: var(--c-forest-soft);
+  border-radius: 50%;
+  animation: pdfv-spin 0.8s linear infinite;
+}
+@keyframes pdfv-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   VIRTUAL TOUR EMBED
+   Responsive 16:9 iframe container — works on any screen size.
+   ========================================================================== */
+.virtual-tour {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: var(--c-ink); /* dark placeholder while iframe loads */
+}
+.virtual-tour iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+/* Minimum height so the tour isn't too small on very wide screens */
+@media (min-width: 1400px) {
+  .virtual-tour { aspect-ratio: 16 / 8; }
+}
+/* On small phones, give a slightly taller ratio for a better portrait experience */
+@media (max-width: 480px) {
+  .virtual-tour { aspect-ratio: 4 / 3; }
+}
+/* Square variant — used in split-layout contexts (e.g. contact page) */
+.virtual-tour--square {
+  aspect-ratio: 1 / 1;
+}
+@media (max-width: 480px) {
+  .virtual-tour--square { aspect-ratio: 4 / 3; }
+}
+.virtual-tour__hint {
+  margin-top: var(--space-3);
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--c-muted);
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
    GALLERY
    ========================================================================== */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-3);
+}
+/* 3-column variant — used on single-subject galleries (e.g. food) */
+.gallery-grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+/* 2-column variant — used for room/space galleries (bigger, more immersive cells) */
+.gallery-grid--2 {
+  grid-template-columns: repeat(2, 1fr);
 }
 .gallery-item {
   aspect-ratio: 1/1;
@@ -1039,45 +1359,195 @@ p.lead {
 }
 .gallery-item:hover img { transform: scale(1.05); }
 .gallery-item:nth-child(5n+1) { grid-row: span 2; aspect-ratio: 1/2; }
+/* Lightbox-only: in the DOM for prev/next, invisible in the grid */
+.gallery-item--lightbox-only {
+  display: none;
+}
+/* Suppress masonry span in 3-col grids */
+.gallery-grid--3 .gallery-item:nth-child(5n+1) {
+  grid-row: auto;
+  aspect-ratio: 1/1;
+}
 
 @media (max-width: 900px) {
   .gallery-grid { grid-template-columns: repeat(3, 1fr); }
   .gallery-item:nth-child(5n+1) { aspect-ratio: 1/1; grid-row: auto; }
 }
 @media (max-width: 560px) {
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-grid,
+  .gallery-grid--3 { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Lightbox */
+/* ==========================================================================
+   LIGHTBOX — accessible photo viewer with prev/next, caption, focus-trap
+   ========================================================================== */
+
+/* Visually-hidden utility for sr-only live regions */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(26, 24, 22, 0.95);
-  z-index: 200;
+  background: rgba(20, 18, 16, 0.96);
+  z-index: 300;
   display: none;
   align-items: center;
   justify-content: center;
-  padding: var(--space-5);
+  gap: var(--space-4);
+  padding: 72px var(--space-5) var(--space-5);
 }
 .lightbox.open { display: flex; }
-.lightbox img {
-  max-width: 92vw;
-  max-height: 88vh;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-lg);
+
+/* ── Stage: image + caption footer ──────────────────────────────────────── */
+.lightbox__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  max-width: calc(100vw - 200px);
 }
+
+/* Fixed-height frame — every image occupies the same vertical space
+   so the caption never shifts position between photos. */
+.lightbox__frame {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.lightbox__img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+  display: block;
+}
+.lightbox__footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-5);
+  width: 100%;
+  margin-top: var(--space-3);
+}
+.lightbox__caption {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+  text-wrap: pretty;
+}
+.lightbox__counter {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.85rem;
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+/* ── Close button ────────────────────────────────────────────────────────── */
 .lightbox__close {
   position: absolute;
-  top: 20px; right: 20px;
-  background: none; border: none;
+  top: 16px; right: 16px;
+  background: rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255,255,255,0.22);
   color: var(--c-white);
-  font-size: 2rem;
   cursor: pointer;
   width: 48px; height: 48px;
   border-radius: 50%;
-  transition: background var(--tr);
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--tr), border-color var(--tr);
+  flex-shrink: 0;
 }
-.lightbox__close:hover { background: rgba(255,255,255,0.1); }
+.lightbox__close:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.4);
+}
+.lightbox__close:focus-visible {
+  outline: 3px solid var(--c-forest-soft);
+  outline-offset: 3px;
+}
+
+/* ── Prev / Next buttons ─────────────────────────────────────────────────── */
+.lightbox__prev,
+.lightbox__next {
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.10);
+  border: 1.5px solid rgba(255,255,255,0.22);
+  color: var(--c-white);
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--tr), border-color var(--tr), transform var(--tr);
+  /* Minimum 44×44 touch target — these are 56×56 */
+}
+.lightbox__prev:hover,
+.lightbox__next:hover {
+  background: rgba(255,255,255,0.20);
+  border-color: rgba(255,255,255,0.45);
+}
+.lightbox__prev:active { transform: translateX(-2px); }
+.lightbox__next:active { transform: translateX(2px); }
+.lightbox__prev:focus-visible,
+.lightbox__next:focus-visible {
+  outline: 3px solid var(--c-forest-soft);
+  outline-offset: 3px;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .lightbox {
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: 64px var(--space-3) var(--space-5);
+  }
+  .lightbox__stage {
+    max-width: 100%;
+    order: 1;
+  }
+  .lightbox__frame {
+    height: 52vh;
+  }
+  /* Stack prev/next below image on mobile */
+  .lightbox__prev,
+  .lightbox__next {
+    order: 2;
+    position: static;
+    width: 48px; height: 48px;
+  }
+  .lightbox__prev { order: 2; }
+  .lightbox__next { order: 3; }
+  /* Row for the two nav buttons */
+  .lightbox {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .lightbox__stage { flex-basis: 100%; }
+  .lightbox__footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-1);
+  }
+}
 
 /* ==========================================================================
    FLOOR PLAN CARDS
@@ -1136,6 +1606,111 @@ p.lead {
   border-left: 1.5px solid var(--c-accent);
   border-bottom: 1.5px solid var(--c-accent);
   transform: rotate(-45deg);
+}
+/* Plan card: flex column so margin-top:auto on actions pushes them to the bottom */
+.plan-card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Floor plan thumbnail — full-bleed at card top, cream bg so the drawing reads clearly */
+.plan-card__thumb {
+  /* Break out of the card's padding on top and sides */
+  margin: calc(-1 * var(--space-6)) calc(-1 * var(--space-6)) var(--space-5);
+  background: var(--c-cream);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-bottom: 1px solid var(--c-line);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+  transition: background var(--tr);
+}
+.plan-card__thumb:hover {
+  background: var(--c-cream-2);
+}
+.plan-card__thumb img {
+  display: block;
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  object-fit: contain;
+  /* Collapse the JPG's white background into the cream surface behind it */
+  mix-blend-mode: multiply;
+}
+
+/* CTA card top zone — visual counterpart to the thumbnail area */
+/* Featured (dark green) plan card — invert buttons same as cta-panel / section--ink */
+.plan-card--featured .btn--primary {
+  background: var(--c-cream);
+  color: var(--c-forest);
+  border-color: var(--c-cream);
+}
+.plan-card--featured .btn--primary:hover {
+  background: var(--c-white);
+  color: var(--c-forest-hover);
+  border-color: var(--c-white);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+.plan-card--featured .btn--primary:focus-visible {
+  outline-color: var(--c-cream);
+}
+
+.plan-card__cta-top {
+  margin: calc(-1 * var(--space-6)) calc(-1 * var(--space-6)) var(--space-5);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-bottom: 1px solid rgba(197, 212, 189, 0.25);
+  background: rgba(0, 0, 0, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-7) var(--space-5);
+  color: var(--c-forest-soft);
+}
+
+/* Actions row: CTA button + PDF link sit in the same flex column */
+.plan-card__actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+/* PDF link — secondary to Request pricing, clearly labelled */
+.plan-card__pdf-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--c-forest);
+  text-decoration: none;
+  transition: color var(--tr);
+}
+.plan-card__pdf-link:hover {
+  color: var(--c-forest-hover);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.plan-card__pdf-link:focus-visible {
+  outline: 2px solid var(--c-forest);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+/* "PDF" badge — small pill to set format expectation before click */
+.plan-card__pdf-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--c-white);
+  background: var(--c-forest);
+  padding: 1px 5px;
+  border-radius: 3px;
+  line-height: 1.6;
+}
+.plan-card__pdf-link:hover .plan-card__pdf-label {
+  background: var(--c-forest-hover);
 }
 @media (max-width: 860px) {
   .plans-grid { grid-template-columns: 1fr 1fr; }
@@ -1225,6 +1800,46 @@ p.lead {
 }
 .form-consent input { margin-top: 0.2rem; }
 .form .btn { justify-self: start; }
+
+/* Fieldset wrapper for grouped checkbox/radio questions */
+.form-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.form-fieldset legend {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--c-ink);
+  margin-bottom: var(--space-3);
+  display: block;
+}
+/* Grid of checkbox / radio options */
+.form-check-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-2) var(--space-4);
+}
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.95rem;
+  color: var(--c-ink-soft);
+  cursor: pointer;
+  user-select: none;
+}
+.form-check input[type="checkbox"],
+.form-check input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  accent-color: var(--c-forest);
+  cursor: pointer;
+}
+@media (max-width: 560px) {
+  .form-check-group { grid-template-columns: 1fr 1fr; }
+}
 
 @media (max-width: 860px) {
   .contact-grid { grid-template-columns: 1fr; }
@@ -1470,6 +2085,373 @@ body.modal-open { overflow: hidden; }
 }
 @media (max-width: 860px) { .related-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .related-grid { grid-template-columns: 1fr; } }
+
+/* ==========================================================================
+   Team Cards
+   ========================================================================== */
+.feature-grid--4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+@media (max-width: 1100px) {
+  .feature-grid--4 { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 760px) {
+  .feature-grid--4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .feature-grid--4 { grid-template-columns: 1fr; }
+}
+
+.team-card {
+  background: var(--c-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--tr), box-shadow var(--tr);
+}
+.team-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+/* Photo fills the card top; badge icon sits in the corner as decor */
+.team-card__photo {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--c-cream); /* fallback while image loads */
+}
+.team-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top; /* favour faces */
+  display: block;
+  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.team-card:hover .team-card__photo img {
+  transform: scale(1.04);
+}
+/* Small circular icon badge — thematic role indicator, purely decorative */
+.team-card__badge {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-3);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--c-forest-soft);
+  color: var(--c-forest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+  flex-shrink: 0;
+}
+.team-card__body {
+  padding: var(--space-4) var(--space-5) var(--space-5);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.team-card__body h3 {
+  font-size: 1.15rem;
+  margin-bottom: var(--space-1);
+  color: var(--c-ink);
+}
+.team-card__title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--c-forest);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: block;
+  margin-bottom: var(--space-3);
+}
+.team-card__body p {
+  font-size: 0.9rem;
+  color: var(--c-muted);
+  line-height: 1.65;
+}
+
+/* ==========================================================================
+   Video Cards
+   ========================================================================== */
+.video-card {
+  background: var(--c-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+.video-card__embed {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #000;
+}
+.video-card__embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.video-card__body {
+  padding: var(--space-4) var(--space-5) var(--space-5);
+}
+.video-card__body h3 {
+  font-size: 1.2rem;
+  margin-bottom: var(--space-2);
+}
+.video-card__body p {
+  color: var(--c-muted);
+  font-size: 0.95rem;
+}
+.videos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+@media (max-width: 960px) {
+  .videos-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .videos-grid { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   NAV DROPDOWN
+   ========================================================================== */
+
+/* Wrapper — sits in the flex nav row like a plain link */
+.nav-dropdown {
+  position: relative;
+}
+
+/* The trigger link — styled to match .nav > a */
+.nav-dropdown__trigger {
+  color: var(--c-ink);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--tr);
+}
+/* Underline animation matching .nav > a::after */
+.nav-dropdown__trigger::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--c-forest);
+  transition: width var(--tr);
+}
+.nav-dropdown:hover .nav-dropdown__trigger::after,
+.nav-dropdown__trigger.active::after {
+  width: calc(100% - 16px); /* stop before the chevron */
+}
+.nav-dropdown__trigger:focus-visible {
+  outline: 2px solid var(--c-forest);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Chevron rotates when open */
+.nav-dropdown__chevron {
+  transition: transform var(--tr);
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+.nav-dropdown:hover .nav-dropdown__chevron,
+.nav-dropdown:focus-within .nav-dropdown__chevron,
+.nav-dropdown.open .nav-dropdown__chevron {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/* Panel — hidden until hover / focus-within / .open class */
+.nav-dropdown__panel {
+  display: none;
+  position: absolute;
+  top: 100%;              /* flush — no gap, so cursor never leaves .nav-dropdown */
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 230px;
+  background: var(--c-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--c-line);
+  z-index: 200;
+  flex-direction: column;
+  padding-top: var(--space-2);  /* visual space above first item */
+  /* overflow: hidden removed — was clipping the caret */
+}
+/* Small caret pointing up */
+.nav-dropdown__panel::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px; height: 10px;
+  background: var(--c-white);
+  border-left: 1px solid var(--c-line);
+  border-top: 1px solid var(--c-line);
+}
+/* Open triggers: CSS hover + focus-within (keyboard), JS .open (click/touch) */
+.nav-dropdown:hover .nav-dropdown__panel,
+.nav-dropdown:focus-within .nav-dropdown__panel,
+.nav-dropdown.open .nav-dropdown__panel {
+  display: flex;
+}
+/* Panel links */
+.nav-dropdown__panel a {
+  display: block;
+  padding: var(--space-3) var(--space-5);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--c-ink);
+  text-decoration: none;
+  transition: background var(--tr), color var(--tr);
+  white-space: nowrap;
+}
+.nav-dropdown__panel a + a {
+  border-top: 1px solid var(--c-line);
+}
+.nav-dropdown__panel a:hover,
+.nav-dropdown__panel a:focus-visible {
+  background: var(--c-cream);
+  color: var(--c-forest);
+}
+.nav-dropdown__panel a.active {
+  color: var(--c-forest);
+  font-weight: 600;
+}
+/* "All living options" footer link — slightly muted */
+.nav-dropdown__all {
+  color: var(--c-muted) !important;
+  font-size: 0.82rem !important;
+  font-weight: 400 !important;
+  background: var(--c-cream);
+}
+.nav-dropdown__all:hover {
+  color: var(--c-forest) !important;
+}
+
+/* ── Mobile (hamburger menu) ─────────────────────────────────────────── */
+@media (max-width: 960px) {
+  /* Flatten dropdown into the nav flow */
+  .nav-dropdown {
+    display: contents; /* children participate in nav's flex/column layout */
+  }
+  .nav-dropdown__trigger {
+    font-size: 1.25rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--c-line);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .nav-dropdown__trigger::after { display: none; }
+  .nav-dropdown__chevron { display: none; }
+  /* Panel always visible and inline in mobile menu */
+  .nav-dropdown__panel {
+    display: flex !important;
+    position: static;
+    transform: none;
+    min-width: unset;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    overflow: visible;
+    flex-direction: column;
+  }
+  .nav-dropdown__panel::before { display: none; }
+  .nav-dropdown__panel a {
+    font-size: 1rem;
+    padding: 0.55rem 0 0.55rem var(--space-5);
+    color: var(--c-ink-soft);
+    border-top: none;
+    border-bottom: 1px solid var(--c-line);
+    white-space: normal;
+  }
+  .nav-dropdown__panel a:hover { background: transparent; }
+  .nav-dropdown__all {
+    background: transparent !important;
+    font-size: 0.9rem !important;
+  }
+}
+
+/* Home testimonials pair — stack on mobile */
+@media (max-width: 700px) {
+  .testimonials-pair { grid-template-columns: 1fr !important; }
+}
+
+/* Feature card icon variant (no photo) */
+.feature-card__media--icon {
+  aspect-ratio: 4/3;
+  background: var(--c-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-forest);
+}
+
+/* ==========================================================================
+   Announcement Bar
+   ========================================================================== */
+.announce-bar {
+  background: var(--c-forest);
+  color: rgba(255,255,255,0.9);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.announce-bar__inner {
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+.announce-bar a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  color: inherit;
+  text-decoration: none;
+  flex: 1;
+  justify-content: center;
+  border-right: 1px solid rgba(255,255,255,0.15);
+  transition: background var(--tr);
+}
+.announce-bar a:last-child { border-right: none; }
+.announce-bar a:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+@media (max-width: 860px) {
+  .announce-bar__inner { flex-wrap: wrap; }
+  .announce-bar a {
+    flex: 1 1 50%;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.75rem;
+    padding: var(--space-2) var(--space-3);
+  }
+}
+@media (max-width: 480px) {
+  .announce-bar { display: none; }
+}
 
 /* Print */
 @media print {

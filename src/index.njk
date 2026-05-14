@@ -34,7 +34,7 @@ eleventyComputed:
       aria-hidden="true"
     >
       <source
-        src="https://cdn.rebelwarecdn.com/azaleaestatesfayetteville.com/videos/Sterling%20Azalea%20of%20Fayetteville%20Tour%20Video%20%40azaleaestatesoffayettevill8137.mp4"
+        src="https://seek-cdn.nyc3.cdn.digitaloceanspaces.com/azalea/video/SterlingAzaleaofFayettevilleTour.mp4"
         type="video/mp4"
       >
       {# Browsers that can't play MP4 will fall back to the poster image. #}
@@ -59,7 +59,7 @@ eleventyComputed:
       <h1>A graceful place to call home.</h1>
       <p class="lead">For more than thirty years, we&rsquo;ve welcomed seniors into a gracious, blended community of independent and assisted living &mdash; where every day feels a little lighter and a lot more like home.</p>
       <div class="hero__cta">
-        <a href="/contact/" class="btn btn--primary">Schedule a Private Tour</a>
+        <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Private Tour</a>
         <a href="/living-options/" class="btn btn--outline">Explore Living Options</a>
       </div>
     </div>
@@ -95,7 +95,7 @@ eleventyComputed:
   <div class="container">
     <div class="intro-split">
       <div class="intro-split__media reveal">
-        <img src="{{ images.residentsLaughing }}" alt="Residents sharing a warm moment together" loading="lazy">
+        <img src="{{ images.residentsLaughing }}" alt="Residents sharing a joyful moment together at Azalea Estates" loading="lazy">
       </div>
       <div class="intro-split__body reveal">
         <span class="eyebrow">About Azalea Estates</span>
@@ -126,7 +126,7 @@ eleventyComputed:
     <div class="feature-grid">
       <article class="feature-card reveal">
         <div class="feature-card__media">
-          <img src="{{ images.residentsGarden }}" alt="Residents enjoying independent lifestyle" loading="lazy">
+          <img src="{{ images.residentsGarden }}" alt="Residents gathering on the front porch — community life at its best" loading="lazy">
         </div>
         <div class="feature-card__body">
           <h3>Independent &amp; Retirement Living</h3>
@@ -137,7 +137,7 @@ eleventyComputed:
 
       <article class="feature-card reveal">
         <div class="feature-card__media">
-          <img src="{{ images.communityExterior }}" alt="Assisted living private suite exterior" loading="lazy">
+          <img src="{{ images.communityExterior }}" alt="Assisted living private suite exterior at Azalea Estates" loading="lazy">
         </div>
         <div class="feature-card__body">
           <h3>Assisted Living</h3>
@@ -148,7 +148,7 @@ eleventyComputed:
 
       <article class="feature-card reveal">
         <div class="feature-card__media">
-          <img src="{{ images.communityGarden }}" alt="Respite care short-term stays" loading="lazy">
+          <img src="{{ images.communityGarden }}" alt="Walking paths and gardens on the Azalea Estates campus" loading="lazy">
         </div>
         <div class="feature-card__body">
           <h3>Respite Care</h3>
@@ -188,13 +188,48 @@ eleventyComputed:
   </div>
 </section>
 
-<!-- TESTIMONIAL -->
-<section class="testimonial">
+<!-- ACTIVITY DIRECTOR / SOCIAL PROGRAMMING -->
+<section class="section">
   <div class="container">
-    <div class="testimonial__inner reveal">
-      <span class="testimonial__mark">&ldquo;</span>
-      <p class="testimonial__quote">From the moment Mom moved in, the staff treated her like family. Nine months later we can say with certainty: we chose the right community.</p>
-      <p class="testimonial__attribution"><strong>The Whitaker Family</strong> · Daughter of a resident</p>
+    <div class="intro-split">
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Social Engagement</span>
+        <h2>Every day is planned around what you love.</h2>
+        <p class="lead">Azalea Estates employs a full-time Activity Director whose sole responsibility is finding out what our residents enjoy &mdash; and building a daily calendar of events around those preferences.</p>
+        <p>From morning exercise classes and afternoon socials to church visits, theatrical performances, and school children who come to spend time with residents, life here is genuinely full. We partner with local churches, civic organizations, the Chamber of Commerce, and the broader Fayetteville community to bring the neighborhood to our door &mdash; and take residents into theirs.</p>
+        <div style="display:flex; gap: var(--space-3); flex-wrap:wrap; margin-top: var(--space-4);">
+          <a href="/calendar/" class="btn btn--ghost">View Activity Calendar</a>
+          <a href="/wellness/" class="btn btn--ghost">Wellness Programs</a>
+        </div>
+      </div>
+      <div class="intro-split__media reveal">
+        <img src="{{ images.residentsActivity }}" alt="Residents engaged in a brain fitness activity together" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS — PAIR -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Hear from Families</span>
+      <h2>In their own words.</h2>
+    </div>
+    <div class="testimonials-pair" style="display:grid; grid-template-columns: 1fr 1fr; gap: var(--space-6);">
+      <div class="testimonial__inner reveal" style="background: var(--c-white); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-sm);">
+        <span class="testimonial__mark">&ldquo;</span>
+        <p class="testimonial__quote">From the moment Mom moved in, the staff treated her like family. Nine months later we can say with certainty: we chose the right community.</p>
+        <p class="testimonial__attribution"><strong>The Whitaker Family</strong> &middot; Daughter of a resident</p>
+      </div>
+      <div class="testimonial__inner reveal" style="background: var(--c-white); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-sm);">
+        <span class="testimonial__mark">&ldquo;</span>
+        <p class="testimonial__quote">What struck us most was how many staff members had been here for five, eight, even twelve years. When you&rsquo;re placing a parent, that kind of stability matters more than any brochure.</p>
+        <p class="testimonial__attribution"><strong>The Morrison Family</strong> &middot; Son of a resident</p>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top: var(--space-6);">
+      <a href="/team/" class="btn btn--outline">Meet the people behind those stories</a>
     </div>
   </div>
 </section>
@@ -261,7 +296,7 @@ eleventyComputed:
         <p>Private tours are the best way to feel whether Azalea Estates is the right fit. We&rsquo;ll walk you through our campus, show you available suites, and answer every question &mdash; at your pace.</p>
       </div>
       <div class="cta-panel__btns">
-        <a href="/contact/" class="btn btn--primary">Schedule a Tour</a>
+        <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Tour</a>
         <a href="tel:{{ site.contact.phoneRaw }}" class="btn btn--outline">{{ site.contact.phone }}</a>
       </div>
     </div>

@@ -2,7 +2,7 @@
 <header class="site-header">
   <div class="container header-top">
     <a href="tel:{{ site.contact.phoneRaw }}">{{ icon('phone', 14) }} {{ site.contact.phone }}</a>
-    <a href="/contact/">Schedule a Tour</a>
+    <a href="/schedule-a-tour/">Schedule a Tour</a>
     <a href="/contact/#careers">Careers</a>
   </div>
   <div class="container header-inner">
@@ -23,10 +23,28 @@
     </button>
     <nav class="nav" aria-label="Primary">
       {% for item in site.nav %}
-        <a href="{{ item.url }}">{{ item.label }}</a>
+        {% if item.children %}
+          {# ── Dropdown item ──────────────────────────────── #}
+          <div class="nav-dropdown" data-dropdown>
+            <a href="{{ item.url }}" class="nav-dropdown__trigger">
+              {{ item.label }}
+              <svg class="nav-dropdown__chevron" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true" focusable="false">
+                <path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <div class="nav-dropdown__panel" role="menu">
+              {% for child in item.children %}
+                <a href="{{ child.url }}" role="menuitem">{{ child.label }}</a>
+              {% endfor %}
+              <a href="{{ item.url }}" class="nav-dropdown__all" role="menuitem">All living options <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        {% else %}
+          <a href="{{ item.url }}">{{ item.label }}</a>
+        {% endif %}
       {% endfor %}
       <div class="nav-cta">
-        <a href="/contact/" class="btn btn--primary">Schedule a Tour</a>
+        <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Tour</a>
       </div>
     </nav>
   </div>

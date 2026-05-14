@@ -33,32 +33,107 @@
     document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
   }
 
-  // Simple gallery lightbox
+  // ── Gallery lightbox — prev/next, captions, focus management (WCAG AA) ──
   var lightbox = document.querySelector(".lightbox");
   if (lightbox) {
-    var img = lightbox.querySelector("img");
-    var closeBtn = lightbox.querySelector(".lightbox__close");
-    document.querySelectorAll(".gallery-item").forEach(function (item) {
-      item.addEventListener("click", function () {
-        var large = item.dataset.full || item.querySelector("img").src;
-        var alt = item.querySelector("img").alt || "";
-        img.src = large;
-        img.alt = alt;
-        lightbox.classList.add("open");
-        document.body.style.overflow = "hidden";
-      });
-    });
-    function close() {
+    var lbImg      = lightbox.querySelector(".lightbox__img");
+    var lbCaption  = lightbox.querySelector(".lightbox__caption");
+    var lbCounter  = lightbox.querySelector(".lightbox__counter");
+    var lbStatus   = lightbox.querySelector("#lightbox-status");
+    var closeBtn   = lightbox.querySelector(".lightbox__close");
+    var prevBtn    = lightbox.querySelector(".lightbox__prev");
+    var nextBtn    = lightbox.querySelector(".lightbox__next");
+
+    var items      = Array.prototype.slice.call(document.querySelectorAll(".gallery-item"));
+    var current    = 0;
+    var returnFocus = null;   // element to focus when lightbox closes
+
+    // ── Helpers ─────────────────────────────────────────────────────────
+    function mod(n, m) { return ((n % m) + m) % m; }  // always-positive modulo
+
+    function show(index) {
+      current = mod(index, items.length);
+      var item = items[current];
+      var src  = item.dataset.full || item.querySelector("img").src;
+      var alt  = item.querySelector("img").alt || "";
+
+      lbImg.src = src;
+      lbImg.alt = alt;
+
+      var captionText = alt;
+      if (lbCaption) lbCaption.textContent = captionText;
+      if (lbCounter) lbCounter.textContent = (current + 1) + " \u2044 " + items.length;
+
+      // Announce to screen readers without reading the counter aloud
+      if (lbStatus) lbStatus.textContent = "Photo " + (current + 1) + " of " + items.length + ". " + alt;
+
+      // Update dialog label for AT
+      lightbox.setAttribute("aria-label", "Photo viewer: " + (current + 1) + " of " + items.length);
+    }
+
+    function openLightbox(index) {
+      returnFocus = document.activeElement;
+      show(index);
+      lightbox.classList.add("open");
+      document.body.style.overflow = "hidden";
+      // Move focus into the dialog (close button first per WCAG 2.4.3)
+      closeBtn.focus();
+    }
+
+    function closeLightbox() {
       lightbox.classList.remove("open");
       document.body.style.overflow = "";
-      img.src = "";
+      lbImg.src = "";
+      if (lbStatus) lbStatus.textContent = "";
+      if (returnFocus && typeof returnFocus.focus === "function") returnFocus.focus();
+      returnFocus = null;
     }
-    closeBtn.addEventListener("click", close);
-    lightbox.addEventListener("click", function (e) {
-      if (e.target === lightbox) close();
+
+    // ── Gallery thumbnails — click + keyboard (Enter / Space) ────────────
+    items.forEach(function (item, i) {
+      item.addEventListener("click", function () { openLightbox(i); });
+      item.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openLightbox(i);
+        }
+      });
     });
+
+    // ── Controls ─────────────────────────────────────────────────────────
+    closeBtn.addEventListener("click", closeLightbox);
+    if (prevBtn) prevBtn.addEventListener("click", function () { show(current - 1); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { show(current + 1); });
+
+    // Backdrop click closes
+    lightbox.addEventListener("click", function (e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // ── Keyboard navigation ───────────────────────────────────────────────
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") close();
+      if (!lightbox.classList.contains("open")) return;
+      switch (e.key) {
+        case "Escape":     closeLightbox();        break;
+        case "ArrowLeft":  e.preventDefault(); show(current - 1); break;
+        case "ArrowRight": e.preventDefault(); show(current + 1); break;
+      }
+    });
+
+    // ── Focus trap — keeps Tab cycling within the dialog (WCAG 2.1.2) ───
+    lightbox.addEventListener("keydown", function (e) {
+      if (e.key !== "Tab") return;
+      var focusable = Array.prototype.slice.call(
+        lightbox.querySelectorAll("button:not([disabled])")
+      );
+      if (!focusable.length) return;
+      var first = focusable[0];
+      var last  = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
     });
   }
 
@@ -67,6 +142,52 @@
   document.querySelectorAll(".nav a").forEach(function (a) {
     var p = new URL(a.href, location.origin).pathname.replace(/\/$/, "") || "/";
     if (p === here) a.classList.add("active");
+  });
+
+  // ── Nav dropdown ───────────────────────────────────────────────────────
+  // Desktop: CSS :hover/:focus-within handles show/hide automatically.
+  // Touch/click: JS toggles .open class on first tap; second tap navigates.
+  // Keyboard: Escape closes the open dropdown.
+  var dropdowns = document.querySelectorAll("[data-dropdown]");
+  dropdowns.forEach(function (dd) {
+    var trigger = dd.querySelector(".nav-dropdown__trigger");
+
+    // Highlight trigger when current page is a child of this dropdown
+    if (trigger) {
+      dd.querySelectorAll(".nav-dropdown__panel a").forEach(function (a) {
+        var p = new URL(a.href, location.origin).pathname.replace(/\/$/, "") || "/";
+        if (p === here) trigger.classList.add("active");
+      });
+    }
+
+    if (trigger) {
+      trigger.addEventListener("click", function (e) {
+        // On touch-only devices, intercept the first tap to reveal the panel
+        var isTouch = window.matchMedia("(hover: none)").matches;
+        if (isTouch && !dd.classList.contains("open")) {
+          e.preventDefault();
+          dropdowns.forEach(function (o) { if (o !== dd) o.classList.remove("open"); });
+          dd.classList.add("open");
+          return;
+        }
+        // Desktop or second touch tap — follow the link
+      });
+    }
+
+    // Escape closes the panel and returns focus
+    dd.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && dd.classList.contains("open")) {
+        dd.classList.remove("open");
+        if (trigger) trigger.focus();
+      }
+    });
+  });
+
+  // Click outside closes all open dropdowns
+  document.addEventListener("click", function (e) {
+    dropdowns.forEach(function (dd) {
+      if (!dd.contains(e.target)) dd.classList.remove("open");
+    });
   });
 
   // ------------------------------------------------------------------

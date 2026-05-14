@@ -1,0 +1,160 @@
+---
+layout: layouts/page.njk
+title: Activity Calendars
+metaTitle: "Monthly Activity & Wellness Calendars | Azalea Estates Fayetteville"
+description: "Download the current monthly activity calendar and wellness calendar at Azalea Estates in Fayetteville, GA. See what's happening in our community this month."
+eyebrow: "What's Happening This Month"
+pageIntro: "Every day at Azalea Estates is filled with purposeful activity — see what's on the calendar."
+eleventyComputed:
+  pageHero: "{{ images.activityBingo }}"
+permalink: /calendar/
+---
+
+{% from "partials/icons.njk" import icon %}
+
+{#
+  CALENDAR UPDATE INSTRUCTIONS:
+  Each month, add the new PDFs to:
+    src/assets/pdfs/activity-calendars/YYYY/month/
+  Then update the two href values below to match.
+
+  Current: May 2026
+  Activity:  /assets/pdfs/activity-calendars/2026/may/Azalea-Estates-May-Activity-Calendar.pdf
+  Wellness:  /assets/pdfs/activity-calendars/2026/may/Azalea-Estates-May-Wellness-Calendar.pdf
+#}
+
+<!-- CALENDARS DOWNLOAD -->
+<section class="section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Current Month</span>
+      <h2>Download this month&rsquo;s calendars.</h2>
+      <p>Our Activity Director and Wellness Director publish updated calendars each month. Download them below to see exactly what&rsquo;s planned.</p>
+    </div>
+
+    <div class="feature-grid">
+      <article class="feature-card reveal">
+        <div class="feature-card__media">
+          <img src="/assets/images/bingo.jpg"
+               alt="Residents enjoying a bingo game — one of many activities on the monthly calendar"
+               loading="lazy">
+          <div class="feature-card__badge" aria-hidden="true">{{ icon('leaf', 15) }}</div>
+        </div>
+        <div class="feature-card__body">
+          <h3>Monthly Activity Calendar</h3>
+          <p>Daily events, social activities, outings, guest entertainment, faith services, and community gatherings &mdash; all scheduled and led by our full-time Activity Director.</p>
+          {# UPDATE THIS LINK EACH MONTH #}
+          <button type="button"
+                  class="btn btn--primary"
+                  data-pdf-url="/assets/pdfs/activity-calendars/2026/may/Azalea-Estates-May-Activity-Calendar.pdf"
+                  data-pdf-title="May 2026 Activity Calendar">
+            {{ icon('book', 16) }} View May Activity Calendar
+          </button>
+        </div>
+      </article>
+
+      <article class="feature-card reveal">
+        <div class="feature-card__media">
+          <img src="/assets/images/group-pool-activity.jpeg"
+               alt="Water aerobics class in our heated indoor saltwater pool"
+               loading="lazy">
+          <div class="feature-card__badge" aria-hidden="true">{{ icon('dumbbell', 15) }}</div>
+        </div>
+        <div class="feature-card__body">
+          <h3>Monthly Wellness Calendar</h3>
+          <p>Aquatic therapy sessions, floor exercise classes, Parkinson&rsquo;s program sessions, brain fitness, gentle yoga, and all individual and group fitness programming for the month.</p>
+          {# UPDATE THIS LINK EACH MONTH #}
+          <button type="button"
+                  class="btn btn--primary"
+                  data-pdf-url="/assets/pdfs/activity-calendars/2026/may/Azalea-Estates-May-Wellness-Calendar.pdf"
+                  data-pdf-title="May 2026 Wellness Calendar">
+            {{ icon('waves', 16) }} View May Wellness Calendar
+          </button>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITY PROGRAMMING INFO -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__media reveal">
+        <img src="{{ images.residentsLaughing }}" alt="Residents enjoying activities and social time together" loading="lazy">
+      </div>
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Full-Time Activity Director</span>
+        <h2>Every day planned around you.</h2>
+        <p class="lead">Azalea Estates employs a full-time Activity Director whose sole focus is finding out what residents enjoy most &mdash; and building a daily calendar of events around those preferences.</p>
+        <p>This isn&rsquo;t a bingo-and-puzzles approach to programming. Our Activity Director manages a rich schedule of social interaction, cultural enrichment, physical engagement, faith services, and community partnership events that keep residents looking forward to each new day.</p>
+        <p>We invite local churches, choirs, theatrical performers, school children, civic organizations, and businesses to hold events and meetings in our spacious common areas &mdash; weaving Azalea Estates into the fabric of the broader Fayetteville community.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITY HIGHLIGHTS GRID -->
+<section class="section">
+  <div class="container">
+    <div class="section-heading section-heading--left reveal">
+      <span class="eyebrow">What to Expect</span>
+      <h2>Sample activities from a typical month.</h2>
+    </div>
+    <div class="amenities-grid">
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('users', 22) }}</div>
+        <div><h4>Social &amp; Community Events</h4><p>Happy hours, game nights, birthday celebrations, holiday parties, and visits from local civic and church groups.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('leaf', 22) }}</div>
+        <div><h4>Outings &amp; Excursions</h4><p>Day trips and outings to points of interest throughout the greater Atlanta and Fayetteville area, organized and escorted by staff.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('book', 22) }}</div>
+        <div><h4>Arts, Crafts &amp; Learning</h4><p>Creative workshops, book clubs, current events discussions, and learning programs that keep minds active and engaged.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('heart', 22) }}</div>
+        <div><h4>Faith &amp; Spiritual Life</h4><p>Weekly services led by local church pastors and priests, plus visits from congregations and faith-based volunteers throughout the month.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('dumbbell', 22) }}</div>
+        <div><h4>Fitness &amp; Wellness Classes</h4><p>Aqua aerobics, chair exercise, balance classes, gentle yoga, and Parkinson&rsquo;s program sessions &mdash; scheduled throughout each week.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('waves', 22) }}</div>
+        <div><h4>Entertainment &amp; Performances</h4><p>Live music, theatrical performances, guest entertainers, and school children who visit for regular intergenerational programs.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% set related = [
+  { url: '/wellness/', eyebrow: 'Behind the Calendar', title: 'Wellness Programs',
+    desc: "The structured fitness programs, aquatic therapy, and Parkinson's sessions that anchor the weekly schedule.",
+    cta: 'Explore wellness' },
+  { url: '/living-options/', eyebrow: 'Live Here', title: 'Living Options',
+    desc: 'This activity calendar is included across all care levels — independent, assisted, and respite.',
+    cta: 'View living options' },
+  { url: '/contact/', eyebrow: 'Come Join an Activity', title: 'Contact Our Team',
+    desc: "Prospective residents are welcome to join any activity. Call us to find out what's on today.",
+    cta: 'Call or message us' }
+] %}
+{% include "partials/related.njk" %}
+
+<section class="cta-panel">
+  <div class="container">
+    <div class="cta-panel__grid reveal">
+      <div>
+        <span class="eyebrow" style="color: var(--c-accent-soft);">Try a day</span>
+        <h2>Come join us for an activity.</h2>
+        <p>Prospective residents and families are welcome to visit during any activity. Call us to find out what&rsquo;s on the schedule and join in &mdash; the best way to see the community in action.</p>
+      </div>
+      <div class="cta-panel__btns">
+        <a href="/contact/" class="btn btn--primary">Schedule a Visit</a>
+        <a href="tel:{{ site.contact.phoneRaw }}" class="btn btn--outline">{{ site.contact.phone }}</a>
+      </div>
+    </div>
+  </div>
+</section>

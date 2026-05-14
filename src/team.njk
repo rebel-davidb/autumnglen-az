@@ -1,0 +1,143 @@
+---
+layout: layouts/page.njk
+title: Our Team
+metaTitle: "Meet the Team | Azalea Estates Fayetteville, GA"
+description: "Meet the caring professionals behind Azalea Estates in Fayetteville, GA. Long-tenured staff with deep experience in senior care — many serving residents and families for years."
+eyebrow: The People Behind the Care
+pageIntro: "Long-tenured, deeply experienced, and genuinely passionate about the seniors they serve — that's our team."
+eleventyComputed:
+  pageHero: "{{ images.residentsLaughing }}"
+permalink: /team/
+---
+
+{% from "partials/icons.njk" import icon %}
+
+<!-- INTRO -->
+<section class="section">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Who We Are</span>
+        <h2>Familiar faces, trusted relationships.</h2>
+        <p class="lead">At Azalea Estates, staff tenure is one of our most meaningful metrics. Many of our team members have worked here for years &mdash; some for more than a decade &mdash; because they genuinely love what they do.</p>
+        <p>When a resident sees the same faces at breakfast, the same nurses at evening check-in, and the same activity director every morning, something important happens: they feel at home. That continuity of care is not accidental. We hire for it, train for it, and measure our success by it.</p>
+        <p>Our team holds appropriate professional qualifications across all disciplines and fosters a collaborative culture that keeps residents at the center of every decision. Meeting them is one of the best parts of a campus visit.</p>
+      </div>
+      <div class="intro-split__media reveal">
+        <img src="{{ images.communityExterior }}" alt="The warm, welcoming entrance of Azalea Estates in Fayetteville" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM GRID -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Key Team Members</span>
+      <h2>Get to know the Azalea team.</h2>
+      <p>These are the professionals who run Azalea Estates day-to-day &mdash; and who your family will get to know over time.</p>
+    </div>
+
+    {%- set members = [
+      { name: "Holly Woods",       title: "Executive Director",            icon: "shield",   photo: "/assets/images/Holly-Woods-scaled.jpg",              desc: "Holly oversees all operations at Azalea Estates, ensuring our community lives up to its promise every day. Her leadership sets the tone for the warmth and professionalism residents and families experience throughout our campus." },
+      { name: "Mirna Coeur",       title: "Community Relations Counselor", icon: "users",    photo: "/assets/images/Mirna-Coeur.jpg",                     desc: "Mirna is typically the first person families speak with when exploring Azalea Estates. She guides prospective residents and their loved ones through the decision process with patience, honesty, and deep knowledge of our community." },
+      { name: "Asha Faison",       title: "Resident Care Director",        icon: "heart",    photo: "/assets/images/Asha-Faison.jpg",                     desc: "Asha oversees all clinical care at our community, coordinating individualized care plans with physicians, families, and our nursing team to ensure every resident receives exactly the support they need." },
+      { name: "Shameka Clark",     title: "Wellness Director",             icon: "dumbbell", photo: "/assets/images/Shameka-Clark-1024x1024.jpg",         desc: "With a BS in Exercise Physiology, Shameka leads our 3,000 sq. ft. wellness center, the heated saltwater pool program, our Parkinson's exercise regimen, and all individual fitness assessments." },
+      { name: "Stacey Kennedy",    title: "Activities Assistant",          icon: "leaf",     photo: "/assets/images/Stacey-Kennedy--1024x1024.jpg",       desc: "Stacey works closely with our Activities Director to build and deliver the daily calendar of events that makes life at Azalea Estates so vibrant — from morning exercises to evening entertainment." },
+      { name: "Bobbie Barczynski", title: "Kitchen Manager",               icon: "utensils", photo: "/assets/images/Bobbie-Barczynski-1024x1024.jpg",    desc: "Bobbie and her team are the reason residents come to the dining room with a smile. With over two decades at Azalea Estates, she knows residents' preferences by heart and prepares every meal accordingly." },
+      { name: "Sandy Zimmermann",  title: "Business Office Manager",       icon: "shield",   photo: "/assets/images/Sandy-Zimmermann-1024x1024.jpg",     desc: "Sandy manages admissions paperwork, billing, long-term care insurance coordination, and all business operations — ensuring a smooth, transparent experience for families from move-in day forward." },
+      { name: "Harold Hardaway",   title: "Maintenance Director",          icon: "home",     photo: "/assets/images/Harold-Hardaway-1024x1024.jpg",      desc: "Harold keeps our single-story campus in excellent condition, responding quickly to resident requests and proactively maintaining every common space, apartment, and piece of equipment." },
+      { name: "Marty Schilling",   title: "Maintenance Assistant",         icon: "home",     photo: "/assets/images/Marty-Schilling-1024x1024.jpg",      desc: "Marty supports Harold in keeping every corner of the Azalea Estates campus clean, safe, and well-maintained — and he's known for his warm manner and quick turnaround on resident requests." },
+      { name: "Sandra Zabala",     title: "Weekend Manager",               icon: "clock",    photo: "/assets/images/Sandra-Zabala-1024x1024.jpg",        desc: "Sandra ensures that the weekend experience at Azalea Estates is every bit as attentive and well-run as weekdays — providing continuity and peace of mind for residents and families seven days a week." },
+      { name: "Tony Hardy",        title: "Transportation Manager",        icon: "car",      photo: "/assets/images/Tony-Hardy-1024x1024.jpg",           desc: "Tony coordinates our courtesy transportation program, ensuring residents get to medical appointments, shopping trips, and errands safely and on time, Monday through Friday." }
+    ] -%}
+
+    <div class="feature-grid feature-grid--4">
+      {% for member in members %}
+      <article class="team-card reveal">
+        <div class="team-card__photo">
+          <img src="{{ member.photo }}" alt="{{ member.name }}, {{ member.title }} at Azalea Estates" loading="lazy">
+          {# Icon badge — kept as a thematic decor accent on the photo #}
+          <div class="team-card__badge" aria-hidden="true">
+            {{ icon(member.icon, 15) }}
+          </div>
+        </div>
+        <div class="team-card__body">
+          <h3>{{ member.name }}</h3>
+          <span class="team-card__title">{{ member.title }}</span>
+          <p>{{ member.desc }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- VALUES SECTION -->
+<section class="section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">What Unites Us</span>
+      <h2>A team built around residents, not routines.</h2>
+    </div>
+    <div class="pillars">
+      <div class="pillar reveal">
+        <h3>Years of Tenure</h3>
+        <p>Long-tenured staff means residents see the same familiar faces year after year. Trust is built one consistent interaction at a time.</p>
+      </div>
+      <div class="pillar reveal">
+        <h3>Professional Credentials</h3>
+        <p>From our licensed RN and LPN nursing team to our degreed Wellness Director, our staff carries the qualifications the people in our care deserve.</p>
+      </div>
+      <div class="pillar reveal">
+        <h3>Collaborative Culture</h3>
+        <p>Our team works together across every department &mdash; care, dining, wellness, and activities &mdash; so nothing falls through the cracks.</p>
+      </div>
+      <div class="pillar reveal">
+        <h3>Genuine Passion</h3>
+        <p>People don&rsquo;t stay in senior care for the paycheck. Our team is here because they want to make a real difference in someone&rsquo;s daily life.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial">
+  <div class="container">
+    <div class="testimonial__inner reveal">
+      <span class="testimonial__mark">&ldquo;</span>
+      <p class="testimonial__quote">What struck us most was how many staff members had been here for five, eight, even twelve years. When you&rsquo;re placing a parent, that kind of stability matters more than any brochure.</p>
+      <p class="testimonial__attribution"><strong>The Morrison Family</strong> &middot; Daughter of a resident</p>
+    </div>
+  </div>
+</section>
+
+{% set related = [
+  { url: '/living-options/', eyebrow: 'What They Support', title: 'Living Options',
+    desc: 'Learn about the care levels this team delivers — independent, assisted, and respite care.',
+    cta: 'Explore living options' },
+  { url: '/wellness/', eyebrow: 'Led by Shameka', title: 'Wellness Programs',
+    desc: "Our BS-degreed Wellness Director leads the pool, fitness, and Parkinson's programs personally.",
+    cta: 'Explore wellness' },
+  { url: '/schedule-a-tour/', eyebrow: 'Meet Them in Person', title: 'Schedule a Private Tour',
+    desc: 'The best way to get to know our team is to visit — tours include introductions to available staff.',
+    cta: 'Schedule your tour' }
+] %}
+{% include "partials/related.njk" %}
+
+<section class="cta-panel">
+  <div class="container">
+    <div class="cta-panel__grid reveal">
+      <div>
+        <span class="eyebrow" style="color: var(--c-accent-soft);">Meet them in person</span>
+        <h2>Come visit and say hello.</h2>
+        <p>Every private tour at Azalea Estates includes introductions to available staff. We want you to know the people who will be caring for your loved one &mdash; before you ever sign anything.</p>
+      </div>
+      <div class="cta-panel__btns">
+        <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Tour</a>
+        <a href="tel:{{ site.contact.phoneRaw }}" class="btn btn--outline">{{ site.contact.phone }}</a>
+      </div>
+    </div>
+  </div>
+</section>

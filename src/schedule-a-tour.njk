@@ -1,0 +1,189 @@
+---
+layout: layouts/page.njk
+title: Schedule a Private Tour
+metaTitle: "Schedule a Tour | Azalea Estates of Fayetteville, GA"
+description: "Request a private tour of Azalea Estates in Fayetteville, GA. Choose your preferred day and time — tours include a campus walk, available suite viewing, and complimentary lunch."
+eyebrow: Come See for Yourself
+pageIntro: "Tours are free, low-pressure, and usually about 90 minutes. Lunch is on us."
+eleventyComputed:
+  pageHero: "{{ images.groupPorch }}"
+permalink: /schedule-a-tour/
+---
+
+{% from "partials/icons.njk" import icon %}
+
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- TOUR REQUEST FORM -->
+      <div class="reveal">
+        <span class="eyebrow">Request Your Visit</span>
+        <h2>Tell us when works best.</h2>
+        <p>Fill out the form and our admissions team will confirm your tour within one business day. Prefer to call? We&rsquo;re at <a href="tel:{{ site.contact.phoneRaw }}"><strong>{{ site.contact.phone }}</strong></a>.</p>
+
+        <form
+          name="schedule-tour"
+          method="POST"
+          action="/schedule-a-tour/thanks/"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+          class="form"
+        >
+          <input type="hidden" name="form-name" value="schedule-tour">
+          <p style="display:none;">
+            <label>Don&rsquo;t fill this out if you&rsquo;re human: <input name="bot-field"></label>
+          </p>
+
+          <!-- Name -->
+          <div class="form-row">
+            <div class="form-field">
+              <label for="t_first_name">First Name *</label>
+              <input type="text" id="t_first_name" name="first_name" required autocomplete="given-name">
+            </div>
+            <div class="form-field">
+              <label for="t_last_name">Last Name *</label>
+              <input type="text" id="t_last_name" name="last_name" required autocomplete="family-name">
+            </div>
+          </div>
+
+          <!-- Contact -->
+          <div class="form-row">
+            <div class="form-field">
+              <label for="t_phone">Phone *</label>
+              <input type="tel" id="t_phone" name="phone" required autocomplete="tel">
+            </div>
+            <div class="form-field">
+              <label for="t_email">Email</label>
+              <input type="email" id="t_email" name="email" autocomplete="email">
+            </div>
+          </div>
+
+          <!-- Who is the tour for -->
+          <div class="form-field">
+            <label for="t_relation">This tour is for&hellip;</label>
+            <select id="t_relation" name="relation">
+              <option value="self">Myself</option>
+              <option value="parent">A parent</option>
+              <option value="spouse">A spouse or partner</option>
+              <option value="relative">Another family member</option>
+              <option value="professional">A client (I&rsquo;m a professional referral)</option>
+            </select>
+          </div>
+
+          <!-- Care interest -->
+          <div class="form-field">
+            <label for="t_interest">Type of care we&rsquo;re exploring</label>
+            <select id="t_interest" name="interest">
+              <option value="independent">Independent / Retirement Living</option>
+              <option value="assisted">Assisted Living</option>
+              <option value="respite">Respite / Short-term Care</option>
+              <option value="unsure">Not sure yet &mdash; we want to explore options</option>
+            </select>
+          </div>
+
+          <!-- Day preference -->
+          <div class="form-field">
+            <fieldset class="form-fieldset">
+              <legend>Which days work best for a visit?</legend>
+              <div class="form-check-group">
+                <label class="form-check"><input type="checkbox" name="days" value="Monday"> Monday</label>
+                <label class="form-check"><input type="checkbox" name="days" value="Tuesday"> Tuesday</label>
+                <label class="form-check"><input type="checkbox" name="days" value="Wednesday"> Wednesday</label>
+                <label class="form-check"><input type="checkbox" name="days" value="Thursday"> Thursday</label>
+                <label class="form-check"><input type="checkbox" name="days" value="Friday"> Friday</label>
+                <label class="form-check"><input type="checkbox" name="days" value="Saturday"> Saturday <span style="color:var(--c-muted); font-size:0.85em;">(by appt.)</span></label>
+              </div>
+            </fieldset>
+          </div>
+
+          <!-- Time preference -->
+          <div class="form-field">
+            <fieldset class="form-fieldset">
+              <legend>Preferred time of day</legend>
+              <div class="form-check-group">
+                <label class="form-check"><input type="radio" name="time_pref" value="Morning" required> Morning <span style="color:var(--c-muted); font-size:0.85em;">(9am&ndash;noon)</span></label>
+                <label class="form-check"><input type="radio" name="time_pref" value="Afternoon"> Afternoon <span style="color:var(--c-muted); font-size:0.85em;">(noon&ndash;3pm)</span></label>
+                <label class="form-check"><input type="radio" name="time_pref" value="Flexible"> Flexible &mdash; any time works</label>
+              </div>
+            </fieldset>
+          </div>
+
+          <!-- Guest -->
+          <div class="form-field">
+            <fieldset class="form-fieldset">
+              <legend>Will you be bringing a guest?</legend>
+              <div class="form-check-group">
+                <label class="form-check"><input type="radio" name="guests" value="Just me" required> Just me</label>
+                <label class="form-check"><input type="radio" name="guests" value="1 guest"> Yes &mdash; 1 additional guest</label>
+                <label class="form-check"><input type="radio" name="guests" value="2+ guests"> Yes &mdash; 2 or more guests</label>
+              </div>
+            </fieldset>
+          </div>
+
+          <!-- Notes -->
+          <div class="form-field">
+            <label for="t_notes">Anything specific you&rsquo;d like to see or ask about? <span style="color:var(--c-muted); font-weight:400;">(optional)</span></label>
+            <textarea id="t_notes" name="notes" placeholder="A particular room type, specific care questions, dietary needs, mobility considerations — anything that helps us prepare for your visit."></textarea>
+          </div>
+
+          <label class="form-consent">
+            <input type="checkbox" name="consent" required>
+            <span>I&rsquo;d like to be contacted about scheduling a tour at Azalea Estates. I understand I can opt out anytime.</span>
+          </label>
+
+          <button type="submit" class="btn btn--primary">Request My Tour</button>
+        </form>
+      </div>
+
+      <!-- WHAT TO EXPECT -->
+      <aside class="contact-info reveal">
+        <h3>What to expect.</h3>
+        <div class="info-row">
+          <div class="info-row__icon">{{ icon('clock', 24) }}</div>
+          <div class="info-row__body">
+            <strong>About 60&ndash;90 minutes</strong>
+            Enough time to see everything and ask every question, without feeling rushed.
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__icon">{{ icon('home', 24) }}</div>
+          <div class="info-row__body">
+            <strong>Full campus walk</strong>
+            Dining room, wellness center, pool, common areas, walking paths, and available suites.
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__icon">{{ icon('utensils', 24) }}</div>
+          <div class="info-row__body">
+            <strong>Lunch is on us</strong>
+            We&rsquo;ll invite you to stay for a complimentary meal &mdash; the best possible way to experience our dining.
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__icon">{{ icon('users', 24) }}</div>
+          <div class="info-row__body">
+            <strong>Meet the team</strong>
+            We&rsquo;ll introduce you to available staff &mdash; including care, wellness, and admissions.
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__icon">{{ icon('shield', 24) }}</div>
+          <div class="info-row__body">
+            <strong>No pressure, no obligation</strong>
+            Tours are free. You&rsquo;re here to find out if Azalea Estates is the right fit &mdash; and so are we.
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__icon">{{ icon('phone', 24) }}</div>
+          <div class="info-row__body">
+            <strong>Prefer to call?</strong>
+            <a href="tel:{{ site.contact.phoneRaw }}">{{ site.contact.phone }}</a><br>
+            Monday&ndash;Friday, 9&thinsp;am&ndash;5&thinsp;pm &middot; Saturday by appointment
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>

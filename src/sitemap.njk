@@ -3,19 +3,48 @@ permalink: /sitemap.xml
 eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="utf-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{%- set pages = [
-  { url: "/",                 priority: "1.0", changefreq: "weekly"  },
-  { url: "/about/",           priority: "0.8", changefreq: "monthly" },
-  { url: "/living-options/",  priority: "0.9", changefreq: "monthly" },
-  { url: "/amenities/",       priority: "0.9", changefreq: "monthly" },
-  { url: "/floor-plans/",     priority: "0.9", changefreq: "monthly" },
-  { url: "/gallery/",         priority: "0.7", changefreq: "monthly" },
-  { url: "/contact/",         priority: "0.9", changefreq: "monthly" },
-  { url: "/privacy/",         priority: "0.2", changefreq: "yearly"  },
-  { url: "/accessibility/",   priority: "0.2", changefreq: "yearly"  }
-] -%}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 {%- set buildDate = page.date.toISOString().slice(0, 10) -%}
+{#
+  Priority guidance:
+    1.00 — Homepage
+    0.95 — Primary commercial / conversion pages
+    0.90 — Supporting commercial pages
+    0.85 — Service and lifestyle detail pages
+    0.75 — Trust / team pages
+    0.65 — Media and calendar pages
+    0.10 — Legal / utility pages (noindex candidates)
+
+  changefreq reflects expected update cadence.
+  lastmod is the most actionable signal for crawlers.
+#}
+{%- set pages = [
+
+  { url: "/",                                   priority: "1.00", changefreq: "weekly"  },
+
+  { url: "/contact/",                           priority: "0.90", changefreq: "monthly" },
+  { url: "/schedule-a-tour/",                   priority: "0.95", changefreq: "monthly" },
+  { url: "/living-options/",                    priority: "0.95", changefreq: "monthly" },
+  { url: "/living-options/assisted-living/",    priority: "0.95", changefreq: "monthly" },
+  { url: "/living-options/independent-living/", priority: "0.95", changefreq: "monthly" },
+  { url: "/living-options/respite-care/",       priority: "0.90", changefreq: "monthly" },
+  { url: "/floor-plans/",                       priority: "0.90", changefreq: "monthly" },
+
+  { url: "/amenities/",                         priority: "0.85", changefreq: "monthly" },
+  { url: "/wellness/",                          priority: "0.85", changefreq: "monthly" },
+  { url: "/dining/",                            priority: "0.85", changefreq: "monthly" },
+  { url: "/about/",                             priority: "0.80", changefreq: "monthly" },
+  { url: "/team/",                              priority: "0.75", changefreq: "monthly" },
+
+  { url: "/gallery/",                           priority: "0.70", changefreq: "monthly" },
+  { url: "/videos/",                            priority: "0.65", changefreq: "monthly" },
+  { url: "/calendar/",                          priority: "0.65", changefreq: "weekly"  },
+
+  { url: "/privacy/",                           priority: "0.10", changefreq: "yearly"  },
+  { url: "/accessibility/",                     priority: "0.10", changefreq: "yearly"  }
+
+] -%}
 {%- for p in pages %}
   <url>
     <loc>{{ site.url }}{{ p.url }}</loc>

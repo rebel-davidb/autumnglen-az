@@ -1,0 +1,239 @@
+---
+layout: layouts/page.njk
+title: Dining
+metaTitle: "Chef-Prepared Southern Dining | Azalea Estates Fayetteville, GA"
+description: "Three restaurant-style meals daily prepared by a chef with 20+ years of service. Authentic Southern cooking, seasonal menus, and dietary accommodations — at Azalea Estates in Fayetteville, GA."
+eyebrow: "Farm-to-Table Southern Cuisine"
+pageIntro: "Three meals a day, every one worth looking forward to — prepared by our chef of more than twenty years."
+eleventyComputed:
+  pageHero: "{{ images.diningRoom }}"
+permalink: /dining/
+---
+
+{% from "partials/icons.njk" import icon %}
+
+<!-- INTRO SPLIT -->
+<section class="section">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__media reveal">
+        <img src="{{ images.diningPlate }}" alt="Chef-prepared, restaurant-style plated dinner" loading="lazy">
+      </div>
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Our Chef</span>
+        <h2>Twenty years of meals made with care.</h2>
+        <p class="lead">Our head chef has served Azalea Estates residents for more than two decades &mdash; and the dining room shows it. Familiar comfort, seasonal variety, and every plate presented with genuine pride.</p>
+        <p>We believe that great food is at the heart of a great day. Our culinary team plans menus around what residents actually love to eat, with classic Southern favorites taking center stage alongside lighter fare and seasonal specialties. Dietary needs and personal preferences are always accommodated &mdash; just ask.</p>
+        <div class="signature">
+          <div class="signature__avatar">{{ icon('utensils', 22) }}</div>
+          <div class="signature__text">
+            <strong>3 meals daily, 7 days a week</strong>
+            Restaurant-style service in our elegant dining room
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOUTHERN COOKING SECTION -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Southern at Heart</span>
+      <h2>Food that feels like home.</h2>
+      <p>Azalea Estates is known throughout Fayette County for its authentic Southern-style cooking &mdash; the kind of meals that bring residents to the table with something to look forward to.</p>
+    </div>
+    <div class="amenities-grid">
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('utensils', 22) }}</div>
+        <div>
+          <h4>Classic Southern Favorites</h4>
+          <p>From biscuits and gravy at breakfast to slow-cooked suppers in the evening, our menus reflect the cuisine residents grew up with.</p>
+        </div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('leaf', 22) }}</div>
+        <div>
+          <h4>Seasonal &amp; Fresh</h4>
+          <p>Menus rotate through the seasons, making the most of local produce and giving residents something new to enjoy throughout the year.</p>
+        </div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('heart', 22) }}</div>
+        <div>
+          <h4>Dietary Accommodations</h4>
+          <p>Low-sodium, diabetic-friendly, texture-modified, and other dietary requirements are handled with the same care as every other plate we serve.</p>
+        </div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('users', 22) }}</div>
+        <div>
+          <h4>Private Dining Rooms</h4>
+          <p>Planning a birthday, holiday, or family gathering? Our private dining spaces are available for special occasions, with catering by our own kitchen.</p>
+        </div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('shield', 22) }}</div>
+        <div>
+          <h4>Nutritional Balance</h4>
+          <p>Each menu is planned with residents&rsquo; health in mind: increased mental acuity, sustained energy, and better management of chronic conditions all start at the table.</p>
+        </div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('clock', 22) }}</div>
+        <div>
+          <h4>Flexible Dining Hours</h4>
+          <p>We know schedules differ. Our dining room operates with flexible seating times so residents can eat on their own rhythm without missing a meal.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DINING EXPERIENCE SPLIT -->
+<section class="section">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">The Dining Room</span>
+        <h2>A meal is more than food &mdash; it&rsquo;s connection.</h2>
+        <p class="lead">Our elegant dining room is designed to feel like a welcoming restaurant, not a cafeteria. White linens, attentive service, and the warm conversation of neighbors who have become friends.</p>
+        <p>Mealtimes are the social center of daily life at Azalea Estates. We invite residents to bring family for lunch, celebrate anniversaries over a private dinner, and simply enjoy each other&rsquo;s company at the table. No rushing, no noise &mdash; just the pleasure of a well-made meal shared with people who matter.</p>
+        <ul class="tag-list">
+          <li>Breakfast, lunch &amp; dinner daily</li>
+          <li>Restaurant-style table service</li>
+          <li>Seasonal holiday menus</li>
+          <li>In-room delivery when needed</li>
+          <li>Guest meals welcome</li>
+        </ul>
+      </div>
+      <div class="intro-split__media reveal">
+        <img src="{{ images.residentsLaughing }}" alt="Residents enjoying a meal together in the Azalea Estates dining room" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial">
+  <div class="container">
+    <div class="testimonial__inner reveal">
+      <span class="testimonial__mark">&ldquo;</span>
+      <p class="testimonial__quote">Mom never cooked this well herself &mdash; and she&rsquo;s the first to admit it. The chef knows everyone&rsquo;s favorites and always has something special on the menu.</p>
+      <p class="testimonial__attribution"><strong>Deborah &amp; Tom R.</strong> &middot; Children of a resident</p>
+    </div>
+  </div>
+</section>
+
+<!-- DINING PHOTO GALLERY -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">The Dining Experience</span>
+      <h2>See it for yourself.</h2>
+      <p>From the elegance of the dining room to the craft of the kitchen &mdash; a look at what mealtimes feel like at Azalea Estates.</p>
+    </div>
+
+    {# ── The Dining Room ────────────────────────────────────────────────── #}
+    <div class="section-heading section-heading--left reveal" style="margin-top: var(--space-6);">
+      <span class="eyebrow">The Dining Room</span>
+    </div>
+    <div class="gallery-grid gallery-grid--3">
+      <div class="gallery-item reveal" data-full="/assets/images/formal-dinning-room-at-azalea.jpg" role="button" tabindex="0" aria-label="Azalea Estates elegant formal dining room, set for service">
+        <img src="/assets/images/formal-dinning-room-at-azalea.jpg" alt="Azalea Estates elegant formal dining room, set for service" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-full="/assets/images/large-dining-room.jpg" role="button" tabindex="0" aria-label="Spacious dining room with seating for all residents">
+        <img src="/assets/images/large-dining-room.jpg" alt="Spacious dining room with seating for all residents" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-full="/assets/images/large-dining-room-2.jpg" role="button" tabindex="0" aria-label="The dining room — warm, welcoming, and well-appointed">
+        <img src="/assets/images/large-dining-room-2.jpg" alt="The dining room — warm, welcoming, and well-appointed" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-full="/assets/images/group-dining.jpg" role="button" tabindex="0" aria-label="Residents enjoying a meal together in the Azalea Estates dining room">
+        <img src="/assets/images/group-dining.jpg" alt="Residents enjoying a meal together in the Azalea Estates dining room" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-full="/assets/images/dining-at-East-Cobb-768x960.jpg" role="button" tabindex="0" aria-label="A beautifully plated meal, served and enjoyed at Azalea Estates">
+        <img src="/assets/images/dining-at-East-Cobb-768x960.jpg" alt="A beautifully plated meal, served and enjoyed at Azalea Estates" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-full="/assets/images/az-header-inner-dining.jpg" role="button" tabindex="0" aria-label="Chef-prepared, restaurant-style dinner plating">
+        <img src="/assets/images/az-header-inner-dining.jpg" alt="Chef-prepared, restaurant-style dinner plating" loading="lazy">
+      </div>
+    </div>
+
+    {# ── From Our Kitchen ─────────────────────────────────────────────────
+       9 unique food photos = 3×3 perfect rectangle with gallery-grid--3.
+       The two photos already shown above (dining room + chef plate) are
+       included here as hidden items so they appear in the lightbox
+       prev/next sequence without creating an orphaned cell in the grid.
+    #}
+    <div class="section-heading section-heading--left reveal" style="margin-top: var(--space-8);">
+      <span class="eyebrow">From Our Kitchen</span>
+    </div>
+    <div class="gallery-grid gallery-grid--3">
+      <div class="gallery-item reveal" data-full="/assets/images/Salmon-3.jpg" role="button" tabindex="0" aria-label="Salmon — chef-prepared and beautifully plated">
+        <img src="/assets/images/Salmon-3.jpg" alt="Salmon — chef-prepared and beautifully plated" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-full="/assets/images/dining-at-East-Cobb-768x960.jpg" role="button" tabindex="0" aria-label="A beautifully presented meal at Azalea Estates">
+        <img src="/assets/images/dining-at-East-Cobb-768x960.jpg" alt="A beautifully presented meal at Azalea Estates" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-full="/assets/images/Wing-1-768x627.jpg" role="button" tabindex="0" aria-label="Southern-style chicken — comfort food at its finest">
+        <img src="/assets/images/Wing-1-768x627.jpg" alt="Southern-style chicken — comfort food at its finest" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-full="/assets/images/walnut_cobb_salad_qre0vi-768x460.jpg" role="button" tabindex="0" aria-label="Walnut cobb salad — fresh, colourful, and nutritious">
+        <img src="/assets/images/walnut_cobb_salad_qre0vi-768x460.jpg" alt="Walnut cobb salad — fresh, colourful, and nutritious" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-full="/assets/images/Desert_Picture-1.jpg" role="button" tabindex="0" aria-label="House-made dessert — a sweet finish to every meal">
+        <img src="/assets/images/Desert_Picture-1.jpg" alt="House-made dessert — a sweet finish to every meal" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-full="/assets/images/GettyImages-638891128_xhjayw-768x460.jpg" role="button" tabindex="0" aria-label="Chef-prepared meal at Azalea Estates">
+        <img src="/assets/images/GettyImages-638891128_xhjayw-768x460.jpg" alt="Chef-prepared meal at Azalea Estates" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-full="/assets/images/iStock-614035400_kxc3ds-768x460.jpg" role="button" tabindex="0" aria-label="Seasonal menu item from the Azalea Estates culinary team">
+        <img src="/assets/images/iStock-614035400_kxc3ds-768x460.jpg" alt="Seasonal menu item from the Azalea Estates culinary team" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-full="/assets/images/IMG_3700-768x512.jpeg" role="button" tabindex="0" aria-label="A home-style meal served in the Azalea Estates dining room">
+        <img src="/assets/images/IMG_3700-768x512.jpeg" alt="A home-style meal served in the Azalea Estates dining room" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-full="/assets/images/IMG_3814-768x512.jpeg" role="button" tabindex="0" aria-label="Fresh, nutritious dining at Azalea Estates">
+        <img src="/assets/images/IMG_3814-768x512.jpeg" alt="Fresh, nutritious dining at Azalea Estates" loading="lazy">
+      </div>
+      {# Hidden from grid — in lightbox prev/next only #}
+      <div class="gallery-item gallery-item--lightbox-only" data-full="/assets/images/az-header-inner-dining.jpg" role="button" tabindex="-1" aria-hidden="true">
+        <img src="/assets/images/az-header-inner-dining.jpg" alt="The chef adding the finishing touch to a restaurant-style dinner plate" loading="lazy">
+      </div>
+      <div class="gallery-item gallery-item--lightbox-only" data-full="/assets/images/Filet-of-beef-East-Cobb1.jpg" role="button" tabindex="-1" aria-hidden="true">
+        <img src="/assets/images/Filet-of-beef-East-Cobb1.jpg" alt="Filet of beef — a signature dinner at Azalea Estates" loading="lazy">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% set related = [
+  { url: '/wellness/', eyebrow: 'Complete the Picture', title: 'Wellness Programs',
+    desc: "Great food and active living go together — explore our heated pool, fitness center, and Parkinson's program.",
+    cta: 'Explore wellness' },
+  { url: '/gallery/', eyebrow: 'See the Dining Room', title: 'Photo Tour & Virtual Tour',
+    desc: 'Walk through our formal dining room in the 360° virtual tour or browse dining photos in the gallery.',
+    cta: 'Open the photo tour' },
+  { url: '/schedule-a-tour/', eyebrow: 'Come for Lunch', title: 'Schedule a Private Tour',
+    desc: 'Every tour includes a complimentary lunch — the best possible way to experience our dining firsthand.',
+    cta: 'Schedule your tour' }
+] %}
+{% include "partials/related.njk" %}
+
+<section class="cta-panel">
+  <div class="container">
+    <div class="cta-panel__grid reveal">
+      <div>
+        <span class="eyebrow" style="color: var(--c-accent-soft);">Come for lunch</span>
+        <h2>Tour the campus &mdash; and stay to eat.</h2>
+        <p>The best way to experience our dining is to sit down at the table yourself. Schedule a private tour and we&rsquo;ll include a complimentary lunch with our chef&rsquo;s team.</p>
+      </div>
+      <div class="cta-panel__btns">
+        <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Tour</a>
+        <a href="tel:{{ site.contact.phoneRaw }}" class="btn btn--outline">{{ site.contact.phone }}</a>
+      </div>
+    </div>
+  </div>
+</section>

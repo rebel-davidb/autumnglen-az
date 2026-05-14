@@ -41,5 +41,8 @@ yarn-error.log*
 .cache/
 *.tmp
 
+# Video files (hosted on CDN)
+*.mp4
+
 # Local Netlify folder
 .netlify

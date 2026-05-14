@@ -1,0 +1,205 @@
+---
+layout: layouts/page.njk
+title: Wellness
+metaTitle: "Senior Wellness Programs: Pool, Fitness & Parkinson's Care | Azalea Estates"
+description: "Award-winning wellness programs led by a degreed Wellness Director at Azalea Estates, Fayetteville GA. Heated saltwater pool, licensed fitness trainer, Parkinson's exercise program, and more."
+eyebrow: "Your Wellness, Our Priority"
+pageIntro: "Programs designed to stimulate the mind, body, and spirit — led by our degreed Wellness Director and experienced licensed fitness trainer."
+eleventyComputed:
+  pageHero: "{{ images.wellnessPool }}"
+permalink: /wellness/
+---
+
+{% from "partials/icons.njk" import icon %}
+
+<!-- INTRO SPLIT: WELLNESS DIRECTOR -->
+<section class="section">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__media reveal">
+        <img src="{{ images.wellnessFitness }}" alt="Resident working one-on-one with our licensed fitness trainer" loading="lazy">
+      </div>
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Expert-Led Programs</span>
+        <h2>Wellness that actually works.</h2>
+        <p class="lead">Our Wellness Director holds a Bachelor of Science degree in Exercise Physiology and has dedicated her career to helping seniors move better, feel stronger, and live more confidently.</p>
+        <p>Every resident who joins our wellness program begins with an individual assessment. We consult with their physician, identify their specific needs, and build a program around those goals &mdash; whether that&rsquo;s fall prevention, Parkinson&rsquo;s management, cardiac health, or simply staying active and engaged. We see measurable improvements in physical and mental well-being over a short period of time.</p>
+        <div class="signature">
+          <div class="signature__avatar">{{ icon('shield', 22) }}</div>
+          <div class="signature__text">
+            <strong>BS in Exercise Physiology</strong>
+            Individual assessments for every resident
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AQUATIC THERAPY -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Aquatic Therapy</span>
+        <h2>The most effective workout most people have never tried.</h2>
+        <p class="lead">Our indoor, heated saltwater pool is one of the few amenities of its kind at a senior living community in Fayette County &mdash; and it&rsquo;s central to everything we do in wellness.</p>
+        <p>Water provides 12 times the resistance of air on the body while making you feel approximately 90% lighter. The result is a cardiovascular workout with minimal joint stress &mdash; exactly what seniors need. The elimination of fear of falling in warm, supportive water is itself therapeutic for many residents.</p>
+        <p>Aquatic programs run individually and in groups and are ideal for residents managing:</p>
+        <ul class="tag-list">
+          <li>Balance issues and fall risk</li>
+          <li>Arthritis and joint conditions</li>
+          <li>Back, foot, and leg injuries</li>
+          <li>Knee conditions</li>
+          <li>Cardiac recovery</li>
+          <li>Post-surgical rehabilitation</li>
+        </ul>
+      </div>
+      <div class="intro-split__media reveal">
+        <img src="{{ images.wellnessPool }}" alt="Water aerobics class in our heated indoor saltwater pool" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AQUATIC BENEFITS GRID -->
+<section class="section">
+  <div class="container">
+    <div class="section-heading section-heading--left reveal">
+      <span class="eyebrow">Aquatic Program Benefits</span>
+      <h2>What the water does for you.</h2>
+    </div>
+    <div class="amenities-grid">
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('shield', 22) }}</div>
+        <div><h4>Improves Balance &amp; Reduces Fall Risk</h4><p>Buoyancy provides a safe environment for balance retraining without fear of injury.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('heart', 22) }}</div>
+        <div><h4>Reduces Blood Pressure</h4><p>Regular aquatic exercise has been shown to lower blood pressure and improve artery health.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('waves', 22) }}</div>
+        <div><h4>Increases Circulation</h4><p>Water resistance and movement stimulate blood flow throughout the body.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('dumbbell', 22) }}</div>
+        <div><h4>Prevents Repetitive Stress Injuries</h4><p>Water prevents joints from moving too quickly, protecting against hyperextension.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('leaf', 22) }}</div>
+        <div><h4>Raises Metabolism</h4><p>The combination of resistance and temperature regulation elevates metabolic rate.</p></div>
+      </div>
+      <div class="amenity-chip reveal">
+        <div class="amenity-chip__icon">{{ icon('users', 22) }}</div>
+        <div><h4>Social &amp; Motivating</h4><p>Group aquatic classes are among our most popular activities &mdash; residents encourage each other and have fun.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARKINSON'S PROGRAM -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__media reveal">
+        <img src="{{ images.wellnessYoga }}" alt="Residents in a group exercise class focused on mobility and strength" loading="lazy">
+      </div>
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Parkinson&rsquo;s Program</span>
+        <h2>Specialized care for a complex condition.</h2>
+        <p class="lead">Azalea Estates offers one of the only dedicated Parkinson&rsquo;s exercise programs among assisted living communities in the Fayetteville area.</p>
+        <p>Our Parkinson&rsquo;s program is built around increasing physical function and delaying disease progression. Classes focus on the specific challenges Parkinson&rsquo;s residents face, and one-on-one support is available for symptom-specific exercise work.</p>
+        <p><strong>Focus areas include:</strong></p>
+        <ul class="tag-list">
+          <li>Rigidity and stiffness</li>
+          <li>Posture correction</li>
+          <li>Gait and mobility</li>
+          <li>Freezing episodes</li>
+          <li>Mood and depression management</li>
+          <li>Voice projection</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOOR FITNESS & MIND/SPIRIT -->
+<section class="section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">More Programs</span>
+      <h2>A complete approach to well-being.</h2>
+      <p>Wellness at Azalea Estates goes beyond the pool and weight room. We address every dimension of health &mdash; physical, mental, and spiritual.</p>
+    </div>
+    <div class="feature-grid">
+      <article class="feature-card reveal">
+        <div class="feature-card__media">
+          <img src="{{ images.wellnessFitness }}" alt="One-on-one fitness coaching session with licensed trainer" loading="lazy">
+        </div>
+        <div class="feature-card__body">
+          <h3>Floor Exercise &amp; Strength</h3>
+          <p>Group chair exercise classes, fall prevention programs, balance and conditioning work, and individualized regimens developed in consultation with each resident&rsquo;s physician. Whether you&rsquo;re working to regain strength or simply stay active, we meet you where you are.</p>
+        </div>
+      </article>
+      <article class="feature-card reveal">
+        <div class="feature-card__media">
+          <img src="{{ images.amenitiesLibrary }}" alt="Resident engaged in a brain fitness program" loading="lazy">
+        </div>
+        <div class="feature-card__body">
+          <h3>Brain Fitness</h3>
+          <p>Our Dakim Brain Fitness system offers interactive cognitive exercises proven to improve memory, language, and problem-solving. Regular engagement with mentally stimulating programs helps delay cognitive decline and keeps residents sharp and confident.</p>
+        </div>
+      </article>
+      <article class="feature-card reveal">
+        <div class="feature-card__media">
+          <img src="{{ images.wellnessYoga }}" alt="Gentle movement and wellness class for seniors" loading="lazy">
+        </div>
+        <div class="feature-card__body">
+          <h3>Mind &amp; Spirit</h3>
+          <p>Gentle yoga, meditation, music therapy, and arts programs round out our wellness calendar. These aren&rsquo;t afterthoughts &mdash; they are a recognized part of whole-person health, and residents who engage with them consistently report better mood, sleep, and sense of purpose.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial">
+  <div class="container">
+    <div class="testimonial__inner reveal">
+      <span class="testimonial__mark">&ldquo;</span>
+      <p class="testimonial__quote">Dad was skeptical about the pool at first. Three months in, he&rsquo;s in the water four days a week and his doctor has reduced his pain medication. We couldn&rsquo;t have predicted that.</p>
+      <p class="testimonial__attribution"><strong>The Henderson Family</strong> &middot; Son of a resident</p>
+    </div>
+  </div>
+</section>
+
+{% set related = [
+  { url: '/dining/', eyebrow: 'Eat Well Too', title: 'Dining',
+    desc: 'Great nutrition completes the wellness picture — meet our chef of 20+ years and see the dining room.',
+    cta: 'Explore dining' },
+  { url: '/calendar/', eyebrow: 'See the Schedule', title: 'Activity Calendars',
+    desc: "Download the monthly wellness calendar to see all pool sessions, fitness classes, and Parkinson's programs.",
+    cta: 'View calendars' },
+  { url: '/schedule-a-tour/', eyebrow: 'See It in Person', title: 'Schedule a Private Tour',
+    desc: 'Tour days include time at the wellness center and pool — come see the programs firsthand.',
+    cta: 'Schedule your tour' }
+] %}
+{% include "partials/related.njk" %}
+
+<section class="cta-panel">
+  <div class="container">
+    <div class="cta-panel__grid reveal">
+      <div>
+        <span class="eyebrow" style="color: var(--c-accent-soft);">See it for yourself</span>
+        <h2>Visit the wellness center on your tour.</h2>
+        <p>Every private tour includes a walk through the wellness center and, when classes are in session, the pool. Come see what makes our program different.</p>
+      </div>
+      <div class="cta-panel__btns">
+        <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Tour</a>
+        <a href="tel:{{ site.contact.phoneRaw }}" class="btn btn--outline">{{ site.contact.phone }}</a>
+      </div>
+    </div>
+  </div>
+</section>
