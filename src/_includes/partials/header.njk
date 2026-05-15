@@ -3,12 +3,10 @@
   <div class="container header-top">
     <a href="tel:{{ site.contact.phoneRaw }}">{{ icon('phone', 14) }} {{ site.contact.phone }}</a>
     <a href="/schedule-a-tour/">Schedule a Tour</a>
-    <a href="/contact/#careers">Careers</a>
+    <a href="/careers/">Careers</a>
   </div>
   <div class="container header-inner">
     <a href="/" class="brand" aria-label="{{ site.name }} — Home">
-      {# Logo contains the full wordmark, so text beside it would duplicate. #}
-      {# aria-label on the link supplies the accessible name for screen readers. #}
       <img
         src="/assets/images/logo.png"
         alt="Azalea Estates — Assisted Living and Retirement Community"
@@ -18,13 +16,33 @@
         decoding="async"
       >
     </a>
-    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
-      {{ icon('menu', 28) }}
+
+    {# Hamburger — CSS spans animate to × when aria-expanded="true" #}
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">
+      <span class="menu-toggle__bars" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
     </button>
-    <nav class="nav" aria-label="Primary">
+
+    <nav class="nav" id="primaryNav" aria-label="Primary">
+
+      {# ── Mobile-only drawer header ─────────────────────────────────── #}
+      <div class="nav-drawer-head">
+        <a href="/" class="brand" aria-label="{{ site.name }} — Home" tabindex="-1">
+          <img src="/assets/images/logo.png" alt="Azalea Estates" class="brand-logo" width="665" height="195" decoding="async" loading="lazy">
+        </a>
+        <button class="nav-drawer-close" aria-label="Close menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+            <path d="M3 3l14 14M17 3L3 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      {# ── Nav links ─────────────────────────────────────────────────── #}
       {% for item in site.nav %}
         {% if item.children %}
-          {# ── Dropdown item ──────────────────────────────── #}
           <div class="nav-dropdown" data-dropdown>
             <a href="{{ item.url }}" class="nav-dropdown__trigger">
               {{ item.label }}
@@ -43,9 +61,24 @@
           <a href="{{ item.url }}">{{ item.label }}</a>
         {% endif %}
       {% endfor %}
+
+      {# ── Desktop CTA ───────────────────────────────────────────────── #}
       <div class="nav-cta">
         <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Tour</a>
       </div>
+
+      {# ── Mobile-only drawer footer ─────────────────────────────────── #}
+      <div class="nav-drawer-foot">
+        <a href="tel:{{ site.contact.phoneRaw }}" class="nav-drawer-phone">
+          {{ icon('phone', 18) }}
+          {{ site.contact.phone }}
+        </a>
+        <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Tour</a>
+      </div>
+
     </nav>
   </div>
 </header>
+
+{# Backdrop — tapping it closes the mobile nav #}
+<div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>

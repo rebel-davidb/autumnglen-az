@@ -1,19 +1,49 @@
 // Minimal progressive enhancement
 (function () {
-  // Mobile menu toggle
-  var toggle = document.querySelector(".menu-toggle");
-  var nav = document.querySelector(".nav");
+  // ── Mobile menu ────────────────────────────────────────────────────────
+  var toggle   = document.querySelector(".menu-toggle");
+  var nav      = document.querySelector(".nav");
+  var backdrop = document.getElementById("navBackdrop");
+  var closeBtn = document.querySelector(".nav-drawer-close");
+
+  function openMenu() {
+    nav.classList.add("open");
+    backdrop.classList.add("open");
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-label", "Close menu");
+    document.body.style.overflow = "hidden";
+    // Focus the close button inside the drawer for keyboard/screen-reader users
+    if (closeBtn) setTimeout(function () { closeBtn.focus(); }, 50);
+  }
+
+  function closeMenu() {
+    nav.classList.remove("open");
+    backdrop.classList.remove("open");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Open menu");
+    document.body.style.overflow = "";
+    toggle.focus();
+  }
+
   if (toggle && nav) {
+    // Hamburger opens, close button (in drawer) closes
     toggle.addEventListener("click", function () {
-      var open = nav.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-      document.body.style.overflow = open ? "hidden" : "";
+      nav.classList.contains("open") ? closeMenu() : openMenu();
     });
+    if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+
+    // Tapping the backdrop closes
+    if (backdrop) backdrop.addEventListener("click", closeMenu);
+
+    // Escape closes
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) closeMenu();
+    });
+
+    // Any nav link click closes the drawer
     nav.querySelectorAll("a").forEach(function (a) {
       a.addEventListener("click", function () {
-        nav.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
-        document.body.style.overflow = "";
+        if (nav.classList.contains("open")) closeMenu();
       });
     });
   }
@@ -341,4 +371,289 @@
       mq.addEventListener("change", function (e) { e.matches ? pause() : play(); });
     }
   }
+
+  // ── Video Modal ───────────────────────────────────────────────────────────
+  // Opens any [data-video-id] thumbnail in a 16:9 modal at max 1200px.
+  var videoModal   = document.getElementById("videoModal");
+  var videoFrame   = document.getElementById("videoModalFrame");
+  var videoClose   = document.getElementById("videoModalClose");
+  var videoBackdrop = document.getElementById("videoModalBackdrop");
+
+  if (videoModal && videoFrame) {
+    function openVideoModal(id) {
+      videoFrame.src = "https://www.youtube.com/embed/" + id + "?autoplay=1&rel=0";
+      videoModal.hidden = false;
+      document.body.style.overflow = "hidden";
+      if (videoClose) videoClose.focus();
+    }
+
+    function closeVideoModal() {
+      videoModal.hidden = true;
+      videoFrame.src = "";
+      document.body.style.overflow = "";
+    }
+
+    document.querySelectorAll("[data-video-id]").forEach(function (btn) {
+      btn.addEventListener("click", function () { openVideoModal(btn.getAttribute("data-video-id")); });
+    });
+
+    if (videoClose) videoClose.addEventListener("click", closeVideoModal);
+    if (videoBackdrop) videoBackdrop.addEventListener("click", closeVideoModal);
+
+    document.addEventListener("keydown", function (e) {
+      if (!videoModal.hidden && e.key === "Escape") { e.preventDefault(); closeVideoModal(); }
+    });
+  }
+
+  // ── Job Application Modal ────────────────────────────────────────────────
+  // Opens from any [data-open-apply-modal] button on the Careers page.
+  // Reads data-position-name and injects it into the heading + hidden input.
+  var applyModal = document.getElementById("applyModal");
+  if (applyModal) {
+    var applyPanel       = applyModal.querySelector(".modal__panel");
+    var applyDisplayPos  = applyModal.querySelector("[data-apply-display-position]");
+    var applyHiddenPos   = applyModal.querySelector("[data-apply-hidden-position]");
+    var applyLastTrigger = null;
+
+    var APPLY_FOCUSABLE = [
+      "a[href]", "input:not([disabled]):not([type='hidden'])",
+      "select:not([disabled])", "textarea:not([disabled])",
+      "button:not([disabled])", "[tabindex]:not([tabindex='-1'])"
+    ].join(",");
+
+    function openApplyModal(trigger) {
+      applyLastTrigger = trigger;
+      var pos = trigger.getAttribute("data-position-name") || "this position";
+      if (applyDisplayPos) applyDisplayPos.textContent = pos;
+      if (applyHiddenPos)  applyHiddenPos.value = pos;
+
+      applyModal.hidden = false;
+      document.body.classList.add("modal-open");
+
+      window.setTimeout(function () {
+        var first = applyPanel.querySelector("input:not([type='hidden']):not([name='bot-field'])");
+        if (first) first.focus();
+      }, 20);
+    }
+
+    function closeApplyModal() {
+      if (applyModal.hidden) return;
+      applyModal.hidden = true;
+      document.body.classList.remove("modal-open");
+      if (applyLastTrigger) { applyLastTrigger.focus(); applyLastTrigger = null; }
+    }
+
+    // Openers
+    document.querySelectorAll("[data-open-apply-modal]").forEach(function (btn) {
+      btn.addEventListener("click", function () { openApplyModal(btn); });
+    });
+
+    // Closers — backdrop + X + Cancel
+    applyModal.querySelectorAll("[data-apply-modal-close]").forEach(function (el) {
+      el.addEventListener("click", closeApplyModal);
+    });
+
+    // Escape + focus trap
+    document.addEventListener("keydown", function (e) {
+      if (applyModal.hidden) return;
+      if (e.key === "Escape") { e.preventDefault(); closeApplyModal(); return; }
+      if (e.key !== "Tab") return;
+      var focusables = Array.prototype.slice.call(
+        applyPanel.querySelectorAll(APPLY_FOCUSABLE)
+      ).filter(function (el) { return el.offsetParent !== null; });
+      if (!focusables.length) return;
+      var first = focusables[0], last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  }
+
+  // ── PDF Viewer ────────────────────────────────────────────────────────────
+  // Full-screen modal viewer for floor plan PDFs.
+  // PDF.js is lazy-loaded from cdnjs on first open to keep the initial
+  // page weight down — it's only needed if the user clicks "View floor plan".
+  var pdfViewer = document.getElementById("pdfViewer");
+  if (pdfViewer) {
+    var pdfPages   = document.getElementById("pdfPages");
+    var pdfTitle   = pdfViewer.querySelector(".pdfv__title");
+    var pdfDl      = pdfViewer.querySelector(".pdfv__download");
+    var pdfPrint   = pdfViewer.querySelector(".pdfv__print");
+    var pdfClose   = pdfViewer.querySelector(".pdfv__close");
+    var pdfZoomIn  = pdfViewer.querySelector(".pdfv__zoom-in");
+    var pdfZoomOut = pdfViewer.querySelector(".pdfv__zoom-out");
+    var pdfZoomLbl = pdfViewer.querySelector(".pdfv__zoom-label");
+
+    var ZOOM_MIN  = 0.5, ZOOM_MAX = 3.0, ZOOM_STEP = 0.25;
+    var pdfScale  = 1.0;   // default render scale — 100%
+    var curPdf    = null;
+    var curUrl    = null;
+    var pdfJsReady   = false;
+    var pdfJsLoading = false;
+    var pdfJsCbs     = [];
+    var pdfTrigger   = null;
+
+    var PDFJS_VER = "3.11.174";
+    var PDFJS_CDN = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/" + PDFJS_VER;
+
+    // Keep zoom label and ± buttons in sync
+    function syncZoom() {
+      if (pdfZoomLbl) pdfZoomLbl.textContent = Math.round(pdfScale * 100) + "%";
+      if (pdfZoomIn)  pdfZoomIn.disabled  = pdfScale >= ZOOM_MAX;
+      if (pdfZoomOut) pdfZoomOut.disabled = pdfScale <= ZOOM_MIN;
+    }
+
+    // Render every page of a PDFDocumentProxy into #pdfPages
+    function renderPages(pdf, sc) {
+      pdfPages.innerHTML = "";
+      // Create containers in document order first so pages always appear correctly
+      var containers = [];
+      for (var p = 0; p < pdf.numPages; p++) {
+        var div = document.createElement("div");
+        div.className = "pdfv__page";
+        pdfPages.appendChild(div);
+        containers.push(div);
+      }
+      // Render sequentially (each page waits for the previous canvas to draw)
+      var chain = Promise.resolve();
+      containers.forEach(function (container, idx) {
+        chain = chain.then(function () {
+          return pdf.getPage(idx + 1).then(function (page) {
+            var vp  = page.getViewport({ scale: sc });
+            var cvs = document.createElement("canvas");
+            cvs.width  = vp.width;
+            cvs.height = vp.height;
+            container.appendChild(cvs);
+            return page.render({ canvasContext: cvs.getContext("2d"), viewport: vp }).promise;
+          });
+        });
+      });
+      return chain;
+    }
+
+    function showMsg(html) {
+      pdfPages.innerHTML = '<div class="pdfv__msg">' + html + "</div>";
+    }
+
+    // Lazy-load PDF.js, calling cb(err) when done
+    function ensurePdfJs(cb) {
+      if (pdfJsReady) { cb(); return; }
+      pdfJsCbs.push(cb);
+      if (pdfJsLoading) return;
+      pdfJsLoading = true;
+      var s = document.createElement("script");
+      s.src = PDFJS_CDN + "/pdf.min.js";
+      s.onload = function () {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_CDN + "/pdf.worker.min.js";
+        pdfJsReady = true; pdfJsLoading = false;
+        var cbs = pdfJsCbs.slice(); pdfJsCbs = [];
+        cbs.forEach(function (fn) { fn(); });
+      };
+      s.onerror = function () {
+        pdfJsLoading = false;
+        var cbs = pdfJsCbs.slice(); pdfJsCbs = [];
+        cbs.forEach(function (fn) { fn(true); });
+      };
+      document.head.appendChild(s);
+    }
+
+    function openViewer(url, title, trigger) {
+      pdfTrigger = trigger || null;
+      curUrl = url;
+
+      if (pdfTitle) pdfTitle.textContent = title || "Floor Plan";
+      if (pdfDl) {
+        pdfDl.href = url;
+        pdfDl.setAttribute("download", (title || "Floor Plan").replace(/\s+/g, "-") + ".pdf");
+      }
+
+      showMsg('<div class="pdfv__spinner"></div><span>Loading floor plan…</span>');
+      pdfViewer.hidden = false;
+      document.body.style.overflow = "hidden";
+      if (pdfClose) pdfClose.focus();
+      syncZoom();
+
+      ensurePdfJs(function (err) {
+        if (err || !window.pdfjsLib) {
+          showMsg(
+            '<span class="pdfv__msg--err">Could not load the PDF viewer.</span>' +
+            '<a href="' + url + '" class="btn btn--outline" target="_blank" rel="noopener">Open PDF directly \u2197</a>'
+          );
+          return;
+        }
+        window.pdfjsLib.getDocument(url).promise.then(function (pdf) {
+          curPdf = pdf;
+          return renderPages(pdf, pdfScale);
+        }).then(function () {
+          syncZoom();
+          var stage = pdfViewer.querySelector(".pdfv__stage");
+          if (stage) stage.scrollTop = 0;
+        }).catch(function () {
+          showMsg(
+            '<span class="pdfv__msg--err">Could not load this PDF.</span>' +
+            '<a href="' + url + '" class="btn btn--outline" target="_blank" rel="noopener">Open directly \u2197</a>'
+          );
+        });
+      });
+    }
+
+    function closeViewer() {
+      pdfViewer.hidden = true;
+      document.body.style.overflow = "";
+      curPdf = null; curUrl = null;
+      pdfPages.innerHTML = "";
+      if (pdfTrigger) { pdfTrigger.focus(); pdfTrigger = null; }
+    }
+
+    // Wire up any [data-pdf-url] trigger (thumbnails, "View floor plan" links, etc.)
+    document.querySelectorAll("[data-pdf-url]").forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        e.preventDefault();
+        openViewer(
+          el.getAttribute("data-pdf-url"),
+          el.getAttribute("data-pdf-title") || "Floor Plan",
+          el
+        );
+      });
+    });
+
+    if (pdfClose) pdfClose.addEventListener("click", closeViewer);
+
+    // Click outside the panel (on the backdrop) closes
+    pdfViewer.addEventListener("click", function (e) {
+      if (e.target === pdfViewer) closeViewer();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (!pdfViewer.hidden && e.key === "Escape") { e.preventDefault(); closeViewer(); }
+    });
+
+    if (pdfZoomIn) pdfZoomIn.addEventListener("click", function () {
+      if (!curPdf || pdfScale >= ZOOM_MAX) return;
+      pdfScale = Math.min(ZOOM_MAX, Math.round((pdfScale + ZOOM_STEP) * 100) / 100);
+      syncZoom();
+      renderPages(curPdf, pdfScale);
+    });
+
+    if (pdfZoomOut) pdfZoomOut.addEventListener("click", function () {
+      if (!curPdf || pdfScale <= ZOOM_MIN) return;
+      pdfScale = Math.max(ZOOM_MIN, Math.round((pdfScale - ZOOM_STEP) * 100) / 100);
+      syncZoom();
+      renderPages(curPdf, pdfScale);
+    });
+
+    // Print — open the PDF in a hidden iframe and trigger the browser print dialog
+    if (pdfPrint) pdfPrint.addEventListener("click", function () {
+      if (!curUrl) return;
+      var iframe = document.createElement("iframe");
+      iframe.style.cssText = "position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;";
+      iframe.src = curUrl;
+      document.body.appendChild(iframe);
+      iframe.addEventListener("load", function () {
+        try { iframe.contentWindow.focus(); iframe.contentWindow.print(); }
+        catch (e) { window.open(curUrl, "_blank"); }
+        setTimeout(function () { if (iframe.parentNode) iframe.parentNode.removeChild(iframe); }, 3000);
+      });
+    });
+  }
+
 })();

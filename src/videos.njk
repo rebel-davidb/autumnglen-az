@@ -25,60 +25,111 @@ permalink: /videos/
 
 {%- set videos = [
   {
-    id:    "REPLACE_CAMPUS_TOUR_ID",
+    id:    "xpNdd5o-QwM",
+    uploadDate: "2023-01-23",
     title: "Campus Tour",
     desc:  "A guided tour of our single-story Fayetteville campus — from the front entrance through the wellness center, dining room, and resident suites.",
     featured: true
   },
   {
-    id:    "REPLACE_RESIDENTS_STAFF_ID",
-    title: "What Our Residents & Staff Have to Say",
-    desc:  "Hear directly from the people who live and work at Azalea Estates about what makes this community feel like home.",
+    id:    "Prgde0ogY0g",
+    uploadDate: "2018-10-09",
+    title: "Our Approach to Wellness",
+    desc:  "A look at how our wellness team uses recreational therapy, motivation, and genuine rapport to help residents thrive every single day.",
     featured: true
   },
   {
-    id:    "REPLACE_POOL_FITNESS_ID",
+    id:    "4lcCr4WCcvU",
+    uploadDate: "2020-07-06",
     title: "Pool & Fitness Center",
     desc:  "A look inside our 3,000 sq. ft. Wellness Center and heated indoor saltwater pool — and the programs that run every week.",
     featured: false
   },
   {
-    id:    "REPLACE_PARKINSONS_ID",
+    id:    "zdAXWPv64pk",
+    uploadDate: "2020-11-19",
     title: "Helping Those with Parkinson's",
     desc:  "Our Wellness Director walks through the specialized Parkinson's exercise program — one of the only programs of its kind among senior living communities in Fayette County.",
     featured: false
   },
   {
-    id:    "REPLACE_AMENITIES_ID",
-    title: "Azalea Estates Amenities",
+    id:    "qt4s_cLVXAM",
+    uploadDate: "2020-07-06",
+    title: "Amenities",
     desc:  "From the salon and library to the screened porch and community garden — a tour of the spaces residents enjoy every day.",
     featured: false
   },
   {
-    id:    "REPLACE_GARDEN_ID",
-    title: "Azalea Estates Garden",
+    id:    "_rT1HA7I5Eo",
+    uploadDate: "2020-07-06",
+    title: "Community Garden",
     desc:  "Our resident communal garden in bloom — a favorite gathering place for planting, harvesting, and spending time outdoors.",
     featured: false
   },
   {
-    id:    "REPLACE_ALL_TOGETHER_ID",
+    id:    "OeYHU5C2Kc0",
+    uploadDate: "2022-09-06",
     title: "All Together Now",
     desc:  "A glimpse of community life at Azalea Estates — the activities, connections, and moments of joy that define daily life here.",
     featured: false
   },
   {
-    id:    "REPLACE_PROMO_ID",
-    title: "Azalea Estates Promo",
+    id:    "0jSMDmDz99U",
+    uploadDate: "2020-07-21",
+    title: "Azalea Estates Overview",
     desc:  "A short overview of Azalea Estates of Fayetteville — our history, our mission, and what families can expect.",
     featured: false
   },
   {
-    id:    "REPLACE_COVID_VACCINE_ID",
-    title: "1st COVID-19 Vaccine in Georgia",
+    id:    "oo9GTSE057E",
+    uploadDate: "2016-12-07",
+    title: "Campus Tour (2016)",
+    desc:  "An earlier walkthrough of our campus — the same warm community, just a few years back.",
+    featured: false
+  },
+  {
+    id:    "PcjW-T4owmg",
+    uploadDate: "2021-02-09",
+    title: "First in Georgia to Complete COVID-19 Vaccinations",
     desc:  "Azalea Estates was among the first senior living communities in Georgia to complete resident vaccinations — a milestone we are proud of.",
     featured: false
   }
 ] -%}
+
+{# ── VideoObject structured data — enables Google video rich results ─────── #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Azalea Estates Videos",
+  "url": "{{ site.url }}/videos/",
+  "itemListElement": [
+    {% for video in videos %}
+    {
+      "@type": "ListItem",
+      "position": {{ loop.index }},
+      "item": {
+        "@type": "VideoObject",
+        "name": "{{ video.title }}",
+        "description": "{{ video.desc }}",
+        "thumbnailUrl": "https://img.youtube.com/vi/{{ video.id }}/maxresdefault.jpg",
+        "uploadDate": "{{ video.uploadDate }}",
+        "embedUrl": "https://www.youtube.com/embed/{{ video.id }}",
+        "contentUrl": "https://www.youtube.com/watch?v={{ video.id }}",
+        "publisher": {
+          "@type": "Organization",
+          "name": "{{ site.name }}",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "{{ site.url }}/assets/images/logo.png"
+          }
+        }
+      }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
 
 <!-- FEATURED VIDEOS -->
 <section class="section">
@@ -91,16 +142,10 @@ permalink: /videos/
       {% for video in videos %}
         {% if video.featured %}
         <article class="video-card reveal">
-          <div class="video-card__embed">
-            <iframe
-              src="https://www.youtube.com/embed/{{ video.id }}"
-              title="{{ video.title }}"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-              loading="lazy">
-            </iframe>
-          </div>
+          <button class="video-card__thumb" data-video-id="{{ video.id }}" aria-label="Play: {{ video.title }}">
+            <img src="https://img.youtube.com/vi/{{ video.id }}/maxresdefault.jpg" alt="{{ video.title }}" loading="lazy">
+            <span class="video-card__play" aria-hidden="true"></span>
+          </button>
           <div class="video-card__body">
             <h3>{{ video.title }}</h3>
             <p>{{ video.desc }}</p>
@@ -123,16 +168,10 @@ permalink: /videos/
       {% for video in videos %}
         {% if not video.featured %}
         <article class="video-card video-card--compact reveal">
-          <div class="video-card__embed video-card__embed--compact">
-            <iframe
-              src="https://www.youtube.com/embed/{{ video.id }}"
-              title="{{ video.title }}"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-              loading="lazy">
-            </iframe>
-          </div>
+          <button class="video-card__thumb" data-video-id="{{ video.id }}" aria-label="Play: {{ video.title }}">
+            <img src="https://img.youtube.com/vi/{{ video.id }}/maxresdefault.jpg" alt="{{ video.title }}" loading="lazy">
+            <span class="video-card__play" aria-hidden="true"></span>
+          </button>
           <div class="video-card__body">
             <h3>{{ video.title }}</h3>
             <p>{{ video.desc }}</p>
@@ -143,6 +182,21 @@ permalink: /videos/
     </div>
   </div>
 </section>
+
+{# ── Video modal ───────────────────────────────────────────────────────────── #}
+<div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="Video player" hidden>
+  <div class="video-modal__backdrop" id="videoModalBackdrop"></div>
+  <div class="video-modal__panel">
+    <button class="video-modal__close" id="videoModalClose" aria-label="Close video">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <div class="video-modal__stage">
+      <iframe id="videoModalFrame" frameborder="0"
+              allow="autoplay; encrypted-media; picture-in-picture"
+              allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
 
 {% set related = [
   { url: '/floor-plans/', eyebrow: 'See the Suites', title: 'Floor Plans',

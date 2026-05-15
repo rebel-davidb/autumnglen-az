@@ -1,0 +1,120 @@
+---
+pagination:
+  data: jobs
+  size: 1
+  alias: job
+layout: layouts/base.njk
+eleventyComputed:
+  title: "{{ job.title }}"
+  permalink: "/careers/{{ job.slug }}/"
+---
+
+{% from "partials/icons.njk" import icon %}
+
+{# ── Slim page hero ───────────────────────────────────────────────────────── #}
+<section class="page-hero">
+  <div class="page-hero__bg">
+    <img src="{{ images.wellnessFitness }}" alt="" loading="eager">
+  </div>
+  <div class="container">
+    <p class="crumbs"><a href="/">Home</a> <span>/</span> <a href="/careers/">Careers</a> <span>/</span> <span>{{ job.title }}</span></p>
+    <span class="eyebrow">{{ job.department }}</span>
+    <h1>{{ job.title }}</h1>
+  </div>
+</section>
+
+{# ── Position detail + inline application form ────────────────────────────── #}
+<section class="section">
+  <div class="container">
+    <div class="position-layout">
+
+      {# ── Left: role detail ─────────────────────────────────────────────── #}
+      <div class="position-detail">
+
+        <div class="position-meta">
+          <span class="job-card__badge job-card__badge--open">Now Hiring</span>
+          <span class="position-meta__item">{{ icon('clock', 14) }} {{ job.type }}</span>
+          <span class="position-meta__item">{{ icon('clock', 14) }} {{ job.shifts }}</span>
+        </div>
+
+        <p class="lead">{{ job.description }}</p>
+
+        <h2>What you&rsquo;ll do</h2>
+        <ul class="position-list">
+          {% for item in job.responsibilities %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+
+        <h2>What we&rsquo;re looking for</h2>
+        <ul class="position-list">
+          {% for item in job.requirements %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+
+        <div class="position-cta-phone">
+          <p>Prefer to talk first? Give us a call.</p>
+          <a href="tel:{{ site.contact.phoneRaw }}" class="btn btn--ghost">{{ icon('phone', 15) }} {{ site.contact.phone }}</a>
+        </div>
+
+      </div>
+
+      {# ── Right: inline application form ───────────────────────────────── #}
+      <div class="position-form-wrap">
+        <div class="position-form-card">
+          <span class="eyebrow">Join Our Team</span>
+          <h2>Apply for this role</h2>
+          <p>We&rsquo;ll be in touch within one business day.</p>
+
+          <form name="job-application"
+                method="POST"
+                action="/contact/thanks/"
+                data-netlify="true"
+                netlify-honeypot="bot-field"
+                class="form">
+            <input type="hidden" name="form-name" value="job-application">
+            <input type="hidden" name="position" value="{{ job.title }}">
+            <p class="form-hp" aria-hidden="true">
+              <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+            </p>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="pos-first-name">First name <span class="form-req" aria-hidden="true">*</span></label>
+                <input id="pos-first-name" type="text" name="first_name" autocomplete="given-name" required>
+              </div>
+              <div class="form-field">
+                <label for="pos-last-name">Last name <span class="form-req" aria-hidden="true">*</span></label>
+                <input id="pos-last-name" type="text" name="last_name" autocomplete="family-name" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="pos-email">Email <span class="form-req" aria-hidden="true">*</span></label>
+                <input id="pos-email" type="email" name="email" autocomplete="email" required>
+              </div>
+              <div class="form-field">
+                <label for="pos-phone">Phone <span class="form-req" aria-hidden="true">*</span></label>
+                <input id="pos-phone" type="tel" name="phone" autocomplete="tel" required>
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="pos-experience">Relevant experience &amp; certifications <span class="form-req" aria-hidden="true">*</span></label>
+              <textarea id="pos-experience" name="experience" rows="4"
+                        placeholder="Tell us about your certification status, years of experience, and any relevant background…" required></textarea>
+            </div>
+            <div class="form-field">
+              <label for="pos-availability">Availability &amp; preferred shift</label>
+              <input id="pos-availability" type="text" name="availability"
+                     placeholder="e.g. Full-time, nights preferred">
+            </div>
+
+            <button type="submit" class="btn btn--primary" style="width:100%; justify-content:center;">Submit application</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,6 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-  <rect width="48" height="48" rx="10" fill="#8a3a52"/>
-  <path d="M24 12c-2 3-5 5-8 6 3 1 6 3 8 6 2-3 5-5 8-6-3-1-6-3-8-6Z" fill="#faf6f1" opacity="0.95"/>
-  <path d="M24 24c-2 3-5 5-8 6 3 1 6 3 8 6 2-3 5-5 8-6-3-1-6-3-8-6Z" fill="#faf6f1" opacity="0.7"/>
-  <circle cx="24" cy="24" r="2.2" fill="#8a3a52"/>
+
+  <!-- Forest green rounded square — matches primary brand colour -->
+  <rect width="48" height="48" rx="10" fill="#213b14"/>
+
+  <!--
+    Capital "A" lettermark
+    Built as two diagonal legs + crossbar using stroked lines.
+    round linecap softens the apex and feet while keeping the form crisp.
+  -->
+  <g stroke="#faf6f1" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Left leg -->
+    <line x1="24" y1="8" x2="8"  y2="41" stroke-width="5.5"/>
+    <!-- Right leg -->
+    <line x1="24" y1="8" x2="40" y2="41" stroke-width="5.5"/>
+    <!-- Crossbar — slightly lighter weight, sits at the golden-ratio point -->
+    <line x1="15" y1="28" x2="33" y2="28" stroke-width="3.5"/>
+  </g>
+
+  <!--
+    Botanical gold accent — a nod to the azalea branch ornament in the full logo.
+    A gentle S-curve with two small leaf dots either side of centre.
+  -->
+  <path d="M11 44.5 Q17.5 41.5 24 43 Q30.5 41.5 37 44.5"
+        stroke="#8a6a3c" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  <circle cx="19.5" cy="42"   r="1"   fill="#8a6a3c" opacity="0.85"/>
+  <circle cx="28.5" cy="42"   r="1"   fill="#8a6a3c" opacity="0.85"/>
+
 </svg>

@@ -1,0 +1,328 @@
+---
+layout: layouts/page.njk
+title: Careers
+metaTitle: "Careers at Azalea Estates — Meaningful Work in Senior Care, Fayetteville GA"
+description: "Join the Azalea Estates team in Fayetteville, GA. Open positions in nursing and personal care. A family-owned community where your work has real impact every single day."
+eyebrow: Join Our Team
+pageIntro: "We're not just filling positions — we're looking for people who believe that every senior deserves to feel seen, valued, and genuinely cared for."
+eleventyComputed:
+  pageHero: "{{ images.wellnessFitness }}"
+permalink: /careers/
+---
+
+{% from "partials/icons.njk" import icon %}
+
+{# ── INTRO ──────────────────────────────────────────────────────────────────── #}
+<section class="section">
+  <div class="container">
+    <div class="intro-split">
+      <div class="intro-split__body reveal">
+        <span class="eyebrow">Why Azalea Estates</span>
+        <h2>Work that actually matters.</h2>
+        <p class="lead">For over thirty years, Azalea Estates has been one of Fayette County&rsquo;s most trusted names in senior care &mdash; and that reputation is built entirely by the people who work here.</p>
+        <p>We&rsquo;re a small, family-owned community. That means you&rsquo;re not a number, you won&rsquo;t get lost in a corporate system, and the decisions made here are made by people who genuinely care about the outcomes. You&rsquo;ll know your residents by name, you&rsquo;ll celebrate their milestones, and on the hard days, you&rsquo;ll have a team standing beside you.</p>
+        <p>If you want a career that lets you bring your best self to work every day &mdash; and actually feel it at the end of a shift &mdash; we&rsquo;d love to meet you.</p>
+        <div class="careers-intro-actions">
+          <a href="#open-positions" class="btn btn--primary">View open positions</a>
+          <a href="tel:{{ site.contact.phoneRaw }}" class="btn btn--ghost">{{ icon('phone', 15) }} {{ site.contact.phone }}</a>
+        </div>
+      </div>
+      <div class="intro-split__media reveal">
+        <img src="{{ images.residentsLaughing }}"
+             alt="Residents enjoying a warm moment together at Azalea Estates"
+             loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ── STATS ──────────────────────────────────────────────────────────────────── #}
+<section class="stats-bar" aria-label="At a glance">
+  <div class="container">
+    <div class="stats-bar__grid">
+      <div class="stats-bar__stat">
+        <span class="stats-bar__num">30+</span>
+        <span class="stats-bar__label">Years serving Fayette County</span>
+      </div>
+      <div class="stats-bar__stat">
+        <span class="stats-bar__num">Family</span>
+        <span class="stats-bar__label">Owned &amp; operated — not corporate</span>
+      </div>
+      <div class="stats-bar__stat">
+        <span class="stats-bar__num">Small</span>
+        <span class="stats-bar__label">Community where you know every resident</span>
+      </div>
+      <div class="stats-bar__stat">
+        <span class="stats-bar__num">Real</span>
+        <span class="stats-bar__label">Impact on someone&rsquo;s life every shift</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ── BENEFITS DEEP DIVE ────────────────────────────────────────────────────── #}
+<section class="section section--cream" id="benefits">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">What We Offer</span>
+      <h2>Benefits built for real life.</h2>
+      <p>We believe taking care of our team is just as important as taking care of our residents. Here&rsquo;s what you can expect when you join Azalea Estates.</p>
+    </div>
+
+    <div class="benefits-grid">
+
+      <div class="benefit-card reveal">
+        <div class="benefit-card__icon">{{ icon('leaf', 28) }}</div>
+        <h3>Competitive Pay</h3>
+        <p>We pay wages that reflect the skill, heart, and dedication this work demands. Rates are reviewed regularly and benchmarked against the regional market.</p>
+      </div>
+
+      <div class="benefit-card reveal">
+        <div class="benefit-card__icon">{{ icon('shield', 28) }}</div>
+        <h3>Health &amp; Dental Benefits</h3>
+        <p>Comprehensive health and dental coverage options available for full-time employees, so you can focus on caring for others without worrying about your own coverage.</p>
+      </div>
+
+      <div class="benefit-card reveal">
+        <div class="benefit-card__icon">{{ icon('calendar', 28) }}</div>
+        <h3>Paid Time Off &amp; Holidays</h3>
+        <p>Earn PTO from day one. We believe rest isn&rsquo;t a luxury &mdash; it&rsquo;s what keeps caregivers able to show up fully. Holidays, personal days, and vacation time included.</p>
+      </div>
+
+      <div class="benefit-card reveal">
+        <div class="benefit-card__icon">{{ icon('award', 28) }}</div>
+        <h3>Career Development</h3>
+        <p>We actively support your growth. From in-service training and CEU opportunities to internal promotions, we&rsquo;d rather help you advance than see you leave for it.</p>
+      </div>
+
+      <div class="benefit-card reveal">
+        <div class="benefit-card__icon">{{ icon('users', 28) }}</div>
+        <h3>Supportive Team Culture</h3>
+        <p>Our staff-to-resident ratio is intentionally low. You won&rsquo;t be stretched impossibly thin. You&rsquo;ll have colleagues who cover for each other and leadership that listens.</p>
+      </div>
+
+      <div class="benefit-card reveal">
+        <div class="benefit-card__icon">{{ icon('home', 28) }}</div>
+        <h3>Stable, Long-Term Employment</h3>
+        <p>Three decades in business, family-owned, and not going anywhere. Many of our team members have been with us for ten, fifteen, even twenty years. That stability is by design.</p>
+      </div>
+
+      <div class="benefit-card reveal">
+        <div class="benefit-card__icon">{{ icon('book', 28) }}</div>
+        <h3>On-the-Job Training</h3>
+        <p>New to senior care? We offer hands-on orientation and mentorship so you feel confident before you&rsquo;re ever on the floor alone. Experienced hires get a team that trusts their expertise.</p>
+      </div>
+
+      <div class="benefit-card reveal">
+        <div class="benefit-card__icon">{{ icon('heart', 28) }}</div>
+        <h3>Purpose-Driven Work</h3>
+        <p>You&rsquo;ll go home knowing what you did today mattered. That&rsquo;s not a tagline &mdash; it&rsquo;s the part of this job that our longest-tenured staff say they&rsquo;d never trade.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ── CAREER PATH ───────────────────────────────────────────────────────────── #}
+<section class="section" id="career-path">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Grow With Us</span>
+      <h2>Your career path, your pace.</h2>
+      <p>Azalea Estates is a place where ambition is met with real opportunity. We promote from within whenever we can &mdash; and we invest in the training that makes it possible.</p>
+    </div>
+
+    <div class="career-path">
+
+      <div class="career-step reveal">
+        <div class="career-step__num" aria-hidden="true">01</div>
+        <div class="career-step__body">
+          <h3>Entry-Level Care &amp; Support</h3>
+          <p>Many of our best team members started in personal care, dining, or housekeeping &mdash; learning the rhythms of our community, building relationships with residents, and discovering what kind of care they want to provide.</p>
+          <ul class="career-step__roles">
+            <li>Personal Care Aide</li>
+            <li>Dining Associate</li>
+            <li>Hospitality &amp; Housekeeping</li>
+            <li>Activities Assistant</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="career-step reveal">
+        <div class="career-step__num" aria-hidden="true">02</div>
+        <div class="career-step__body">
+          <h3>Certified Care Professional</h3>
+          <p>With certification comes expanded responsibility and increased pay. CNAs and CMAs are the backbone of our clinical team &mdash; trusted, skilled, and deeply valued. We support the certification process for those who want to get there.</p>
+          <ul class="career-step__roles">
+            <li>Certified Nurse Assistant (CNA)</li>
+            <li>Certified Medication Aide (CMA)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="career-step reveal">
+        <div class="career-step__num" aria-hidden="true">03</div>
+        <div class="career-step__body">
+          <h3>Senior &amp; Lead Roles</h3>
+          <p>Experienced team members who demonstrate leadership and reliability are considered first for senior and charge positions. This is where you start shaping the team around you and mentoring those coming up behind you.</p>
+          <ul class="career-step__roles">
+            <li>Charge CNA / Shift Lead</li>
+            <li>Senior Activities Coordinator</li>
+            <li>Wellness Program Lead</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="career-step reveal">
+        <div class="career-step__num" aria-hidden="true">04</div>
+        <div class="career-step__body">
+          <h3>Department &amp; Administrative Leadership</h3>
+          <p>Our department directors and administrative team are drawn from people who grew up in communities like this one &mdash; people who understand the work from the inside. If leadership is your goal, we want to help you get there.</p>
+          <ul class="career-step__roles">
+            <li>Director of Nursing (DON)</li>
+            <li>Activities Director</li>
+            <li>Wellness Director</li>
+            <li>Community Relations &amp; Admissions</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ── OPEN POSITIONS ────────────────────────────────────────────────────────── #}
+<section class="section section--cream" id="open-positions">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">Now Hiring</span>
+      <h2>Open positions.</h2>
+      <p>We&rsquo;re actively recruiting for the roles below. If you don&rsquo;t see your position listed but believe you&rsquo;d be a great fit, we always welcome a conversation.</p>
+    </div>
+
+    <div class="jobs-list">
+      {% for job in jobs %}
+      <article class="job-row reveal">
+        <div class="job-row__info">
+          <span class="job-card__dept">{{ job.department }}</span>
+          <h3 class="job-row__title">{{ job.title }}</h3>
+          <ul class="job-card__meta">
+            <li>{{ icon('clock', 14) }} {{ job.type }}</li>
+            <li>{{ icon('clock', 14) }} {{ job.shifts }}</li>
+          </ul>
+          <p class="job-row__summary">{{ job.summary }}</p>
+        </div>
+        <div class="job-row__actions">
+          <span class="job-card__badge job-card__badge--open">Now Hiring</span>
+          <a href="/careers/{{ job.slug }}/" class="btn btn--primary">View &amp; apply</a>
+          <a href="tel:{{ site.contact.phoneRaw }}" class="btn btn--ghost">{{ icon('phone', 14) }} Call</a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    <p class="jobs-note reveal">Don&rsquo;t see your role listed? We&rsquo;re always interested in meeting talented, mission-aligned people. Send your résumé to <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a> and introduce yourself.</p>
+
+  </div>
+</section>
+
+{# ── CTA ───────────────────────────────────────────────────────────────────── #}
+<section class="cta-panel">
+  <div class="container">
+    <div class="cta-panel__grid">
+      <div>
+        <h2>Ready to join us?</h2>
+        <p>Call our administrative team directly or send us an email — we&rsquo;d love to tell you more about what life is like on our team.</p>
+        <div class="cta-panel__btns">
+          <a href="tel:{{ site.contact.phoneRaw }}" class="btn btn--primary">{{ icon('phone', 16) }} {{ site.contact.phone }}</a>
+          <a href="mailto:{{ site.contact.email }}" class="btn btn--outline">Email us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{#
+  Job Application Modal
+  Opened by any [data-open-apply-modal] button.
+  JS reads data-position-name and populates the heading + hidden field.
+#}
+<div class="modal" id="applyModal" role="dialog" aria-modal="true" aria-labelledby="applyModalHeading" hidden>
+  <div class="modal__backdrop" data-apply-modal-close aria-hidden="true"></div>
+  <div class="modal__panel">
+    <button type="button" class="modal__close" aria-label="Close dialog" data-apply-modal-close>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+
+    <div class="modal__header">
+      <span class="eyebrow">Join Our Team</span>
+      <h2 id="applyModalHeading">
+        Apply for <span data-apply-display-position>this position</span>
+      </h2>
+      <p class="modal__sub">We'll be in touch within one business day to schedule a conversation.</p>
+    </div>
+
+    <form name="job-application"
+          method="POST"
+          action="/contact/thanks/"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          class="form modal__form">
+      <input type="hidden" name="form-name" value="job-application">
+      <input type="hidden" name="position" data-apply-hidden-position value="">
+      <p class="form-hp" aria-hidden="true">
+        <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+      </p>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="apply-first-name">First name <span class="form-req" aria-hidden="true">*</span></label>
+          <input id="apply-first-name" type="text" name="first_name" autocomplete="given-name" required>
+        </div>
+        <div class="form-field">
+          <label for="apply-last-name">Last name <span class="form-req" aria-hidden="true">*</span></label>
+          <input id="apply-last-name" type="text" name="last_name" autocomplete="family-name" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="apply-email">Email <span class="form-req" aria-hidden="true">*</span></label>
+          <input id="apply-email" type="email" name="email" autocomplete="email" required>
+        </div>
+        <div class="form-field">
+          <label for="apply-phone">Phone <span class="form-req" aria-hidden="true">*</span></label>
+          <input id="apply-phone" type="tel" name="phone" autocomplete="tel" required>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="apply-experience">Relevant experience &amp; certifications <span class="form-req" aria-hidden="true">*</span></label>
+        <textarea id="apply-experience" name="experience" rows="4"
+                  placeholder="Tell us about your certification status, years of experience, and any relevant background…" required></textarea>
+      </div>
+      <div class="form-field">
+        <label for="apply-availability">Availability &amp; preferred shift</label>
+        <input id="apply-availability" type="text" name="availability"
+               placeholder="e.g. Full-time, available mornings and evenings">
+      </div>
+
+      <div class="modal__actions">
+        <button type="button" class="btn btn--outline" data-apply-modal-close>Cancel</button>
+        <button type="submit" class="btn btn--primary">Submit application</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{# ── RELATED ───────────────────────────────────────────────────────────────── #}
+{% set related = [
+  { url: '/about/', eyebrow: 'Our Story', title: 'About Azalea Estates',
+    desc: 'Three decades of family-owned senior care in the heart of Fayetteville, GA.',
+    cta: 'Meet our community' },
+  { url: '/wellness/', eyebrow: 'Wellness Programs', title: 'Wellness at Azalea',
+    desc: 'Award-winning wellness programs led by our degreed Wellness Director — a great department to join.',
+    cta: 'Explore wellness' },
+  { url: '/contact/', eyebrow: 'Get in Touch', title: 'Contact Us',
+    desc: 'Questions about a position, the application process, or life at Azalea Estates? We&rsquo;re happy to talk.',
+    cta: 'Reach out' }
+] %}
+{% include "partials/related.njk" %}

@@ -47,17 +47,37 @@
   <meta name="twitter:image" content="{{ pageOgImage }}">
   <meta name="twitter:image:alt" content="{{ images.heroAlt }}">
 
-  {# --- Fonts ------------------------------------------------------------- #}
+  {# --- Fonts — loaded asynchronously to avoid render-blocking ------------ #}
+  {# preconnect establishes early connections; the stylesheet loads via     #}
+  {# onload so it never blocks the first paint. noscript provides fallback. #}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="preload"
+        as="style"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap"
+        onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap">
+  </noscript>
 
   {# --- Styles ------------------------------------------------------------ #}
   <link rel="stylesheet" href="/assets/css/styles.css">
 
-  {# --- Preload hero image for LCP ---------------------------------------- #}
+  {# --- Preload LCP image ------------------------------------------------- #}
+  {# fetchpriority=high tells the browser to fetch this before other images #}
+  {# so it arrives before the first paint. Covers both the home page video  #}
+  {# poster (heroImage) and interior page heroes (pageHero).               #}
   {% if heroImage %}
   <link rel="preload" as="image" href="{{ heroImage }}" fetchpriority="high">
+  {% elif pageHero %}
+  <link rel="preload" as="image" href="{{ pageHero }}" fetchpriority="high">
+  {% endif %}
+
+  {# --- Homepage-only: preconnect to video CDN so the TCP handshake is     #}
+  {# already done before the <video> element is parsed.                     #}
+  {% if page.url == "/" %}
+  <link rel="preconnect" href="https://seek-cdn.nyc3.cdn.digitaloceanspaces.com">
+  <link rel="dns-prefetch" href="https://seek-cdn.nyc3.cdn.digitaloceanspaces.com">
   {% endif %}
 
   {# --- Structured data: Organization / SeniorLivingFacility -------------- #}
@@ -249,6 +269,7 @@
        Triggered by any element with data-pdf-url attribute.
        PDF.js is lazy-loaded from cdnjs on first use. -->
   <div class="pdfv" id="pdfViewer" role="dialog" aria-modal="true" aria-labelledby="pdfViewerTitle" hidden>
+  <div class="pdfv__panel">
 
     <!-- Header bar: title + controls -->
     <header class="pdfv__header">
@@ -297,6 +318,7 @@
       <div class="pdfv__pages" id="pdfPages" aria-live="polite"></div>
     </div>
 
+  </div><!-- /.pdfv__panel -->
   </div>
 
   <!-- Gallery lightbox
@@ -336,6 +358,10 @@
   </div>
 
   <script src="/assets/js/main.js" defer></script>
+  {# pdf-viewer.js only loads on pages that actually have PDFs — saves     #}
+  {# an unnecessary download on the home page, gallery, contact, etc.      #}
+  {% if hasPdfs %}
   <script src="/assets/js/pdf-viewer.js" defer></script>
+  {% endif %}
 </body>
 </html>

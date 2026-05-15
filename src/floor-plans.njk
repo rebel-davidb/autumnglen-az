@@ -8,6 +8,7 @@ pageIntro: "Five floor plans from efficient studios to roomy two-bedroom deluxe 
 eleventyComputed:
   pageHero: "{{ images.livingRoom }}"
 permalink: /floor-plans/
+hasPdfs: true
 ---
 
 {% from "partials/icons.njk" import icon %}
@@ -54,8 +55,8 @@ permalink: /floor-plans/
         {# Thumbnail links to the PDF — clicking the drawing is a natural shortcut #}
         <a href="{{ p.pdf }}"
            class="plan-card__thumb"
-           target="_blank"
-           rel="noopener noreferrer"
+           data-pdf-url="{{ p.pdf }}"
+           data-pdf-title="{{ p.tag }} Floor Plan"
            tabindex="-1"
            aria-hidden="true">
           <img src="{{ p.thumb }}"
