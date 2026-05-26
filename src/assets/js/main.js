@@ -656,4 +656,49 @@
     });
   }
 
+  // ── "Try It, You'll Like It" toast ───────────────────────────────────────
+  // Shows once to new visitors (no prior visit in localStorage).
+  // Dismissed state is persisted so it never reappears.
+  var toast     = document.getElementById("tryitToast");
+  var toastClose = document.getElementById("tryitClose");
+  var TOAST_KEY  = "ae_tryit_dismissed";
+  var TOAST_DELAY = 4000; // ms before sliding in
+
+  if (toast && !localStorage.getItem(TOAST_KEY)) {
+    // Remove `hidden` attr so it's in the layout (but still off-screen via CSS)
+    toast.removeAttribute("hidden");
+
+    var toastTimer = setTimeout(function () {
+      toast.classList.add("tryit-toast--visible");
+    }, TOAST_DELAY);
+
+    function dismissToast() {
+      toast.classList.remove("tryit-toast--visible");
+      toast.classList.add("tryit-toast--dismissing");
+      localStorage.setItem(TOAST_KEY, "1");
+      clearTimeout(toastTimer);
+      // Remove from DOM after transition completes
+      toast.addEventListener("transitionend", function handler() {
+        toast.removeEventListener("transitionend", handler);
+        toast.setAttribute("hidden", "");
+      });
+    }
+
+    if (toastClose) toastClose.addEventListener("click", dismissToast);
+
+    // Dismiss if user navigates to schedule a tour or contacts us — they engaged
+    toast.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () {
+        localStorage.setItem(TOAST_KEY, "1");
+      });
+    });
+
+    // Dismiss on Escape
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && toast.classList.contains("tryit-toast--visible")) {
+        dismissToast();
+      }
+    });
+  }
+
 })();

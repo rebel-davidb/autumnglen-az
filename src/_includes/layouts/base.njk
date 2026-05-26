@@ -357,6 +357,22 @@
     <span class="sr-only" aria-live="polite" aria-atomic="true" id="lightbox-status"></span>
   </div>
 
+  <!-- "Try It, You'll Like It" toast — shown once to new visitors -->
+  <div class="tryit-toast" id="tryitToast" role="complementary" aria-label="Special offer" hidden>
+    <button class="tryit-toast__close" id="tryitClose" aria-label="Dismiss offer">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
+        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="tryit-toast__eyebrow">Try It, You&rsquo;ll Like It</div>
+    <p class="tryit-toast__heading">Be a Resident for the Day.</p>
+    <p class="tryit-toast__body">Come spend a full day with us &mdash; Monday through Friday, 8&thinsp;am to 6:30&thinsp;pm. Experience the meals, the people, and the community firsthand. No obligation.</p>
+    <div class="tryit-toast__actions">
+      <a href="tel:7704610039" class="btn btn--primary tryit-toast__cta">Call Mirna to RSVP</a>
+      <span class="tryit-toast__phone">770-461-0039</span>
+    </div>
+  </div>
+
   <script src="/assets/js/main.js" defer></script>
   {# pdf-viewer.js only loads on pages that actually have PDFs — saves     #}
   {# an unnecessary download on the home page, gallery, contact, etc.      #}
