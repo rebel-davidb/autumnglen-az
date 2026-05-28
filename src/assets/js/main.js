@@ -863,6 +863,27 @@
     })(window,document,"script","dataLayer",GTM_CONTAINER_ID);
   }
 
+  function clearNonConsentCookies() {
+    // Wipe all cookies except the consent key itself
+    var cookies = document.cookie.split(";");
+    var domains = [location.hostname, "." + location.hostname];
+    var paths   = ["/", location.pathname];
+    cookies.forEach(function(c) {
+      var name = c.split("=")[0].trim();
+      if (!name) return;
+      // Attempt deletion across common domain/path combinations
+      domains.forEach(function(d) {
+        paths.forEach(function(p) {
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=" + p + ";domain=" + d;
+        });
+      });
+      // Also clear without explicit domain (catches first-party cookies)
+      paths.forEach(function(p) {
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=" + p;
+      });
+    });
+  }
+
   function hideBanner() {
     cookieBanner.classList.remove("is-visible");
     cookieBanner.addEventListener("transitionend", function handler() {
@@ -889,6 +910,7 @@
       } else if (e.target.id === "cookieDecline") {
         localStorage.setItem(COOKIE_KEY, "declined");
         hideBanner();
+        clearNonConsentCookies();
       }
     });
 

@@ -15,14 +15,17 @@ hasPdfs: true
 
 {#
   CALENDAR UPDATE INSTRUCTIONS:
-  Each month, add the new PDFs to:
+  Each month, update the three variables below, add the new PDFs to
     src/assets/pdfs/activity-calendars/YYYY/month/
-  Then update the two href values below to match.
+  and update the two href/data-pdf-url values further down.
 
   Current: May 2026
   Activity:  /assets/pdfs/activity-calendars/2026/may/Azalea-Estates-May-Activity-Calendar.pdf
   Wellness:  /assets/pdfs/activity-calendars/2026/may/Azalea-Estates-May-Wellness-Calendar.pdf
 #}
+{% set calMonth     = "May" %}
+{% set calYear      = "2026" %}
+{% set calMonthYear = calMonth + " " + calYear %}
 
 <!-- CALENDARS DOWNLOAD -->
 <section class="section">
@@ -31,6 +34,7 @@ hasPdfs: true
       <span class="eyebrow">Current Month</span>
       <h2>Download this month&rsquo;s calendars.</h2>
       <p>Our Activity Director and Wellness Director publish updated calendars each month. Download them below to see exactly what&rsquo;s planned.</p>
+      <div class="calendar-month-badge">{{ calMonthYear }}</div>
     </div>
 
     <div class="feature-grid">
@@ -45,12 +49,19 @@ hasPdfs: true
           <h3>Monthly Activity Calendar</h3>
           <p>Daily events, social activities, outings, guest entertainment, faith services, and community gatherings, all scheduled and led by our full-time Activity Director.</p>
           {# UPDATE THIS LINK EACH MONTH #}
-          <button type="button"
-                  class="btn btn--primary"
-                  data-pdf-url="/assets/pdfs/activity-calendars/2026/may/Azalea-Estates-May-Activity-Calendar.pdf"
-                  data-pdf-title="May 2026 Activity Calendar">
-            {{ icon('book', 16) }} View May Activity Calendar
-          </button>
+          <div class="calendar-btns">
+            <button type="button"
+                    class="btn btn--primary"
+                    data-pdf-url="/assets/pdfs/activity-calendars/2026/may/Azalea-Estates-May-Activity-Calendar.pdf"
+                    data-pdf-title="{{ calMonthYear }} Activity Calendar">
+              {{ icon('book', 16) }} View
+            </button>
+            <a href="/assets/pdfs/activity-calendars/2026/may/Azalea-Estates-May-Activity-Calendar.pdf"
+               download="Azalea-Estates-{{ calMonthYear | replace(' ', '-') }}-Activity-Calendar.pdf"
+               class="btn btn--outline">
+              {{ icon('download', 16) }} Download
+            </a>
+          </div>
         </div>
       </article>
 
@@ -65,12 +76,19 @@ hasPdfs: true
           <h3>Monthly Wellness Calendar</h3>
           <p>Aquatic therapy sessions, floor exercise classes, Parkinson&rsquo;s program sessions, brain fitness, gentle yoga, and all individual and group fitness programming for the month.</p>
           {# UPDATE THIS LINK EACH MONTH #}
-          <button type="button"
-                  class="btn btn--primary"
-                  data-pdf-url="/assets/pdfs/activity-calendars/2026/may/Azalea-Estates-May-Wellness-Calendar.pdf"
-                  data-pdf-title="May 2026 Wellness Calendar">
-            {{ icon('waves', 16) }} View May Wellness Calendar
-          </button>
+          <div class="calendar-btns">
+            <button type="button"
+                    class="btn btn--primary"
+                    data-pdf-url="/assets/pdfs/activity-calendars/2026/may/Azalea-Estates-May-Wellness-Calendar.pdf"
+                    data-pdf-title="{{ calMonthYear }} Wellness Calendar">
+              {{ icon('waves', 16) }} View
+            </button>
+            <a href="/assets/pdfs/activity-calendars/2026/may/Azalea-Estates-May-Wellness-Calendar.pdf"
+               download="Azalea-Estates-{{ calMonthYear | replace(' ', '-') }}-Wellness-Calendar.pdf"
+               class="btn btn--outline">
+              {{ icon('download', 16) }} Download
+            </a>
+          </div>
         </div>
       </article>
     </div>

@@ -1025,6 +1025,25 @@ p.lead {
 }
 .feature-card__body p { flex: 1; }
 .feature-card a.btn--ghost { margin-top: auto; }
+.calendar-month-badge {
+  display: inline-block;
+  margin-top: var(--space-4);
+  padding: var(--space-2) var(--space-5);
+  background: var(--c-forest);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+.calendar-btns {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: auto;
+}
 
 @media (max-width: 960px) {
   .feature-grid { grid-template-columns: 1fr 1fr; }
@@ -1720,39 +1739,38 @@ p.lead {
 
 /* ── Mobile ──────────────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
-  .lightbox {
+  /* Let the stage fill the full width; push buttons to the bottom */
+  .lightbox.open {
     flex-direction: column;
-    gap: var(--space-3);
-    padding: 64px var(--space-3) var(--space-5);
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    padding: 52px var(--space-3) 88px; /* bottom padding leaves room for the button row */
   }
   .lightbox__stage {
+    flex: 1;
     max-width: 100%;
-    order: 1;
+    min-height: 0;
   }
   .lightbox__frame {
-    height: 52vh;
+    height: calc(100% - 72px); /* full stage height minus footer */
   }
-  /* Stack prev/next below image on mobile */
-  .lightbox__prev,
-  .lightbox__next {
-    order: 2;
-    position: static;
-    width: 48px; height: 48px;
-  }
-  .lightbox__prev { order: 2; }
-  .lightbox__next { order: 3; }
-  /* Row for the two nav buttons */
-  .lightbox {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .lightbox__stage { flex-basis: 100%; }
   .lightbox__footer {
     flex-direction: column;
     align-items: center;
     text-align: center;
     gap: var(--space-1);
+    margin-top: var(--space-3);
   }
+  /* Pin prev/next to the bottom of the overlay, side by side */
+  .lightbox__prev,
+  .lightbox__next {
+    position: absolute;
+    bottom: 16px;
+    width: 56px; height: 56px;
+  }
+  .lightbox__prev { left: calc(50% - 64px); }
+  .lightbox__next { left: calc(50% + 8px); }
 }
 
 /* ==========================================================================
