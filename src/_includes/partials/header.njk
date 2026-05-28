@@ -54,7 +54,7 @@
               {% for child in item.children %}
                 <a href="{{ child.url }}" role="menuitem">{{ child.label }}</a>
               {% endfor %}
-              <a href="{{ item.url }}" class="nav-dropdown__all" role="menuitem">All living options <span aria-hidden="true">→</span></a>
+              <a href="{{ item.url }}" class="nav-dropdown__all" role="menuitem">{{ item.allLabel }} <span aria-hidden="true">→</span></a>
             </div>
           </div>
         {% else %}
@@ -74,7 +74,12 @@
           {{ site.contact.phone }}
         </a>
         <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Tour</a>
-        <a href="/careers/" class="nav-drawer-util">Careers</a>
+        <div class="nav-drawer-util-group">
+          <a href="/calendar/" class="nav-drawer-util">Activity Calendar</a>
+          <a href="/calendar/" class="nav-drawer-util">Wellness Calendar</a>
+          <a href="/team/" class="nav-drawer-util">Meet Our Team</a>
+          <a href="/careers/" class="nav-drawer-util">Careers</a>
+        </div>
       </div>
 
     </nav>

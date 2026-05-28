@@ -20,8 +20,12 @@ module.exports = {
     pinterest: "https://www.pinterest.com/"
   },
   nav: [
-    { label: "About",          url: "/about/" },
-    { label: "Living Options", url: "/living-options/", children: [
+    { label: "About", url: "/about/", allLabel: "About Azalea Estates", children: [
+      { label: "Our Story",            url: "/about/" },
+      { label: "Meet Our Team",        url: "/team/" },
+      { label: "Resident-Centered Care", url: "/resident-centered-care/" }
+    ]},
+    { label: "Living Options", url: "/living-options/", allLabel: "All living options", children: [
       { label: "Independent Living", url: "/living-options/independent-living/" },
       { label: "Assisted Living",    url: "/living-options/assisted-living/" },
       { label: "Respite Care",       url: "/living-options/respite-care/" }

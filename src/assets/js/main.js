@@ -656,6 +656,141 @@
     });
   }
 
+  // ── Closing Gaps flywheel — JS sticky + scroll spy + hover active states ──
+  // position:sticky is broken when html/body have overflow-x:hidden, so we
+  // implement sticky manually: measure the section bounds on scroll and toggle
+  // position:fixed on the flywheel, with a ghost placeholder holding the column.
+  var flywheelLayout  = document.querySelector(".closing-gaps-layout");
+  var flywheelEl      = document.querySelector(".closing-gaps-flywheel");
+  var flywheelSection = flywheelEl && flywheelEl.closest("section");
+
+  if (flywheelLayout && flywheelEl && flywheelSection) {
+    var stepCards = Array.prototype.slice.call(
+      flywheelLayout.querySelectorAll(".step-card[data-step]")
+    );
+
+    // Create invisible ghost that keeps the column width while flywheel is fixed
+    var ghost = document.createElement("div");
+    ghost.className = "closing-gaps-flywheel-ghost";
+    flywheelEl.parentNode.insertBefore(ghost, flywheelEl);
+    ghost.style.display = "none";
+
+    var NAV_H = 88; // px below nav — keep in sync with CSS .is-sticky top value
+    var isSticky = false;
+    var stepsEl = flywheelLayout.querySelector(".closing-gaps-steps");
+
+    function syncSticky() {
+      // Skip on mobile where layout is single-column
+      if (window.innerWidth <= 780) {
+        if (isSticky) unstick();
+        return;
+      }
+
+      var flywheelH  = flywheelEl.offsetHeight;
+      var sectionRect = flywheelSection.getBoundingClientRect();
+      var naturalTop  = isSticky ? ghost.getBoundingClientRect().top : flywheelEl.getBoundingClientRect().top;
+
+      // Section has scrolled above NAV_H — time to stick
+      var shouldStick = naturalTop <= NAV_H && sectionRect.bottom > 0;
+
+      if (shouldStick && !isSticky) {
+        // Snapshot column left + width before going fixed
+        var col = flywheelEl.getBoundingClientRect();
+        ghost.style.width   = flywheelEl.offsetWidth + "px";
+        ghost.style.height  = flywheelH + "px";
+        ghost.style.display = "block";
+        flywheelEl.style.width = col.width + "px";
+        flywheelEl.style.left  = col.left + "px";
+        flywheelEl.classList.add("is-sticky");
+        isSticky = true;
+      } else if (!shouldStick && isSticky) {
+        unstick();
+        return;
+      }
+
+      if (isSticky) {
+        // Normally pinned at NAV_H, but once the section's bottom edge starts
+        // passing through, ride the flywheel up with it so it exits with the section
+        var idealTop = NAV_H;
+        var sectionBottom = sectionRect.bottom; // viewport-relative bottom of section
+        if (sectionBottom < NAV_H + flywheelH) {
+          // Section bottom is above where the flywheel bottom would be — ride it up
+          idealTop = sectionBottom - flywheelH;
+        }
+        flywheelEl.style.top = idealTop + "px";
+      }
+    }
+
+    function unstick() {
+      flywheelEl.classList.remove("is-sticky");
+      flywheelEl.style.width = "";
+      flywheelEl.style.left  = "";
+      flywheelEl.style.top   = "";
+      ghost.style.display = "none";
+      isSticky = false;
+    }
+
+    // ── Active step ─────────────────────────────────────────────────────────
+    function setActiveStep(n) {
+      stepCards.forEach(function (card) {
+        card.classList.toggle("is-active", card.getAttribute("data-step") === String(n));
+      });
+      for (var i = 1; i <= 5; i++) {
+        var node = document.getElementById("flywheel-node-" + i);
+        if (node) node.classList.toggle("is-active", i === n);
+      }
+    }
+
+    // ── Scroll spy ──────────────────────────────────────────────────────────
+    var scrollSpyActive = 0;
+    var hovering = false;
+
+    function triggerScrollSpy() {
+      if (hovering) return;
+      var midY = window.innerHeight / 2;
+      var closest = null;
+      var closestDist = Infinity;
+      stepCards.forEach(function (card) {
+        var rect = card.getBoundingClientRect();
+        var cardMid = rect.top + rect.height / 2;
+        var dist = Math.abs(cardMid - midY);
+        if (dist < closestDist) { closestDist = dist; closest = card; }
+      });
+      if (closest) {
+        var n = parseInt(closest.getAttribute("data-step"), 10);
+        if (n !== scrollSpyActive) { scrollSpyActive = n; setActiveStep(n); }
+      }
+    }
+
+    // ── Hover ───────────────────────────────────────────────────────────────
+    stepCards.forEach(function (card) {
+      card.addEventListener("mouseenter", function () {
+        hovering = true;
+        setActiveStep(parseInt(card.getAttribute("data-step"), 10));
+      });
+      card.addEventListener("mouseleave", function () {
+        hovering = false;
+        triggerScrollSpy();
+      });
+    });
+
+    // ── Wire up scroll + resize ─────────────────────────────────────────────
+    function onScroll() {
+      syncSticky();
+      triggerScrollSpy();
+    }
+
+    window.addEventListener("scroll",  onScroll,    { passive: true });
+    window.addEventListener("resize",  function () {
+      if (isSticky) unstick(); // recalculate on resize
+      syncSticky();
+    }, { passive: true });
+
+    // Initialise
+    setActiveStep(1);
+    syncSticky();
+  }
+
   // ── "Try It, You'll Like It" toast ───────────────────────────────────────
   // Shows once to new visitors (no prior visit in localStorage).
   // Dismissed state is persisted so it never reappears.

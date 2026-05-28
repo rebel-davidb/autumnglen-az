@@ -633,16 +633,24 @@ p.lead {
   }
   .nav-drawer-phone:hover { color: var(--c-forest-hover); }
   .nav-drawer-foot .btn { width: 100%; justify-content: center; }
+  .nav-drawer-util-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-1) var(--space-2);
+  }
   .nav-drawer-util {
     display: block;
     text-align: center;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     font-weight: 500;
     color: var(--c-muted);
     text-decoration: none;
-    padding: var(--space-1) 0;
+    padding: var(--space-2) var(--space-2);
+    border-radius: var(--radius);
+    background: var(--c-sand);
+    transition: background var(--tr), color var(--tr);
   }
-  .nav-drawer-util:hover { color: var(--c-forest); }
+  .nav-drawer-util:hover { background: var(--c-line); color: var(--c-forest); }
 }
 
 /* ==========================================================================
@@ -675,14 +683,14 @@ p.lead {
   content: "";
   position: absolute;
   inset: 0;
-  /* Warm forest green diagonal — same approach as page heroes.
+  /* Champagne yellow diagonal — brightens images and adds a vintage warmth.
      Heavy on the left/bottom where copy lives, clears on the right
-     so video/photo warmth shows through. Text shadow carries AA contrast. */
+     so the photo warmth shows through. Text shadow carries AA contrast. */
   background: linear-gradient(
     108deg,
-    rgba(33, 59, 20, 0.72) 0%,
-    rgba(33, 59, 20, 0.42) 48%,
-    rgba(33, 59, 20, 0.12) 100%
+    rgba(176, 138, 58, 0.78) 0%,
+    rgba(228, 198, 108, 0.46) 48%,
+    rgba(255, 242, 176, 0.14) 100%
   );
 }
 
@@ -752,7 +760,7 @@ p.lead {
   text-shadow: 0 2px 22px rgba(0, 0, 0, 0.60), 0 1px 4px rgba(0, 0, 0, 0.50);
 }
 .hero .eyebrow {
-  color: var(--c-accent-soft);
+  color: var(--c-cream); /* #f5f0e8 — passes WCAG AA on dark hero backgrounds */
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.60);
 }
 .hero p.lead {
@@ -817,14 +825,14 @@ p.lead {
   content: "";
   position: absolute;
   inset: 0;
-  /* Single warm diagonal gradient — forest green tint, not charcoal.
+  /* Champagne yellow diagonal — brightens images and adds a vintage warmth.
      Heavy on the left where text lives, fades to near-clear on the right
      so the photo stays bright and welcoming. Text shadow carries legibility. */
   background: linear-gradient(
     108deg,
-    rgba(33, 59, 20, 0.68) 0%,
-    rgba(33, 59, 20, 0.38) 48%,
-    rgba(33, 59, 20, 0.10) 100%
+    rgba(176, 138, 58, 0.78) 0%,
+    rgba(228, 198, 108, 0.46) 48%,
+    rgba(255, 242, 176, 0.14) 100%
   );
 }
 .page-hero h1 {
@@ -834,7 +842,7 @@ p.lead {
   text-wrap: pretty;
 }
 .page-hero .eyebrow {
-  color: var(--c-forest-soft);
+  color: var(--c-cream); /* #f5f0e8 — passes WCAG AA on dark hero backgrounds */
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
 .page-hero p {
@@ -847,15 +855,15 @@ p.lead {
 
 .crumbs {
   font-size: 0.85rem;
-  /* 0.82 alpha → ~9:1 on darkened hero overlay (AA with margin) */
-  color: rgba(255, 255, 255, 0.82);
+  /* Full white + stronger shadow — reliable contrast over the champagne gradient overlay */
+  color: var(--c-white);
   margin-bottom: var(--space-4);
   letter-spacing: 0.04em;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.65), 0 1px 2px rgba(0, 0, 0, 0.4);
 }
-.crumbs a { color: rgba(255, 255, 255, 0.92); }
+.crumbs a { color: var(--c-white); }
 .crumbs a:hover { color: var(--c-white); text-decoration: underline; text-underline-offset: 3px; }
-.crumbs span { margin: 0 0.4rem; opacity: 0.6; }
+.crumbs span { margin: 0 0.4rem; opacity: 0.75; }
 
 /* ==========================================================================
    MARQUEE BAR
@@ -2061,6 +2069,122 @@ p.lead {
   border: 1px solid var(--c-line);
 }
 
+/* Closing gaps two-column layout — steps + flywheel */
+.container .closing-gaps-layout {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  align-items: center;
+  margin-top: var(--space-7);
+}
+@media (max-width: 780px) {
+  .container .closing-gaps-layout {
+    grid-template-columns: 1fr;
+  }
+  .closing-gaps-flywheel {
+    order: -1;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+}
+.closing-gaps-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+/* Default: flywheel sits in normal grid flow */
+.closing-gaps-flywheel {
+  align-self: start;
+}
+.closing-gaps-flywheel svg {
+  width: 100%;
+  height: auto;
+}
+/* JS adds .is-sticky once the section scrolls into view;
+   a ghost placeholder (.closing-gaps-flywheel-ghost) keeps the column width */
+.closing-gaps-flywheel.is-sticky {
+  position: fixed;
+  top: 88px; /* below nav */
+  z-index: 10;
+  /* width is set inline by JS to match the column */
+}
+.closing-gaps-flywheel-ghost {
+  /* invisible placeholder that holds the column width while flywheel is fixed */
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Flywheel node default state */
+.flywheel-node circle {
+  transition: fill 0.25s ease, transform 0.25s ease;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.flywheel-node text {
+  transition: fill 0.2s ease;
+  pointer-events: none;
+}
+
+/* Active node — highlighted */
+.flywheel-node.is-active circle {
+  fill: #b08a3a;
+  transform: scale(1.08);
+}
+.flywheel-node.is-active text {
+  fill: #fff;
+}
+
+/* Step card hover/active state */
+.step-card {
+  cursor: default;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.step-card.is-active,
+.step-card:hover {
+  border-color: #b08a3a;
+  box-shadow: 0 2px 12px rgba(176, 138, 58, 0.18);
+}
+.step-card.is-active .step-card__num,
+.step-card:hover .step-card__num {
+  background: #b08a3a;
+}
+
+/* Step cards — used on resident-centered-care page */
+.step-card {
+  display: flex;
+  gap: var(--space-4);
+  background: var(--c-white);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+}
+.step-card__num {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--c-forest);
+  color: var(--c-cream);
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.15rem;
+}
+.step-card__body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 var(--space-2);
+  color: var(--c-forest);
+}
+.step-card__body p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--c-ink);
+}
+
 /* Scroll reveal (subtle) */
 .reveal {
   opacity: 0;
@@ -3201,7 +3325,7 @@ body.modal-open { overflow: hidden; }
    rgba(cream,0.78) on #1f1c1a                    →  9.98 : 1  AAA (footer body)
    rgba(cream,0.70) on #1f1c1a                    →  8.30 : 1  AAA (footer-bottom)
    rgba(cream,0.85) on #1f1c1a                    → 11.61 : 1  AAA (footer links)
-   --c-accent-soft #d89eab on --c-ink   #2a2623  →  6.71 : 1  AA  (hero eyebrow)
+   --c-cream #f5f0e8 on dark hero photo/overlay   → ~13.0 : 1  AAA (hero eyebrow)
 
    UI COMPONENTS (≥3:1 per WCAG 1.4.11)
    ----------------------------------------------------------------------------

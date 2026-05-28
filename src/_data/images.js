@@ -110,6 +110,7 @@ module.exports = {
   // ── Wellness / pool ─────────────────────────────────────────────────────
   wellnessPool:    img(PHOTO.poolNew),             // pool aerobics class, front (was: marquee shot)
   wellnessFitness: img(PHOTO.ptSession),           // personal training session (was: stepper)
+  treadmillSupport: img(PHOTO.treadmillSupport),  // staff guiding resident on treadmill
   wellnessYoga:    img(PHOTO.groupFitness),        // group fitness class (was: seated strength)
   wellnessPoolWide: img(PHOTO.poolClassAiry),      // wide pool with vaulted ceiling
 
