@@ -25,73 +25,75 @@ permalink: /videos/
 
 {%- set videos = [
   {
-    id:    "xpNdd5o-QwM",
+    id:     "xpNdd5o-QwM",
+    poster: "/assets/images/posters/poster-campus-tour.jpg",
     uploadDate: "2023-01-23",
     title: "Campus Tour",
-    desc:  "A guided tour of our single-story Fayetteville campus — from the front entrance through the wellness center, dining room, and resident suites.",
+    desc:  "A guided tour of our single-story Fayetteville campus, from the front entrance through the wellness center, dining room, and resident suites.",
     featured: true
   },
   {
-    id:    "Prgde0ogY0g",
-    uploadDate: "2018-10-09",
-    title: "Our Approach to Wellness",
-    desc:  "A look at how our wellness team uses recreational therapy, motivation, and genuine rapport to help residents thrive every single day.",
-    featured: true
-  },
-  {
-    id:    "4lcCr4WCcvU",
+    id:     "4lcCr4WCcvU",
+    poster: "/assets/images/posters/poster-pool-fitness.jpg",
     uploadDate: "2020-07-06",
     title: "Pool & Fitness Center",
-    desc:  "A look inside our 3,000 sq. ft. Wellness Center and heated indoor saltwater pool — and the programs that run every week.",
+    desc:  "A look inside our 3,000 sq. ft. Wellness Center and heated indoor saltwater pool, and the programs that run every week.",
     featured: false
   },
   {
-    id:    "zdAXWPv64pk",
+    id:     "zdAXWPv64pk",
+    poster: "/assets/images/posters/poster-parkinsons.jpg",
     uploadDate: "2020-11-19",
     title: "Helping Those with Parkinson's",
-    desc:  "Our Wellness Director walks through the specialized Parkinson's exercise program — one of the only programs of its kind among senior living communities in Fayette County.",
+    desc:  "Our Wellness Director walks through the specialized Parkinson's exercise program, one of the only programs of its kind among senior living communities in Fayette County.",
     featured: false
   },
   {
-    id:    "qt4s_cLVXAM",
+    id:     "qt4s_cLVXAM",
+    poster: "/assets/images/posters/poster-amenities.jpg",
     uploadDate: "2020-07-06",
     title: "Amenities",
-    desc:  "From the salon and library to the screened porch and community garden — a tour of the spaces residents enjoy every day.",
+    desc:  "From the salon and library to the screened porch and community garden: a tour of the spaces residents enjoy every day.",
     featured: false
   },
   {
-    id:    "_rT1HA7I5Eo",
+    id:     "_rT1HA7I5Eo",
+    poster: "/assets/images/posters/poster-community-garden.jpg",
     uploadDate: "2020-07-06",
     title: "Community Garden",
-    desc:  "Our resident communal garden in bloom — a favorite gathering place for planting, harvesting, and spending time outdoors.",
+    desc:  "Our resident communal garden in bloom, a favorite gathering place for planting, harvesting, and spending time outdoors.",
     featured: false
   },
   {
-    id:    "OeYHU5C2Kc0",
+    id:     "OeYHU5C2Kc0",
+    poster: "/assets/images/posters/poster-all-together.jpg",
     uploadDate: "2022-09-06",
     title: "All Together Now",
-    desc:  "A glimpse of community life at Azalea Estates — the activities, connections, and moments of joy that define daily life here.",
+    desc:  "A glimpse of community life at Azalea Estates: the activities, connections, and moments of joy that define daily life here.",
     featured: false
   },
   {
-    id:    "0jSMDmDz99U",
+    id:     "0jSMDmDz99U",
+    poster: "/assets/images/posters/poster-overview.jpg",
     uploadDate: "2020-07-21",
     title: "Azalea Estates Overview",
-    desc:  "A short overview of Azalea Estates of Fayetteville — our history, our mission, and what families can expect.",
+    desc:  "A short overview of Azalea Estates of Fayetteville: our history, our mission, and what families can expect.",
     featured: false
   },
   {
-    id:    "oo9GTSE057E",
+    id:     "oo9GTSE057E",
+    poster: "/assets/images/posters/poster-campus-tour-2016.jpg",
     uploadDate: "2016-12-07",
     title: "Campus Tour (2016)",
-    desc:  "An earlier walkthrough of our campus — the same warm community, just a few years back.",
+    desc:  "An earlier walkthrough of our campus, the same warm community, just a few years back.",
     featured: false
   },
   {
-    id:    "PcjW-T4owmg",
+    id:     "PcjW-T4owmg",
+    poster: "/assets/images/posters/poster-covid-vaccinations.jpg",
     uploadDate: "2021-02-09",
     title: "First in Georgia to Complete COVID-19 Vaccinations",
-    desc:  "Azalea Estates was among the first senior living communities in Georgia to complete resident vaccinations — a milestone we are proud of.",
+    desc:  "Azalea Estates was among the first senior living communities in Georgia to complete resident vaccinations. A milestone we are proud of.",
     featured: false
   }
 ] -%}
@@ -131,29 +133,24 @@ permalink: /videos/
 }
 </script>
 
-<!-- FEATURED VIDEOS -->
+<!-- FEATURED VIDEO -->
 <section class="section">
-  <div class="container">
-    <div class="section-heading section-heading--left reveal">
+  <div class="container container--narrow">
+    <div class="section-heading reveal">
       <span class="eyebrow">Start Here</span>
       <h2>The best introduction to our community.</h2>
+      <p>A guided tour of our single-story Fayetteville campus, from the front entrance through the wellness center, dining room, and resident suites.</p>
     </div>
-    <div class="feature-grid">
-      {% for video in videos %}
-        {% if video.featured %}
-        <article class="video-card reveal">
-          <button class="video-card__thumb" data-video-id="{{ video.id }}" aria-label="Play: {{ video.title }}">
-            <img src="https://img.youtube.com/vi/{{ video.id }}/maxresdefault.jpg" alt="{{ video.title }}" loading="lazy">
-            <span class="video-card__play" aria-hidden="true"></span>
-          </button>
-          <div class="video-card__body">
-            <h3>{{ video.title }}</h3>
-            <p>{{ video.desc }}</p>
-          </div>
-        </article>
-        {% endif %}
-      {% endfor %}
-    </div>
+    {% for video in videos %}
+      {% if video.featured %}
+      <article class="video-card video-card--hero reveal">
+        <button class="video-card__thumb" data-video-id="{{ video.id }}" aria-label="Play: {{ video.title }}">
+          <img src="{{ video.poster if video.poster else 'https://img.youtube.com/vi/' + video.id + '/maxresdefault.jpg' }}" alt="{{ video.title }}" loading="lazy">
+          <span class="video-card__play" aria-hidden="true"></span>
+        </button>
+      </article>
+      {% endif %}
+    {% endfor %}
   </div>
 </section>
 
@@ -169,7 +166,7 @@ permalink: /videos/
         {% if not video.featured %}
         <article class="video-card video-card--compact reveal">
           <button class="video-card__thumb" data-video-id="{{ video.id }}" aria-label="Play: {{ video.title }}">
-            <img src="https://img.youtube.com/vi/{{ video.id }}/maxresdefault.jpg" alt="{{ video.title }}" loading="lazy">
+            <img src="{{ video.poster if video.poster else 'https://img.youtube.com/vi/' + video.id + '/maxresdefault.jpg' }}" alt="{{ video.title }}" loading="lazy">
             <span class="video-card__play" aria-hidden="true"></span>
           </button>
           <div class="video-card__body">
@@ -200,13 +197,13 @@ permalink: /videos/
 
 {% set related = [
   { url: '/floor-plans/', eyebrow: 'See the Suites', title: 'Floor Plans',
-    desc: "You've seen the campus on video — now explore the specific suite layouts and downloadable PDF drawings.",
+    desc: "You've seen the campus on video. Now explore the specific suite layouts and downloadable PDF drawings.",
     cta: 'View floor plans' },
   { url: '/gallery/', eyebrow: 'More to See', title: 'Photo Tour & Virtual Tour',
-    desc: 'Browse 28+ photos and take our 360° virtual tour — walk every room at your own pace.',
+    desc: 'Browse 28+ photos and take our 360° virtual tour, walk every room at your own pace.',
     cta: 'Open the photo tour' },
   { url: '/schedule-a-tour/', eyebrow: 'Better in Person', title: 'Schedule a Private Tour',
-    desc: 'Nothing replaces walking through it yourself — come visit, meet the team, and stay for lunch.',
+    desc: 'Nothing replaces walking through it yourself. Come visit, meet the team, and stay for lunch.',
     cta: 'Schedule your tour' }
 ] %}
 {% include "partials/related.njk" %}

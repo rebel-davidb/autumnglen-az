@@ -836,4 +836,78 @@
     });
   }
 
+  // ── Cookie Consent Banner ─────────────────────────────────────────────────
+  // GA4, GTM, and Meta Pixel are intentionally NOT loaded in the HTML.
+  // They are only injected here after the user accepts cookies.
+  // This ensures compliance with consent requirements before any tracking fires.
+  //
+  // To activate tracking, set your GTM container ID below:
+  var GTM_CONTAINER_ID = "";   // e.g. "GTM-XXXXXXX"
+
+  var COOKIE_KEY    = "ae_cookie_consent"; // "accepted" | "declined"
+  var cookieBanner  = document.getElementById("cookieBanner");
+  var cookieAccept  = document.getElementById("cookieAccept");
+  var cookieDecline = document.getElementById("cookieDecline");
+
+  function loadAnalytics() {
+    if (!GTM_CONTAINER_ID) return;
+    (function(w,d,s,l,i){
+      w[l]=w[l]||[];
+      w[l].push({"gtm.start": new Date().getTime(), event:"gtm.js"});
+      var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),
+          dl=l!="dataLayer"?"&l="+l:"";
+      j.async=true;
+      j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;
+      f.parentNode.insertBefore(j,f);
+    })(window,document,"script","dataLayer",GTM_CONTAINER_ID);
+  }
+
+  function hideBanner() {
+    cookieBanner.classList.remove("is-visible");
+    cookieBanner.addEventListener("transitionend", function handler() {
+      cookieBanner.removeEventListener("transitionend", handler);
+      cookieBanner.setAttribute("hidden", "");
+    });
+  }
+
+  function showBanner() {
+    cookieBanner.removeAttribute("hidden");
+    setTimeout(function () {
+      cookieBanner.classList.add("is-visible");
+    }, 50);
+  }
+
+  if (cookieBanner) {
+    // Delegate clicks on accept/decline to the banner element itself,
+    // so it works whether triggered on first load or via preferences button
+    cookieBanner.addEventListener("click", function (e) {
+      if (e.target.id === "cookieAccept") {
+        localStorage.setItem(COOKIE_KEY, "accepted");
+        hideBanner();
+        loadAnalytics();
+      } else if (e.target.id === "cookieDecline") {
+        localStorage.setItem(COOKIE_KEY, "declined");
+        hideBanner();
+      }
+    });
+
+    var existing = localStorage.getItem(COOKIE_KEY);
+    if (existing === "accepted") {
+      loadAnalytics();
+    } else if (!existing) {
+      setTimeout(showBanner, 800);
+    }
+    // If "declined", do nothing — no banner, no analytics
+  }
+
+  // "Cookie Preferences" footer button — clears choice and re-shows banner
+  var cookiePrefBtn = document.getElementById("cookiePreferences");
+  if (cookiePrefBtn && cookieBanner) {
+    cookiePrefBtn.addEventListener("click", function () {
+      localStorage.removeItem(COOKIE_KEY);
+      showBanner();
+    });
+  }
+
 })();

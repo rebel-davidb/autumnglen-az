@@ -246,6 +246,9 @@
   {% endif %}
 </head>
 <body>
+  {# GTM noscript fallback — only active after consent is given via JS above.
+     The container ID is intentionally left blank here; GTM is loaded
+     dynamically by main.js only after the user accepts cookies. #}
   <a href="#main" class="skip-link">Skip to main content</a>
   {% include "partials/header.njk" %}
 
@@ -366,10 +369,25 @@
     </button>
     <div class="tryit-toast__eyebrow">Try It, You&rsquo;ll Like It</div>
     <p class="tryit-toast__heading">Be a Resident for the Day.</p>
-    <p class="tryit-toast__body">Come spend a full day with us &mdash; Monday through Friday, 8&thinsp;am to 6:30&thinsp;pm. Experience the meals, the people, and the community firsthand. No obligation.</p>
+    <p class="tryit-toast__body">Come spend a full day with us, Monday through Friday, 8&thinsp;am to 6:30&thinsp;pm. Experience the meals, the people, and the community firsthand. No obligation.</p>
     <div class="tryit-toast__actions">
       <a href="tel:7704610039" class="btn btn--primary tryit-toast__cta">Call Mirna to RSVP</a>
       <span class="tryit-toast__phone">770-461-0039</span>
+    </div>
+  </div>
+
+  <!-- Cookie consent banner -->
+  <div class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie notice" hidden>
+    <div class="cookie-banner__inner">
+      <p class="cookie-banner__text">
+        We use cookies to understand how visitors use our site and to improve your experience.
+        No personal health information is collected.
+        <a href="/privacy/">Privacy Policy</a>
+      </p>
+      <div class="cookie-banner__actions">
+        <button class="cookie-banner__accept" id="cookieAccept">Accept</button>
+        <button class="cookie-banner__decline" id="cookieDecline">Decline</button>
+      </div>
     </div>
   </div>
 
