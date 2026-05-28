@@ -1,0 +1,232 @@
+---
+layout: layouts/page.njk
+title: Sitemap
+metaTitle: "Sitemap | Azalea Estates of Fayetteville"
+description: "A full directory of all pages on the Azalea Estates of Fayetteville website."
+eyebrow: "Site Directory"
+pageIntro: "A full list of every page on this website."
+permalink: /sitemap/
+noindex: true
+---
+
+<section class="section">
+  <div class="container">
+    <div class="sitemap-layout">
+
+      {# ── LEFT: Site navigation ── #}
+      <div class="sitemap-panel">
+        <ul class="sitemap-list">
+
+          <li><a href="/">Home</a></li>
+
+          <li>
+            <a href="/about/">About Azalea Estates</a>
+            <ul>
+              <li><a href="/about/">Our Story</a></li>
+              <li><a href="/team/">Meet Our Team</a></li>
+              <li><a href="/resident-centered-care/">Resident-Centered Care</a></li>
+              <li><a href="/cost-calculator/">Cost Comparison Calculator</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <a href="/living-options/">Living Options</a>
+            <ul>
+              <li><a href="/living-options/independent-living/">Independent Living</a></li>
+              <li><a href="/living-options/assisted-living/">Assisted Living</a></li>
+              <li><a href="/living-options/respite-care/">Respite Care</a></li>
+            </ul>
+          </li>
+
+          <li><a href="/floor-plans/">Floor Plans</a></li>
+          <li><a href="/wellness/">Wellness</a></li>
+          <li><a href="/dining/">Dining</a></li>
+          <li><a href="/amenities/">Services &amp; Amenities</a></li>
+
+          <li>
+            <a href="/gallery/">Photo Tour</a>
+            <ul>
+              <li><a href="/gallery/">Photo Gallery &amp; 360&deg; Virtual Tour</a></li>
+              <li><a href="/videos/">Videos</a></li>
+            </ul>
+          </li>
+
+          <li><a href="/calendar/">Activity Calendars</a></li>
+
+          <li>
+            <a href="/careers/">Careers</a>
+            <ul>
+              <li><a href="/careers/">Open Positions</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <a href="/contact/">Contact &amp; Visit</a>
+            <ul>
+              <li><a href="/contact/">Contact Us</a></li>
+              <li><a href="/schedule-a-tour/">Schedule a Tour</a></li>
+            </ul>
+          </li>
+
+          <li>
+            Legal
+            <ul>
+              <li><a href="/privacy/">Privacy Policy</a></li>
+              <li><a href="/accessibility/">Accessibility Statement</a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+
+      {# ── RIGHT: Contact form ── #}
+      <div class="sitemap-panel sitemap-panel--form">
+        <div class="sitemap-form-header">
+          <span class="eyebrow">Get in Touch</span>
+          <h2 class="sitemap-form-title">Can&rsquo;t find what you&rsquo;re looking for?</h2>
+          <p class="sitemap-form-sub">Our team is happy to help. Send us a message and we&rsquo;ll get back to you within one business day.</p>
+        </div>
+
+        <form
+          name="contact"
+          method="POST"
+          action="/contact/thanks/"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+          class="form"
+        >
+          <input type="hidden" name="form-name" value="contact">
+          <p style="display:none;"><label>Don&rsquo;t fill this out if you&rsquo;re human: <input name="bot-field"></label></p>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="sm_first_name">First Name *</label>
+              <input type="text" id="sm_first_name" name="first_name" required autocomplete="given-name">
+            </div>
+            <div class="form-field">
+              <label for="sm_last_name">Last Name *</label>
+              <input type="text" id="sm_last_name" name="last_name" required autocomplete="family-name">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="sm_email">Email *</label>
+              <input type="email" id="sm_email" name="email" required autocomplete="email">
+            </div>
+            <div class="form-field">
+              <label for="sm_phone">Phone</label>
+              <input type="tel" id="sm_phone" name="phone" autocomplete="tel">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="sm_relation">This inquiry is for&hellip;</label>
+              <select id="sm_relation" name="relation">
+                <option value="self">Myself</option>
+                <option value="parent">A parent</option>
+                <option value="spouse">A spouse</option>
+                <option value="relative">Another relative</option>
+                <option value="professional">A client (I&rsquo;m a professional)</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="sm_interest">Primary interest</label>
+              <select id="sm_interest" name="interest">
+                <option value="independent">Independent Living</option>
+                <option value="assisted">Assisted Living</option>
+                <option value="respite">Respite / Short-term Care</option>
+                <option value="tour">Scheduling a tour</option>
+                <option value="other">Something else</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="sm_message">How can we help?</label>
+            <textarea id="sm_message" name="message" placeholder="Tell us a bit about timeline, needs, or any questions you have&hellip;"></textarea>
+          </div>
+
+          <label class="form-consent">
+            <input type="checkbox" name="consent" required>
+            <span>I&rsquo;d like to be contacted about Azalea Estates. I understand I can opt out anytime.</span>
+          </label>
+
+          {# Attribution fields — populated by JS on page load #}
+          <input type="hidden" name="cf_utm_source">
+          <input type="hidden" name="cf_utm_medium">
+          <input type="hidden" name="cf_utm_campaign">
+          <input type="hidden" name="cf_utm_content">
+          <input type="hidden" name="cf_utm_term">
+          <input type="hidden" name="cf_landing_page">
+          <input type="hidden" name="cf_referrer">
+          <input type="hidden" name="cf_form_page">
+
+          <button type="submit" class="btn btn--primary">Send Message</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .sitemap-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-7);
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .sitemap-layout { grid-template-columns: 1fr; }
+  }
+
+  /* ── Nav panel ── */
+  .sitemap-list,
+  .sitemap-list ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin: 0;
+  }
+  .sitemap-list > li {
+    margin-bottom: var(--space-4);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--c-ink);
+  }
+  .sitemap-list > li > a {
+    font-weight: 600;
+    color: var(--c-forest);
+  }
+  .sitemap-list > li > a:hover { color: var(--c-forest-hover); }
+  .sitemap-list ul {
+    margin-top: var(--space-2);
+    list-style: circle;
+  }
+  .sitemap-list ul li {
+    font-weight: 400;
+    margin-bottom: var(--space-1);
+    font-size: 0.95rem;
+  }
+
+  /* ── Form panel ── */
+  .sitemap-panel--form {
+    background: #f8f6f2;
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    border: 1px solid #e5dfd6;
+  }
+  .sitemap-form-header {
+    margin-bottom: var(--space-5);
+  }
+  .sitemap-form-title {
+    font-size: 1.4rem;
+    margin: var(--space-2) 0 var(--space-2);
+  }
+  .sitemap-form-sub {
+    font-size: 0.9rem;
+    color: var(--c-ink-soft);
+    margin: 0;
+  }
+</style>
