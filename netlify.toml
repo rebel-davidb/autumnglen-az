@@ -2,11 +2,11 @@
 # https://docs.netlify.com/configure-builds/file-based-configuration/
 
 [build]
-  command   = "npm run build"
+  command   = "npm run ci"
   publish   = "_site"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
 
 # Netlify Forms detection is enabled by default via data-netlify attributes
 # and the static form stub in src/forms.html (copied to output).

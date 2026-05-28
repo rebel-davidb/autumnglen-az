@@ -911,6 +911,7 @@
         localStorage.setItem(COOKIE_KEY, "declined");
         hideBanner();
         clearNonConsentCookies();
+        try { sessionStorage.removeItem("ae_attribution"); } catch (e) {}
       }
     });
 
@@ -931,5 +932,121 @@
       showBanner();
     });
   }
+
+  // ── Attribution capture ────────────────────────────────────────────────────
+  // Reads UTM params + referrer on every page load.
+  // If UTMs are present in the URL, they are written to sessionStorage so they
+  // survive navigation (e.g. user lands on homepage from an ad, then navigates
+  // to /schedule-a-tour/ — params are preserved).
+  // On any page that contains a tracked form, hidden inputs are injected with
+  // the stored values so attribution data is submitted alongside the lead.
+  // ──────────────────────────────────────────────────────────────────────────
+  (function () {
+    var ATTR_KEY = "ae_attribution";
+
+    // Don't capture anything if the user has declined cookie consent
+    if (localStorage.getItem(COOKIE_KEY) === "declined") return;
+
+    var TRACKED_FORMS = [
+      "contact",
+      "schedule-tour",
+      "floor-plan-inquiry"
+    ];
+
+    // ── 1. Read UTMs from URL and persist to sessionStorage ──────────────────
+    var params  = new URLSearchParams(window.location.search);
+    var utmKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+    var fresh   = {};
+    var hasUtms = false;
+
+    utmKeys.forEach(function (k) {
+      if (params.get(k)) {
+        fresh[k] = params.get(k);
+        hasUtms = true;
+      }
+    });
+
+    // Always capture landing page and referrer on the first touch
+    var stored = {};
+    try {
+      stored = JSON.parse(sessionStorage.getItem(ATTR_KEY) || "{}");
+    } catch (e) { stored = {}; }
+
+    // If fresh UTMs are present, they win (new campaign click overrides session)
+    // Otherwise keep whatever was stored from the first touch this session
+    var attr = hasUtms ? fresh : stored;
+
+    // Landing page: first URL seen this session wins
+    if (!stored.landing_page) {
+      attr.landing_page = window.location.href;
+    } else {
+      attr.landing_page = stored.landing_page;
+    }
+
+    // Referrer: first external referrer wins (ignore same-domain navigation)
+    if (!stored.referrer && document.referrer) {
+      try {
+        var refHost = new URL(document.referrer).hostname;
+        if (refHost !== window.location.hostname) {
+          attr.referrer = document.referrer;
+        }
+      } catch (e) {}
+    } else {
+      attr.referrer = stored.referrer || "";
+    }
+
+    // Current page always updated so we know the form's page
+    attr.form_page = window.location.href;
+
+    try {
+      sessionStorage.setItem(ATTR_KEY, JSON.stringify(attr));
+    } catch (e) {}
+
+    // ── 2. Inject hidden attribution fields into tracked forms ───────────────
+    var fieldMap = {
+      utm_source:   "cf_utm_source",
+      utm_medium:   "cf_utm_medium",
+      utm_campaign: "cf_utm_campaign",
+      utm_content:  "cf_utm_content",
+      utm_term:     "cf_utm_term",
+      landing_page: "cf_landing_page",
+      referrer:     "cf_referrer",
+      form_page:    "cf_form_page"
+    };
+
+    function injectAttrFields(form) {
+      Object.keys(fieldMap).forEach(function (attrKey) {
+        var val = attr[attrKey];
+        if (!val) return;
+        // Don't double-inject
+        if (form.querySelector('[name="' + fieldMap[attrKey] + '"]')) return;
+        var inp = document.createElement("input");
+        inp.type  = "hidden";
+        inp.name  = fieldMap[attrKey];
+        inp.value = val;
+        form.appendChild(inp);
+      });
+    }
+
+    TRACKED_FORMS.forEach(function (formName) {
+      // Forms may be in the DOM already (contact, tour) or injected into a
+      // modal later (floor-plan-inquiry). Handle both cases.
+      var form = document.querySelector('form[name="' + formName + '"]');
+      if (form) {
+        injectAttrFields(form);
+      }
+    });
+
+    // Re-run injection when the floor plan modal opens (form rendered in modal)
+    var planModal = document.getElementById("planModal");
+    if (planModal) {
+      planModal.addEventListener("click", function () {
+        var form = planModal.querySelector('form[name="floor-plan-inquiry"]');
+        if (form) injectAttrFields(form);
+      });
+    }
+
+  }());
+  // ── End attribution capture ────────────────────────────────────────────────
 
 })();

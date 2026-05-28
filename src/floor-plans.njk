@@ -220,6 +220,16 @@ hasPdfs: true
         <textarea id="plan-message" name="message" rows="3" placeholder="Anything specific you'd like to know?"></textarea>
       </div>
 
+      {# Attribution fields — populated by JS on page load #}
+      <input type="hidden" name="cf_utm_source">
+      <input type="hidden" name="cf_utm_medium">
+      <input type="hidden" name="cf_utm_campaign">
+      <input type="hidden" name="cf_utm_content">
+      <input type="hidden" name="cf_utm_term">
+      <input type="hidden" name="cf_landing_page">
+      <input type="hidden" name="cf_referrer">
+      <input type="hidden" name="cf_form_page">
+
       <div class="modal__actions">
         <button type="button" class="btn btn--outline" data-modal-close>Cancel</button>
         <button type="submit" class="btn btn--primary">Send Inquiry</button>

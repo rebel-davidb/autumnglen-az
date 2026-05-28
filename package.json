@@ -7,9 +7,13 @@
     "build": "eleventy --input=src --output=_site",
     "start": "eleventy --serve --quiet --input=src --output=_site",
     "dev": "eleventy --serve --quiet --input=src --output=_site",
-    "clean": "rm -rf _site"
+    "clean": "rm -rf _site",
+    "test": "node --test tests/forms.test.mjs",
+    "test:watch": "node --test --watch tests/forms.test.mjs",
+    "ci": "npm run build && npm test"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.1"
+    "@11ty/eleventy": "^2.0.1",
+    "node-html-parser": "^7.1.0"
   }
 }
