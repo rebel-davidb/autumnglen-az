@@ -1,0 +1,845 @@
+---
+layout: layouts/page.njk
+title: Cost Comparison Calculator
+metaTitle: "Senior Living Cost Calculator | Azalea Estates of Fayetteville"
+description: "See how the true cost of living at home compares to all-inclusive senior living at Azalea Estates. Add up your monthly home expenses and compare."
+eyebrow: "Is It Time to Consider a Move?"
+pageIntro: "Many families are surprised to find that senior living costs less than they expected once all the hidden costs of home are factored in. Use this calculator to compare."
+eleventyComputed:
+  pageHero: "{{ images.communityGarden }}"
+permalink: /cost-calculator/
+---
+
+<section class="section">
+  <div class="container">
+
+    {# Care Level Selector #}
+    <div class="calc-care-selector">
+      <label for="careLevel" class="calc-care-label">Compare against Azalea rates for:</label>
+      <select id="careLevel" class="calc-care-select">
+        <option value="independent">Independent Living</option>
+        <option value="assisted">Assisted Living</option>
+      </select>
+    </div>
+
+    <div class="calc-layout">
+
+      {# ── LEFT: Home Cost Inputs ── #}
+      <div class="calc-panel calc-panel--home">
+        <div class="calc-panel__header">
+          <div class="calc-panel__header-row">
+            <div>
+              <h2 class="calc-panel__title">Your Monthly Home Costs</h2>
+              <p class="calc-panel__subtitle">Enter your expenses, or use national averages for seniors as a starting point.</p>
+            </div>
+            <button type="button" class="calc-avg-btn" id="useAverages">Use national averages</button>
+          </div>
+        </div>
+
+        <div class="calc-fields">
+
+          <div class="calc-group">
+            <h3 class="calc-group__label">Housing</h3>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-mortgage">Mortgage payment or rent</label>
+                <span class="calc-avg-hint">Avg: $1,200/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-mortgage" class="calc-input" data-avg="1200" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-taxes">Property taxes (monthly)</label>
+                <span class="calc-avg-hint">Avg: $250/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-taxes" class="calc-input" data-avg="250" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-hoa">HOA / CAM dues</label>
+                <span class="calc-avg-hint">Avg: $175/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-hoa" class="calc-input" data-avg="175" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-insurance">Homeowner's / renter's insurance</label>
+                <span class="calc-avg-hint">Avg: $150/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-insurance" class="calc-input" data-avg="150" placeholder="0" min="0"></div>
+            </div>
+          </div>
+
+          <div class="calc-group">
+            <h3 class="calc-group__label">Home Upkeep</h3>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-maintenance">Home maintenance &amp; repairs</label>
+                <span class="calc-avg-hint">Avg: $275/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-maintenance" class="calc-input" data-avg="275" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-pest">Pest control</label>
+                <span class="calc-avg-hint">Avg: $40/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-pest" class="calc-input" data-avg="40" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-lawn">Lawn &amp; landscaping service</label>
+                <span class="calc-avg-hint">Avg: $150/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-lawn" class="calc-input" data-avg="150" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-appliances">Appliance repairs / replacement</label>
+                <span class="calc-avg-hint">Avg: $60/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-appliances" class="calc-input" data-avg="60" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-housekeeping">Housekeeping service</label>
+                <span class="calc-avg-hint">Avg: $175/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-housekeeping" class="calc-input" data-avg="175" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-laundry">Laundry &amp; linen service</label>
+                <span class="calc-avg-hint">Avg: $80/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-laundry" class="calc-input" data-avg="80" placeholder="0" min="0"></div>
+            </div>
+          </div>
+
+          <div class="calc-group">
+            <h3 class="calc-group__label">Utilities &amp; Systems</h3>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-utilities1">Water, cable &amp; trash</label>
+                <span class="calc-avg-hint">Avg: $185/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-utilities1" class="calc-input" data-avg="185" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-utilities2">Electricity &amp; gas</label>
+                <span class="calc-avg-hint">Avg: $175/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-utilities2" class="calc-input" data-avg="175" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-security">Security &amp; safety system</label>
+                <span class="calc-avg-hint">Avg: $45/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-security" class="calc-input" data-avg="45" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-fire">Fire protection system</label>
+                <span class="calc-avg-hint">Avg: $25/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-fire" class="calc-input" data-avg="25" placeholder="0" min="0"></div>
+            </div>
+          </div>
+
+          <div class="calc-group">
+            <h3 class="calc-group__label">Food &amp; Transportation</h3>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-meals">Groceries &amp; dining out (3 meals/day)</label>
+                <span class="calc-avg-hint">Avg: $650/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-meals" class="calc-input" data-avg="650" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-transport">Transportation (gas, insurance, upkeep)</label>
+                <span class="calc-avg-hint">Avg: $325/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-transport" class="calc-input" data-avg="325" placeholder="0" min="0"></div>
+            </div>
+          </div>
+
+          <div class="calc-group calc-group--assisted-only" id="aideGroup">
+            <h3 class="calc-group__label">Personal Care <span class="calc-group__label-note">(Assisted Living)</span></h3>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-aide">In-home aide or caregiver</label>
+                <span class="calc-avg-hint">Median: $4,767/mo (44 hrs/wk @ $24.85/hr in Georgia) — <em>Genworth Cost of Care Survey 2024</em></span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-aide" class="calc-input calc-input--assisted" data-avg="4767" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-medical-transport">Medical transportation &amp; appointments</label>
+                <span class="calc-avg-hint">Avg: $150/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-medical-transport" class="calc-input calc-input--assisted" data-avg="150" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-med-mgmt">Medication management / pill organizer service</label>
+                <span class="calc-avg-hint">Avg: $75/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-med-mgmt" class="calc-input calc-input--assisted" data-avg="75" placeholder="0" min="0"></div>
+            </div>
+          </div>
+
+          <div class="calc-group">
+            <h3 class="calc-group__label">Wellness &amp; Lifestyle</h3>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-fitness">Fitness club or gym membership</label>
+                <span class="calc-avg-hint">Avg: $50/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-fitness" class="calc-input" data-avg="50" placeholder="0" min="0"></div>
+            </div>
+            <div class="calc-field">
+              <div class="calc-field__label-wrap">
+                <label for="f-social">Social memberships &amp; entertainment</label>
+                <span class="calc-avg-hint">Avg: $150/mo</span>
+              </div>
+              <div class="calc-input-wrap"><span class="calc-dollar">$</span><input type="number" id="f-social" class="calc-input" data-avg="150" placeholder="0" min="0"></div>
+            </div>
+          </div>
+
+        </div>{# end calc-fields #}
+
+        <div class="calc-avg-total-row">
+          <span class="calc-avg-total-label">National average for seniors</span>
+          <span class="calc-avg-total-value">$3,940/mo</span>
+        </div>
+
+        <div class="calc-total calc-total--home">
+          <span class="calc-total__label">Your estimated monthly home cost</span>
+          <span class="calc-total__value" id="homeTotal">$0</span>
+        </div>
+
+      </div>{# end calc-panel--home #}
+
+      {# ── RIGHT: Azalea Included Panel ── #}
+      <div class="calc-panel calc-panel--azalea">
+        <div class="calc-panel__header">
+          <h2 class="calc-panel__title">What's Included at Azalea Estates</h2>
+          <p class="calc-panel__subtitle">One monthly rate. No surprise bills.</p>
+        </div>
+
+        <ul class="calc-included-list">
+          <li class="calc-included-group-label">Housing &amp; Home</li>
+          <li><span class="calc-check">✓</span> Private apartment or studio</li>
+          <li><span class="calc-check">✓</span> All utilities (water, electric, trash)</li>
+          <li><span class="calc-check">✓</span> Cable TV &amp; Wi-Fi</li>
+          <li><span class="calc-check">✓</span> Full maintenance &amp; repairs</li>
+          <li><span class="calc-check">✓</span> Weekly housekeeping</li>
+          <li><span class="calc-check">✓</span> Weekly linen &amp; laundry service</li>
+          <li><span class="calc-check">✓</span> Lawn &amp; grounds care</li>
+          <li><span class="calc-check">✓</span> Pest control</li>
+
+          <li class="calc-included-group-label">Dining</li>
+          <li><span class="calc-check">✓</span> 3 chef-prepared meals daily</li>
+          <li><span class="calc-check">✓</span> Snacks &amp; beverages available</li>
+          <li><span class="calc-check">✓</span> Private dining for family visits</li>
+
+          <li class="calc-included-group-label">Wellness &amp; Safety</li>
+          <li><span class="calc-check">✓</span> Fitness center &amp; classes</li>
+          <li><span class="calc-check">✓</span> Heated swimming pool</li>
+          <li><span class="calc-check">✓</span> 24-hour emergency response system</li>
+          <li><span class="calc-check">✓</span> Emergency backup generator</li>
+          <li><span class="calc-check">✓</span> On-site staff 24 hours a day</li>
+
+          <li class="calc-included-group-label">Transportation &amp; Life</li>
+          <li><span class="calc-check">✓</span> Scheduled transportation</li>
+          <li><span class="calc-check">✓</span> Rich social calendar &amp; activities</li>
+          <li><span class="calc-check">✓</span> Concierge services</li>
+          <li><span class="calc-check">✓</span> A vibrant community of peers</li>
+
+          <li class="calc-included-group-label calc-included-group-label--assisted" aria-hidden="true">Assisted Living Care</li>
+          <li class="calc-assisted-item" aria-hidden="true"><span class="calc-check">✓</span> Personalized care plan</li>
+          <li class="calc-assisted-item" aria-hidden="true"><span class="calc-check">✓</span> Assistance with daily activities (ADLs)</li>
+          <li class="calc-assisted-item" aria-hidden="true"><span class="calc-check">✓</span> Medication management</li>
+          <li class="calc-assisted-item" aria-hidden="true"><span class="calc-check">✓</span> Coordination with physicians &amp; specialists</li>
+        </ul>
+
+        <div class="calc-total calc-total--azalea">
+          <span class="calc-total__label">Azalea Estates monthly rate</span>
+          <span class="calc-total__value" id="azaleaRate">Call for pricing</span>
+        </div>
+
+        <div class="calc-cta">
+          <p class="calc-cta__text">Ready to learn more? Our team is happy to walk you through exact pricing for your situation.</p>
+          <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Tour</a>
+          <a href="/contact/" class="btn btn--ghost">Contact Us</a>
+        </div>
+
+      </div>{# end calc-panel--azalea #}
+
+    </div>{# end calc-layout #}
+
+    {# ── Comparison Bar ── #}
+    <div class="calc-comparison" id="calcComparison" aria-live="polite">
+      <div class="calc-comparison__inner">
+        <div class="calc-bar-wrap">
+          <div class="calc-bar-label">Your home costs</div>
+          <div class="calc-bar-track">
+            <div class="calc-bar calc-bar--home" id="barHome"></div>
+          </div>
+          <div class="calc-bar-amount" id="barHomeAmt">$0 / mo</div>
+        </div>
+        <div class="calc-bar-wrap calc-bar-wrap--avg">
+          <div class="calc-bar-label">National avg (seniors)</div>
+          <div class="calc-bar-track">
+            <div class="calc-bar calc-bar--avg" id="barAvg"></div>
+          </div>
+          <div class="calc-bar-amount">$3,940 / mo</div>
+        </div>
+        <div class="calc-bar-wrap">
+          <div class="calc-bar-label">Azalea Estates</div>
+          <div class="calc-bar-track">
+            <div class="calc-bar calc-bar--azalea" id="barAzalea"></div>
+          </div>
+          <div class="calc-bar-amount" id="barAzaleaAmt">Call for pricing</div>
+        </div>
+        <p class="calc-comparison__note" id="calcNote">Enter your monthly home expenses above to see how the numbers compare.</p>
+      </div>
+    </div>
+
+    <p class="calc-disclaimer">Home cost averages are estimates based on BLS Consumer Expenditure Survey data for adults 65+. In-home care costs are sourced from the Genworth Cost of Care Survey 2024 (Georgia median for a home health aide, 44 hrs/wk). Individual costs vary by region, home size, care needs, and lifestyle. Azalea Estates rates shown are starting figures — contact us for a personalized quote.</p>
+
+  </div>
+</section>
+
+<style>
+  /* ── Care selector ── */
+  .calc-care-selector {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-7);
+    flex-wrap: wrap;
+  }
+  .calc-care-label {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--c-ink);
+    margin: 0;
+  }
+  .calc-care-select {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    padding: var(--space-2) var(--space-5) var(--space-2) var(--space-3);
+    border: 2px solid var(--c-forest);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    color: var(--c-ink);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23213b14' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    min-width: 220px;
+  }
+  .calc-care-select:focus {
+    outline: 3px solid var(--c-forest);
+    outline-offset: 2px;
+  }
+
+  /* ── Two-column layout ── */
+  .calc-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-7);
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .calc-layout { grid-template-columns: 1fr; }
+  }
+
+  /* ── Panels ── */
+  .calc-panel {
+    border-radius: var(--radius-lg);
+    border: 1px solid #ddd;
+    overflow: hidden;
+  }
+  .calc-panel__header {
+    padding: var(--space-5) var(--space-6);
+    border-bottom: 1px solid #eee;
+  }
+  .calc-panel--home .calc-panel__header { background: #f8f6f2; }
+  .calc-panel--azalea .calc-panel__header { background: var(--c-forest); color: #fff; }
+  .calc-panel--azalea .calc-panel__title { color: #fff; }
+  .calc-panel--azalea .calc-panel__subtitle { color: rgba(255,255,255,0.8); }
+  .calc-panel__header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .calc-panel__title {
+    font-size: 1.25rem;
+    margin: 0 0 var(--space-2) 0;
+  }
+  .calc-panel__subtitle {
+    font-size: 0.875rem;
+    color: var(--c-ink-soft);
+    margin: 0;
+  }
+
+  /* ── "Use national averages" button ── */
+  .calc-avg-btn {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--c-forest);
+    background: #fff;
+    border: 1.5px solid var(--c-forest);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+    margin-top: 2px;
+  }
+  .calc-avg-btn:hover {
+    background: var(--c-forest);
+    color: #fff;
+  }
+
+  /* ── Input fields ── */
+  .calc-fields {
+    padding: var(--space-5) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .calc-group__label {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--c-accent);
+    margin: 0 0 var(--space-3) 0;
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid #e8e2d9;
+  }
+  .calc-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-2) 0;
+  }
+  .calc-field__label-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .calc-field label {
+    font-size: 0.875rem;
+    color: var(--c-ink);
+    line-height: 1.4;
+  }
+  .calc-avg-hint {
+    font-size: 0.75rem;
+    color: var(--c-ink-soft);
+    font-style: italic;
+  }
+  .calc-input-wrap {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .calc-input-wrap:focus-within {
+    border-color: var(--c-forest);
+    outline: 2px solid var(--c-forest);
+    outline-offset: 1px;
+  }
+  .calc-dollar {
+    padding: 0 var(--space-2);
+    font-size: 0.9rem;
+    color: var(--c-ink-soft);
+    background: #f4f1ec;
+    border-right: 1px solid #ccc;
+    line-height: 2.2rem;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+  }
+  .calc-input {
+    width: 90px;
+    padding: var(--space-2) var(--space-3);
+    border: none;
+    outline: none;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--c-ink);
+    background: transparent;
+    text-align: right;
+    -moz-appearance: textfield;
+  }
+  .calc-input::-webkit-outer-spin-button,
+  .calc-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .calc-input.is-avg {
+    color: var(--c-ink-soft);
+    font-style: italic;
+  }
+
+  /* ── National avg total row ── */
+  .calc-avg-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-6);
+    background: #f0ede8;
+    border-top: 1px dashed #ccc;
+    gap: var(--space-4);
+  }
+  .calc-avg-total-label {
+    font-size: 0.8rem;
+    color: var(--c-ink-soft);
+    font-style: italic;
+  }
+  .calc-avg-total-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--c-ink-soft);
+    white-space: nowrap;
+  }
+
+  /* ── Home total ── */
+  .calc-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4) var(--space-6);
+    gap: var(--space-4);
+  }
+  .calc-total--home {
+    background: var(--c-sand);
+    border-top: 2px solid #d9d1c5;
+  }
+  .calc-total--azalea {
+    background: var(--c-forest);
+    border-top: 2px solid rgba(255,255,255,0.2);
+  }
+  .calc-total--azalea .calc-total__label,
+  .calc-total--azalea .calc-total__value { color: #fff; }
+  .calc-total__label {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--c-ink);
+  }
+  .calc-total__value {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--c-forest);
+    white-space: nowrap;
+  }
+
+  /* ── Azalea included list ── */
+  .calc-included-list {
+    list-style: none;
+    margin: 0;
+    padding: var(--space-5) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .calc-included-list li {
+    font-size: 0.9rem;
+    color: var(--c-ink);
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    line-height: 1.5;
+  }
+  .calc-included-group-label {
+    font-family: var(--font-sans);
+    font-size: 0.75rem !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--c-accent) !important;
+    margin-top: var(--space-3) !important;
+    padding-bottom: var(--space-2) !important;
+    border-bottom: 1px solid #e8e2d9;
+    display: block !important;
+  }
+  .calc-check {
+    color: var(--c-forest);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ── Assisted-only input group ── */
+  .calc-group--assisted-only {
+    display: none;
+  }
+  .calc-layout[data-care="assisted"] .calc-group--assisted-only {
+    display: block;
+  }
+  .calc-group__label-note {
+    font-weight: 400;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.7rem;
+    color: var(--c-accent);
+    opacity: 0.8;
+  }
+
+  /* Assisted living items — hidden by default */
+  .calc-assisted-item,
+  .calc-included-group-label--assisted {
+    display: none !important;
+  }
+  .calc-layout[data-care="assisted"] .calc-assisted-item,
+  .calc-layout[data-care="assisted"] .calc-included-group-label--assisted {
+    display: flex !important;
+  }
+  .calc-layout[data-care="assisted"] .calc-included-group-label--assisted {
+    display: block !important;
+  }
+
+  /* ── CTA block ── */
+  .calc-cta {
+    padding: var(--space-5) var(--space-6) var(--space-6);
+    background: #f0f4ed;
+    border-top: 1px solid #d5e0cf;
+    text-align: center;
+  }
+  .calc-cta__text {
+    font-size: 0.9rem;
+    color: var(--c-ink-soft);
+    margin-bottom: var(--space-4);
+  }
+  .calc-cta .btn { margin: 0 var(--space-2) var(--space-2); }
+
+  /* ── Comparison bars ── */
+  .calc-comparison {
+    margin-top: var(--space-8);
+    background: var(--c-sand);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6) var(--space-7);
+  }
+  .calc-comparison__inner {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .calc-bar-wrap {
+    display: grid;
+    grid-template-columns: 180px 1fr auto;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  @media (max-width: 600px) {
+    .calc-bar-wrap { grid-template-columns: 1fr; }
+  }
+  .calc-bar-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--c-ink);
+  }
+  .calc-bar-wrap--avg .calc-bar-label {
+    color: var(--c-ink-soft);
+    font-weight: 400;
+    font-style: italic;
+  }
+  .calc-bar-track {
+    height: 28px;
+    background: #ddd5c8;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .calc-bar-wrap--avg .calc-bar-track {
+    height: 20px;
+  }
+  .calc-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+  .calc-bar--home { background: var(--c-accent); }
+  .calc-bar--avg { background: #b5a898; }
+  .calc-bar--azalea { background: var(--c-forest); }
+  .calc-bar-amount {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    white-space: nowrap;
+    min-width: 110px;
+    text-align: right;
+  }
+  .calc-bar-wrap--avg .calc-bar-amount {
+    font-weight: 400;
+    color: var(--c-ink-soft);
+  }
+  .calc-comparison__note {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--c-ink-soft);
+    margin-top: var(--space-4);
+    min-height: 1.5em;
+    font-style: italic;
+  }
+
+  /* ── Disclaimer ── */
+  .calc-disclaimer {
+    margin-top: var(--space-5);
+    font-size: 0.75rem;
+    color: var(--c-ink-soft);
+    font-style: italic;
+    text-align: center;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
+
+<script>
+(function() {
+  var RATES = {
+    independent: 3500,
+    assisted: 5000
+  };
+
+  var NATIONAL_AVG_BASE = 3940;      // independent living baseline
+  var NATIONAL_AVG_ASSISTED = 8932; // baseline + aide ($4,767) + medical transport ($150) + med mgmt ($75)
+
+  var careSelect = document.getElementById('careLevel');
+  var calcLayout = document.querySelector('.calc-layout');
+  var azaleaRateEl = document.getElementById('azaleaRate');
+  var homeTotalEl = document.getElementById('homeTotal');
+  var barHome = document.getElementById('barHome');
+  var barAvg = document.getElementById('barAvg');
+  var barAzalea = document.getElementById('barAzalea');
+  var barHomeAmt = document.getElementById('barHomeAmt');
+  var barAzaleaAmt = document.getElementById('barAzaleaAmt');
+  var calcNote = document.getElementById('calcNote');
+  var avgTotalValue = document.querySelector('.calc-avg-total-value');
+  var inputs = document.querySelectorAll('.calc-input');
+  var assistedInputs = document.querySelectorAll('.calc-input--assisted');
+  var useAvgBtn = document.getElementById('useAverages');
+
+  function formatDollars(n) {
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+
+  function getHomeTotal() {
+    var total = 0;
+    inputs.forEach(function(inp) {
+      var val = parseFloat(inp.value) || 0;
+      if (val > 0) total += val;
+    });
+    return total;
+  }
+
+  function getAzaleaRate() {
+    return RATES[careSelect.value] || 0;
+  }
+
+  function getNationalAvg() {
+    return careSelect.value === 'assisted' ? NATIONAL_AVG_ASSISTED : NATIONAL_AVG_BASE;
+  }
+
+  function updateBars(homeTotal, azaleaRate) {
+    var natAvg = getNationalAvg();
+    var max = Math.max(homeTotal, azaleaRate, natAvg, 1);
+    barHome.style.width = (homeTotal / max * 100) + '%';
+    barAvg.style.width = (natAvg / max * 100) + '%';
+    barAzalea.style.width = (azaleaRate / max * 100) + '%';
+    barHomeAmt.textContent = formatDollars(homeTotal) + ' / mo';
+    barAzaleaAmt.textContent = formatDollars(azaleaRate) + '+ / mo';
+    // Update the avg bar label amount
+    var avgAmtEl = barAvg.closest('.calc-bar-wrap') && barAvg.closest('.calc-bar-wrap').querySelector('.calc-bar-amount');
+    if (avgAmtEl) avgAmtEl.textContent = formatDollars(natAvg) + ' / mo';
+    // Update the avg total row
+    if (avgTotalValue) avgTotalValue.textContent = formatDollars(natAvg) + '/mo';
+
+    if (homeTotal > 0) {
+      var diff = homeTotal - azaleaRate;
+      if (diff > 0) {
+        calcNote.textContent = 'At your current home costs, you could save approximately ' + formatDollars(diff) + ' per month at Azalea Estates — plus gain services and peace of mind not counted here.';
+      } else if (diff < 0) {
+        calcNote.textContent = 'Your estimated home costs are below the starting rate shown. Call us to discuss the full value included in every Azalea Estates rate.';
+      } else {
+        calcNote.textContent = 'Your home costs are roughly equal to the Azalea Estates starting rate — with far more included.';
+      }
+    } else {
+      calcNote.textContent = 'Enter your monthly home expenses above to see how the numbers compare.';
+    }
+  }
+
+  function update() {
+    var homeTotal = getHomeTotal();
+    var azaleaRate = getAzaleaRate();
+
+    homeTotalEl.textContent = formatDollars(homeTotal);
+    azaleaRateEl.textContent = formatDollars(azaleaRate) + '+/mo';
+
+    calcLayout.setAttribute('data-care', careSelect.value);
+    updateBars(homeTotal, azaleaRate);
+  }
+
+  // Fill all fields with national averages
+  useAvgBtn.addEventListener('click', function() {
+    var isAssisted = careSelect.value === 'assisted';
+    inputs.forEach(function(inp) {
+      // Skip assisted-only fields if we're in independent mode
+      if (inp.classList.contains('calc-input--assisted') && !isAssisted) return;
+      var avg = inp.getAttribute('data-avg');
+      if (avg) {
+        inp.value = avg;
+        inp.classList.add('is-avg');
+      }
+    });
+    update();
+    // Scroll to comparison
+    var comparison = document.getElementById('calcComparison');
+    if (comparison) {
+      comparison.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+
+  // Remove italic styling when user edits a field
+  inputs.forEach(function(inp) {
+    inp.addEventListener('input', function() {
+      inp.classList.remove('is-avg');
+      update();
+    });
+  });
+
+  careSelect.addEventListener('change', function() {
+    // When switching back to independent, clear the assisted-only fields
+    if (careSelect.value === 'independent') {
+      assistedInputs.forEach(function(inp) {
+        inp.value = '';
+        inp.classList.remove('is-avg');
+      });
+    }
+    update();
+  });
+
+  // Init
+  update();
+})();
+</script>
