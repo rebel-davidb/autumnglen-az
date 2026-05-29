@@ -62,24 +62,114 @@
   } else {
     document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
   }
-
-  // ── Gallery lightbox — prev/next, captions, focus management (WCAG AA) ──
+  // Gallery lightbox - prev/next, captions, zoom/pan, focus management (WCAG AA)
   var lightbox = document.querySelector(".lightbox");
   if (lightbox) {
-    var lbImg      = lightbox.querySelector(".lightbox__img");
-    var lbCaption  = lightbox.querySelector(".lightbox__caption");
-    var lbCounter  = lightbox.querySelector(".lightbox__counter");
-    var lbStatus   = lightbox.querySelector("#lightbox-status");
-    var closeBtn   = lightbox.querySelector(".lightbox__close");
-    var prevBtn    = lightbox.querySelector(".lightbox__prev");
-    var nextBtn    = lightbox.querySelector(".lightbox__next");
+    var lbImg       = lightbox.querySelector(".lightbox__img");
+    var lbFrame     = lightbox.querySelector(".lightbox__frame");
+    var lbCaption   = lightbox.querySelector(".lightbox__caption");
+    var lbCounter   = lightbox.querySelector(".lightbox__counter");
+    var lbStatus    = lightbox.querySelector("#lightbox-status");
+    var closeBtn    = lightbox.querySelector(".lightbox__close");
+    var prevBtn     = lightbox.querySelector(".lightbox__prev");
+    var nextBtn     = lightbox.querySelector(".lightbox__next");
+    var lbZoomIn    = lightbox.querySelector("[data-zoom='in']");
+    var lbZoomOut   = lightbox.querySelector("[data-zoom='out']");
+    var lbZoomReset = lightbox.querySelector("[data-zoom='reset']");
+    var lbZoomLevel = lightbox.querySelector(".lightbox__zoom-hud .zoom-level");
 
-    var items      = Array.prototype.slice.call(document.querySelectorAll(".gallery-item"));
-    var current    = 0;
-    var returnFocus = null;   // element to focus when lightbox closes
+    var items       = Array.prototype.slice.call(document.querySelectorAll(".gallery-item"));
+    var current     = 0;
+    var returnFocus = null;
 
-    // ── Helpers ─────────────────────────────────────────────────────────
-    function mod(n, m) { return ((n % m) + m) % m; }  // always-positive modulo
+    // Zoom / pan state
+    var lbScale = 1, lbOx = 0, lbOy = 0;
+    var lbDragging = false, lbDragX, lbDragY, lbDragOx, lbDragOy;
+    var LB_MIN = 1, LB_MAX = 5;
+
+    function lbUpdateHud() {
+      if (lbZoomLevel) lbZoomLevel.textContent = Math.round(lbScale * 100) + "%";
+      lbImg.classList.toggle("lightbox__img--zoomed", lbScale > 1);
+    }
+
+    function lbApplyTransform(animated) {
+      if (animated) {
+        lbImg.style.transition = "transform 280ms ease";
+        setTimeout(function () { lbImg.style.transition = ""; }, 280);
+      }
+      lbImg.style.transform = "translate(" + lbOx + "px," + lbOy + "px) scale(" + lbScale + ")";
+      lbUpdateHud();
+    }
+
+    function lbClamp() {
+      if (!lbFrame) return;
+      var fw = lbFrame.offsetWidth, fh = lbFrame.offsetHeight;
+      var iw = lbImg.offsetWidth  * lbScale;
+      var ih = lbImg.offsetHeight * lbScale;
+      var maxX = Math.max(0, (iw - fw) / 2);
+      var maxY = Math.max(0, (ih - fh) / 2);
+      lbOx = Math.min(maxX, Math.max(-maxX, lbOx));
+      lbOy = Math.min(maxY, Math.max(-maxY, lbOy));
+    }
+
+    function lbZoomBy(delta, cx, cy) {
+      if (cx === undefined) { cx = lbFrame ? lbFrame.offsetWidth / 2 : 0; cy = lbFrame ? lbFrame.offsetHeight / 2 : 0; }
+      var ns = Math.min(LB_MAX, Math.max(LB_MIN, lbScale * delta));
+      lbOx = cx + (lbOx - cx) * (ns / lbScale);
+      lbOy = cy + (lbOy - cy) * (ns / lbScale);
+      lbScale = ns;
+      lbClamp();
+    }
+
+    function lbResetZoom() {
+      lbScale = 1; lbOx = 0; lbOy = 0;
+      lbApplyTransform(true);
+    }
+
+    if (lbFrame) {
+      lbFrame.addEventListener("wheel", function (e) {
+        if (!lightbox.classList.contains("open")) return;
+        e.preventDefault();
+        var rect = lbFrame.getBoundingClientRect();
+        lbZoomBy(e.deltaY < 0 ? 1.15 : 0.87, e.clientX - rect.left, e.clientY - rect.top);
+        lbApplyTransform(false);
+      }, { passive: false });
+
+      lbFrame.addEventListener("mousedown", function (e) {
+        if (lbScale <= 1) return;
+        if (e.target.closest(".lightbox__zoom-hud")) return;
+        lbDragging = true;
+        lbDragX = e.clientX; lbDragY = e.clientY;
+        lbDragOx = lbOx; lbDragOy = lbOy;
+        lbImg.classList.add("lightbox__img--dragging");
+        e.preventDefault();
+      });
+
+      lbFrame.addEventListener("dblclick", function (e) {
+        if (e.target.closest(".lightbox__zoom-hud")) return;
+        lbResetZoom();
+      });
+    }
+
+    document.addEventListener("mousemove", function (e) {
+      if (!lbDragging) return;
+      lbOx = lbDragOx + (e.clientX - lbDragX);
+      lbOy = lbDragOy + (e.clientY - lbDragY);
+      lbClamp();
+      lbApplyTransform(false);
+    });
+
+    document.addEventListener("mouseup", function () {
+      if (!lbDragging) return;
+      lbDragging = false;
+      lbImg.classList.remove("lightbox__img--dragging");
+    });
+
+    if (lbZoomIn)    lbZoomIn.addEventListener("click",    function () { lbZoomBy(1.5); lbApplyTransform(true); });
+    if (lbZoomOut)   lbZoomOut.addEventListener("click",   function () { lbZoomBy(0.67); lbApplyTransform(true); });
+    if (lbZoomReset) lbZoomReset.addEventListener("click", lbResetZoom);
+
+    function mod(n, m) { return ((n % m) + m) % m; }
 
     function show(index) {
       current = mod(index, items.length);
@@ -87,17 +177,13 @@
       var src  = item.dataset.full || item.querySelector("img").src;
       var alt  = item.querySelector("img").alt || "";
 
+      lbResetZoom();
       lbImg.src = src;
       lbImg.alt = alt;
 
-      var captionText = alt;
-      if (lbCaption) lbCaption.textContent = captionText;
-      if (lbCounter) lbCounter.textContent = (current + 1) + " \u2044 " + items.length;
-
-      // Announce to screen readers without reading the counter aloud
-      if (lbStatus) lbStatus.textContent = "Photo " + (current + 1) + " of " + items.length + ". " + alt;
-
-      // Update dialog label for AT
+      if (lbCaption) lbCaption.textContent = alt;
+      if (lbCounter) lbCounter.textContent = (current + 1) + " / " + items.length;
+      if (lbStatus)  lbStatus.textContent  = "Photo " + (current + 1) + " of " + items.length + ". " + alt;
       lightbox.setAttribute("aria-label", "Photo viewer: " + (current + 1) + " of " + items.length);
     }
 
@@ -106,41 +192,34 @@
       show(index);
       lightbox.classList.add("open");
       document.body.style.overflow = "hidden";
-      // Move focus into the dialog (close button first per WCAG 2.4.3)
       closeBtn.focus();
     }
 
     function closeLightbox() {
       lightbox.classList.remove("open");
       document.body.style.overflow = "";
+      lbResetZoom();
       lbImg.src = "";
       if (lbStatus) lbStatus.textContent = "";
       if (returnFocus && typeof returnFocus.focus === "function") returnFocus.focus();
       returnFocus = null;
     }
 
-    // ── Gallery thumbnails — click + keyboard (Enter / Space) ────────────
     items.forEach(function (item, i) {
       item.addEventListener("click", function () { openLightbox(i); });
       item.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          openLightbox(i);
-        }
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLightbox(i); }
       });
     });
 
-    // ── Controls ─────────────────────────────────────────────────────────
     closeBtn.addEventListener("click", closeLightbox);
     if (prevBtn) prevBtn.addEventListener("click", function () { show(current - 1); });
     if (nextBtn) nextBtn.addEventListener("click", function () { show(current + 1); });
 
-    // Backdrop click closes
     lightbox.addEventListener("click", function (e) {
       if (e.target === lightbox) closeLightbox();
     });
 
-    // ── Keyboard navigation ───────────────────────────────────────────────
     document.addEventListener("keydown", function (e) {
       if (!lightbox.classList.contains("open")) return;
       switch (e.key) {
@@ -150,15 +229,11 @@
       }
     });
 
-    // ── Focus trap — keeps Tab cycling within the dialog (WCAG 2.1.2) ───
     lightbox.addEventListener("keydown", function (e) {
       if (e.key !== "Tab") return;
-      var focusable = Array.prototype.slice.call(
-        lightbox.querySelectorAll("button:not([disabled])")
-      );
+      var focusable = Array.prototype.slice.call(lightbox.querySelectorAll("button:not([disabled])"));
       if (!focusable.length) return;
-      var first = focusable[0];
-      var last  = focusable[focusable.length - 1];
+      var first = focusable[0], last = focusable[focusable.length - 1];
       if (e.shiftKey && document.activeElement === first) {
         e.preventDefault(); last.focus();
       } else if (!e.shiftKey && document.activeElement === last) {
@@ -370,6 +445,71 @@
     if (mq && mq.addEventListener) {
       mq.addEventListener("change", function (e) { e.matches ? pause() : play(); });
     }
+  }
+
+  // ── Page Hero Expand/Collapse ─────────────────────────────────────────────
+  document.querySelectorAll(".page-hero__expand").forEach(function (btn) {
+    var section = btn.closest(".page-hero");
+    if (!section) return;
+
+    btn.addEventListener("click", function () {
+      var isExpanded = section.classList.contains("page-hero--expanded");
+      var label = btn.querySelector(".page-hero__expand-label");
+
+      if (!isExpanded) {
+        var h = section.offsetHeight;
+        section.style.setProperty("--locked-height", h + "px");
+        section.classList.add("page-hero--locked");
+        section.classList.add("page-hero--fading");
+        setTimeout(function () {
+          section.classList.add("page-hero--expanded");
+          btn.setAttribute("aria-expanded", "true");
+          btn.setAttribute("aria-label", "Collapse photo");
+          if (label) label.textContent = "Collapse";
+        }, 180);
+      } else {
+        section.classList.remove("page-hero--expanded");
+        btn.setAttribute("aria-expanded", "false");
+        btn.setAttribute("aria-label", "View full-size photo");
+        if (label) label.textContent = "View full size";
+        setTimeout(function () {
+          section.classList.remove("page-hero--fading");
+          section.classList.remove("page-hero--locked");
+          section.style.removeProperty("--locked-height");
+        }, 420);
+      }
+    });
+  });
+
+  // ── Hero Video Expand/Collapse ────────────────────────────────────────────
+  var heroExpandBtn = document.getElementById("heroVideoExpand");
+  var heroSection   = heroExpandBtn && heroExpandBtn.closest(".hero");
+
+  if (heroExpandBtn && heroSection) {
+    heroExpandBtn.addEventListener("click", function () {
+      var isExpanded = heroSection.classList.contains("hero--expanded");
+      var label = heroExpandBtn.querySelector(".hero__video-expand-label");
+
+      if (!isExpanded) {
+        // Fade content out, then expand
+        heroSection.classList.add("hero--fading");
+        setTimeout(function () {
+          heroSection.classList.add("hero--expanded");
+          heroExpandBtn.setAttribute("aria-expanded", "true");
+          heroExpandBtn.setAttribute("aria-label", "Collapse video");
+          if (label) label.textContent = "Collapse";
+        }, 180);
+      } else {
+        // Collapse grid first, then fade content back in
+        heroSection.classList.remove("hero--expanded");
+        heroExpandBtn.setAttribute("aria-expanded", "false");
+        heroExpandBtn.setAttribute("aria-label", "View full-size video");
+        if (label) label.textContent = "View full size";
+        setTimeout(function () {
+          heroSection.classList.remove("hero--fading");
+        }, 420);
+      }
+    });
   }
 
   // ── Video Modal ───────────────────────────────────────────────────────────
@@ -884,11 +1024,12 @@
     });
   }
 
-  function hideBanner() {
+  function hideBanner(onHidden) {
     cookieBanner.classList.remove("is-visible");
     cookieBanner.addEventListener("transitionend", function handler() {
       cookieBanner.removeEventListener("transitionend", handler);
       cookieBanner.setAttribute("hidden", "");
+      if (typeof onHidden === "function") onHidden();
     });
   }
 
@@ -905,11 +1046,21 @@
     cookieBanner.addEventListener("click", function (e) {
       if (e.target.id === "cookieAccept") {
         localStorage.setItem(COOKIE_KEY, "accepted");
-        hideBanner();
+        if (cookieAccept)  cookieAccept.classList.remove("is-active");
+        if (cookieDecline) cookieDecline.classList.remove("is-active");
+        hideBanner(function () {
+          var accBtn = document.getElementById("cookieAccept");
+          if (accBtn) accBtn.textContent = "Accepted ✓";
+        });
         loadAnalytics();
       } else if (e.target.id === "cookieDecline") {
         localStorage.setItem(COOKIE_KEY, "declined");
-        hideBanner();
+        if (cookieAccept)  cookieAccept.classList.remove("is-active");
+        if (cookieDecline) cookieDecline.classList.remove("is-active");
+        hideBanner(function () {
+          var decBtn = document.getElementById("cookieDecline");
+          if (decBtn) decBtn.textContent = "Declined";
+        });
         clearNonConsentCookies();
         try { sessionStorage.removeItem("ae_attribution"); } catch (e) {}
       }
@@ -924,11 +1075,16 @@
     // If "declined", do nothing — no banner, no analytics
   }
 
-  // "Cookie Preferences" footer button — clears choice and re-shows banner
+  // "Cookie Preferences" footer button — re-shows banner with current selection indicated
   var cookiePrefBtn = document.getElementById("cookiePreferences");
   if (cookiePrefBtn && cookieBanner) {
     cookiePrefBtn.addEventListener("click", function () {
-      localStorage.removeItem(COOKIE_KEY);
+      var current = localStorage.getItem(COOKIE_KEY);
+      // Re-query in case references are stale, then reset labels and mark current selection
+      var accBtn = document.getElementById("cookieAccept");
+      var decBtn = document.getElementById("cookieDecline");
+      if (accBtn) { accBtn.textContent  = current === "accepted" ? "Accepted" : "Accept";  accBtn.classList.toggle("is-active",  current === "accepted"); }
+      if (decBtn) { decBtn.textContent  = current === "declined" ? "Declined" : "Decline"; decBtn.classList.toggle("is-active",  current === "declined"); }
       showBanner();
     });
   }
@@ -1048,5 +1204,447 @@
 
   }());
   // ── End attribution capture ────────────────────────────────────────────────
+
+  // ── Guided Tour ────────────────────────────────────────────────────────────
+  // Persists across page loads via sessionStorage (key: ae_guided_tour).
+  // Tour stops: url, name, hint shown on arrival.
+  (function () {
+
+    var TOUR_KEY = "ae_guided_tour";
+
+    var STOPS = [
+      {
+        url: "/resident-centered-care/",
+        name: "Resident-Centered Care",
+        hint: "Read the page, then answer:",
+        question: "What is the name of Azalea Estates’ proactive care model?",
+        choices: ["Value-Based Care", "Azalea Care", "Senior Wellness Plan", "Integrated Care Path"],
+        correct: 1,
+        congrats: "That’s right — Azalea Care! A proactive model designed to reduce ER visits and keep families informed."
+      },
+      {
+        url: "/living-options/",
+        name: "Living Options",
+        hint: "Read the page, then answer:",
+        question: "How many living options are offered at Azalea Estates?",
+        choices: ["Two", "Three", "Four", "Five"],
+        correct: 1,
+        congrats: "Correct! Independent Living, Assisted Living, and Respite Care — all on one campus."
+      },
+      {
+        url: "/floor-plans/",
+        name: "Floor Plans",
+        hint: "Read the page, then answer:",
+        question: "How many floor plan layouts are available?",
+        choices: ["Three", "Four", "Five", "Six"],
+        correct: 2,
+        congrats: "Yes! Five layouts, from efficient studios to two-bedroom deluxe suites."
+      },
+      {
+        url: "/gallery/",
+        name: "Photo Tour",
+        hint: "Try the virtual tour, then answer:",
+        question: "How do you move between rooms in the virtual tour?",
+        choices: ["Swipe left or right", "Click hotspots", "Press arrow keys", "Double-tap the screen"],
+        correct: 1,
+        congrats: "Nice! Click the hotspots to move between rooms — and drag or scroll to look around."
+      },
+      {
+        url: "/schedule-a-tour/",
+        name: "Schedule a Tour",
+        hint: "Read the page, then answer:",
+        question: "What complimentary experience is included with every tour?",
+        choices: ["A gift basket", "A fitness class", "A meal", "A room upgrade"],
+        correct: 2,
+        congrats: "Exactly! Every tour includes a complimentary meal — the best way to experience the dining."
+      }
+    ];
+
+    // ── State helpers ─────────────────────────────────────────────────────────
+    function getState() {
+      try { return JSON.parse(sessionStorage.getItem(TOUR_KEY)); } catch(e) { return null; }
+    }
+    function setState(s) {
+      try { sessionStorage.setItem(TOUR_KEY, JSON.stringify(s)); } catch(e) {}
+    }
+    function clearState() {
+      try { sessionStorage.removeItem(TOUR_KEY); } catch(e) {}
+    }
+
+    // ── DOM refs ──────────────────────────────────────────────────────────────
+    var ribbon    = document.getElementById("tourRibbon");
+    var stopName  = document.getElementById("tourStopName");
+    var stepsEl   = document.getElementById("tourSteps");
+    var counterEl = document.getElementById("tourCounter");
+    var prevBtn   = document.getElementById("tourPrev");
+    var nextBtn   = document.getElementById("tourNext");
+    var exitBtn   = document.getElementById("tourExit");
+    var progress  = document.getElementById("tourProgress");
+    var startBtn  = document.getElementById("startGuidedTour");
+
+    if (!ribbon) return;
+
+    // ── Render ribbon for a given stop index ──────────────────────────────────
+    function render(idx) {
+      var stop = STOPS[idx];
+      if (!stop) return;
+
+      // Step dots
+      if (stepsEl) {
+        stepsEl.innerHTML = "";
+        STOPS.forEach(function (s, i) {
+          var dot = document.createElement("span");
+          dot.className = "tour-dot" + (i < idx ? " is-done" : "") + (i === idx ? " is-active" : "");
+          dot.setAttribute("aria-hidden", "true");
+          stepsEl.appendChild(dot);
+        });
+      }
+
+      // Name and link
+      if (stopName) stopName.textContent = stop.name;
+      if (counterEl) counterEl.textContent = "Stop " + (idx + 1) + " of " + STOPS.length;
+
+      // Prev/next
+      // Next is locked until the quiz is answered correctly on the current stop page.
+      // Check if we're currently on this stop's page — if so, lock next.
+      var curPathNow = window.location.pathname;
+      var stopPathNow = stop.url;
+      var onThisStop = curPathNow === stopPathNow ||
+                       curPathNow.replace(/\/$/, "") === stopPathNow.replace(/\/$/, "");
+      if (prevBtn) prevBtn.disabled = idx === 0;
+      if (nextBtn) {
+        nextBtn.innerHTML = idx === STOPS.length - 1
+          ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>'
+          : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>';
+        nextBtn.setAttribute("aria-label", idx === STOPS.length - 1 ? "Finish tour" : "Next stop");
+        // Lock next until quiz answered — use data-locked so clicks still fire
+        if (onThisStop) {
+          nextBtn.setAttribute("data-locked", "true");
+          nextBtn.setAttribute("aria-disabled", "true");
+        } else {
+          nextBtn.removeAttribute("data-locked");
+          nextBtn.removeAttribute("aria-disabled");
+        }
+      }
+
+      // Progress bar
+      var pct = Math.round(((idx + 1) / STOPS.length) * 100);
+      if (progress) progress.style.setProperty("--tour-progress", pct + "%");
+
+      // Show ribbon
+      ribbon.hidden = false;
+      ribbon.offsetHeight; // reflow
+      ribbon.classList.add("is-visible");
+    }
+
+    // ── Fireworks burst on correct answer ─────────────────────────────────────
+    function launchFireworks(anchorEl) {
+      var canvas = document.createElement("canvas");
+      canvas.className = "tour-fireworks";
+      canvas.setAttribute("aria-hidden", "true");
+      document.body.appendChild(canvas);
+
+      var rect = anchorEl.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2;
+      var cy = rect.top + rect.height / 2;
+
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      canvas.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;";
+
+      var ctx = canvas.getContext("2d");
+      var particles = [];
+      var colors = ["#faf6f1","#c5d4bd","#d89eab","#8a3a52","#213b14","#fff9c4","#ffd97d"];
+
+      for (var i = 0; i < 80; i++) {
+        var angle = (Math.random() * Math.PI * 2);
+        var speed = 3 + Math.random() * 6;
+        particles.push({
+          x: cx, y: cy,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 2,
+          alpha: 1,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          r: 3 + Math.random() * 4,
+          gravity: 0.12 + Math.random() * 0.08
+        });
+      }
+
+      var start = null;
+      function frame(ts) {
+        if (!start) start = ts;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(function (p) {
+          p.x  += p.vx;
+          p.y  += p.vy;
+          p.vy += p.gravity;
+          p.alpha -= 0.018;
+          if (p.alpha <= 0) return;
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle   = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.globalAlpha = 1;
+        if (ts - start < 1800) {
+          requestAnimationFrame(frame);
+        } else {
+          canvas.remove();
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    // ── Show persistent arrival hint with quiz ─────────────────────────────────
+    function showArrivalHint(stop) {
+      var existing = document.getElementById("tourStopIndicator");
+      if (existing) existing.remove();
+
+      var stopIdx = STOPS.indexOf(stop);
+
+      var el = document.createElement("div");
+      el.className = "tour-stop-indicator";
+      el.id = "tourStopIndicator";
+      el.setAttribute("role", "complementary");
+      el.setAttribute("aria-label", "Tour stop " + (stopIdx + 1));
+
+      // Build choices HTML
+      var choicesHTML = '<div class="tour-hint__choices" role="group" aria-label="Answer choices">';
+      stop.choices.forEach(function (choice, i) {
+        choicesHTML += '<button class="tour-hint__choice" data-idx="' + i + '">' + choice + '</button>';
+      });
+      choicesHTML += '</div>';
+
+      el.innerHTML =
+        '<div class="tour-hint__header">' +
+          '<span class="tour-stop-indicator__icon">📍</span>' +
+          '<span class="tour-stop-indicator__text">' +
+            '<span class="tour-stop-indicator__label">Stop ' + (stopIdx + 1) + ' of ' + STOPS.length + '</span>' +
+            '<strong class="tour-hint__name">' + stop.name + '</strong>' +
+          '</span>' +
+          '<button class="tour-hint__dismiss" aria-label="Dismiss hint">✕</button>' +
+        '</div>' +
+        '<p class="tour-hint__prompt">' + stop.hint + '</p>' +
+        '<p class="tour-hint__question">' + stop.question + '</p>' +
+        choicesHTML +
+        '<p class="tour-hint__feedback" aria-live="polite"></p>';
+      // Nav row is injected only after correct answer — not present in initial markup
+
+      document.body.appendChild(el);
+
+      var dismissBtn  = el.querySelector(".tour-hint__dismiss");
+      var feedback    = el.querySelector(".tour-hint__feedback");
+      var choiceBtns  = Array.prototype.slice.call(el.querySelectorAll(".tour-hint__choice"));
+      var answered    = false;
+
+      dismissBtn.addEventListener("click", function () {
+        el.classList.remove("is-visible");
+        setTimeout(function () { el.remove(); }, 350);
+      });
+
+      choiceBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          if (answered) return;
+          var chosen = parseInt(btn.getAttribute("data-idx"), 10);
+          answered = true;
+
+          // Disable all buttons
+          choiceBtns.forEach(function (b) { b.disabled = true; });
+
+          if (chosen === stop.correct) {
+            btn.classList.add("is-correct");
+            el.classList.add("is-answered");
+            feedback.textContent = "🎉 " + stop.congrats;
+            feedback.className = "tour-hint__feedback tour-hint__feedback--correct";
+            launchFireworks(el);
+
+            // Unlock ribbon next button
+            if (nextBtn) {
+              nextBtn.removeAttribute("data-locked");
+              nextBtn.removeAttribute("aria-disabled");
+            }
+
+            // Build and inject nav row dynamically (only after correct answer)
+            var navRow = document.createElement("div");
+            navRow.className = "tour-hint__nav";
+
+            var isFirst  = stopIdx === 0;
+            var isLast   = stopIdx === STOPS.length - 1;
+
+            if (!isFirst) {
+              var prevNavBtn = document.createElement("button");
+              prevNavBtn.type = "button";
+              prevNavBtn.className = "tour-hint__nav-btn tour-hint__nav-btn--prev";
+              prevNavBtn.textContent = "← Previous";
+              prevNavBtn.addEventListener("click", function () {
+                var prev = stopIdx - 1;
+                setState({ index: prev });
+                window.location.href = STOPS[prev].url;
+              });
+              navRow.appendChild(prevNavBtn);
+            }
+
+            if (isLast) {
+              var finishNavBtn = document.createElement("button");
+              finishNavBtn.type = "button";
+              finishNavBtn.className = "tour-hint__nav-btn tour-hint__nav-btn--finish";
+              finishNavBtn.textContent = "Finish Tour ✓";
+              finishNavBtn.addEventListener("click", function () {
+                exitTour();
+              });
+              navRow.appendChild(finishNavBtn);
+            } else {
+              var nextNavBtn = document.createElement("button");
+              nextNavBtn.type = "button";
+              nextNavBtn.className = "tour-hint__nav-btn tour-hint__nav-btn--next";
+              nextNavBtn.textContent = "Next stop →";
+              nextNavBtn.addEventListener("click", function () {
+                var next = stopIdx + 1;
+                setState({ index: next });
+                window.location.href = STOPS[next].url;
+              });
+              navRow.appendChild(nextNavBtn);
+            }
+
+            el.appendChild(navRow);
+          } else {
+            btn.classList.add("is-wrong");
+            choiceBtns[stop.correct].classList.add("is-correct");
+            feedback.textContent = "Not quite! The correct answer is highlighted above.";
+            feedback.className = "tour-hint__feedback tour-hint__feedback--wrong";
+            // Let them try again after a moment
+            setTimeout(function () {
+              answered = false;
+              choiceBtns.forEach(function (b) {
+                b.disabled = false;
+                b.classList.remove("is-wrong", "is-correct");
+              });
+              feedback.textContent = "";
+              feedback.className = "tour-hint__feedback";
+            }, 2000);
+          }
+        });
+      });
+
+      // Animate in after a beat
+      setTimeout(function () { el.classList.add("is-visible"); }, 300);
+    }
+
+    // ── Exit tour ─────────────────────────────────────────────────────────────
+    function exitTour() {
+      ribbon.classList.remove("is-visible");
+      clearState();
+      setTimeout(function () { ribbon.hidden = true; }, 350);
+      var ind = document.getElementById("tourStopIndicator");
+      if (ind) ind.remove();
+    }
+
+    // ── Navigate to a stop index ──────────────────────────────────────────────
+    function goToStop(idx) {
+      if (idx >= STOPS.length) { exitTour(); return; }
+      if (idx < 0) idx = 0;
+      setState({ index: idx });
+      render(idx);
+    }
+
+    // ── Event listeners ───────────────────────────────────────────────────────
+    if (startBtn) {
+      startBtn.addEventListener("click", function () {
+        setState({ index: 0 });
+        // Navigate to first stop
+        window.location.href = STOPS[0].url;
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", function () {
+        var s = getState();
+        if (!s) return;
+        var prev = s.index - 1;
+        setState({ index: prev });
+        window.location.href = STOPS[prev].url;
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        // If locked (quiz not yet answered), nudge the user
+        if (nextBtn.getAttribute("data-locked") === "true") {
+          var hint = document.getElementById("tourStopIndicator");
+          if (hint) {
+            // Shake the card
+            hint.classList.remove("is-shaking");
+            hint.offsetHeight; // reflow to restart animation
+            hint.classList.add("is-shaking");
+            hint.addEventListener("animationend", function () {
+              hint.classList.remove("is-shaking");
+            }, { once: true });
+
+            // Pulse the correct answer button
+            var s = getState();
+            if (s !== null) {
+              var correctIdx = STOPS[s.index] && STOPS[s.index].correct;
+              var choiceBtns = hint.querySelectorAll(".tour-hint__choice");
+              var correctBtn = choiceBtns[correctIdx];
+              if (correctBtn) {
+                correctBtn.classList.remove("is-pulsing");
+                correctBtn.offsetHeight;
+                correctBtn.classList.add("is-pulsing");
+                correctBtn.addEventListener("animationend", function () {
+                  correctBtn.classList.remove("is-pulsing");
+                }, { once: true });
+              }
+
+              // Show a message in the feedback area
+              var feedback = hint.querySelector(".tour-hint__feedback");
+              if (feedback && !hint.classList.contains("is-answered")) {
+                feedback.textContent = "Answer the question to continue!";
+                feedback.className = "tour-hint__feedback tour-hint__feedback--wrong";
+                setTimeout(function () {
+                  if (!hint.classList.contains("is-answered")) {
+                    feedback.textContent = "";
+                    feedback.className = "tour-hint__feedback";
+                  }
+                }, 2500);
+              }
+            }
+          }
+          return;
+        }
+
+        var s = getState();
+        if (!s) return;
+        var next = s.index + 1;
+        if (next >= STOPS.length) { exitTour(); return; }
+        setState({ index: next });
+        window.location.href = STOPS[next].url;
+      });
+    }
+
+    if (exitBtn) exitBtn.addEventListener("click", exitTour);
+
+    // ── On page load: check if a tour is active ───────────────────────────────
+    var state = getState();
+    if (state !== null) {
+      var idx = state.index || 0;
+      // Clamp to valid range
+      if (idx < 0) idx = 0;
+      if (idx >= STOPS.length) { clearState(); return; }
+
+      render(idx);
+
+      // If we're on the correct stop page, show the arrival hint
+      var curPath = window.location.pathname;
+      var stopPath = STOPS[idx].url;
+      var onStop = curPath === stopPath || curPath === stopPath.replace(/\/$/, "") || curPath.replace(/\/$/, "") === stopPath.replace(/\/$/, "");
+      if (onStop) {
+        showArrivalHint(STOPS[idx]);
+      }
+    }
+
+  }());
+  // ── End Guided Tour ────────────────────────────────────────────────────────
+
 
 })();

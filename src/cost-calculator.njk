@@ -1,5 +1,6 @@
 ---
 layout: layouts/page.njk
+heroAccent: accent
 title: Cost Comparison Calculator
 metaTitle: "Senior Living Cost Calculator | Azalea Estates of Fayetteville"
 description: "See how the true cost of living at home compares to all-inclusive senior living at Azalea Estates. Add up your monthly home expenses and compare."
@@ -213,7 +214,7 @@ permalink: /cost-calculator/
 
         <div class="calc-avg-total-row">
           <span class="calc-avg-total-label">National average for seniors</span>
-          <span class="calc-avg-total-value">$3,940/mo</span>
+          <span class="calc-avg-total-value" id="avgTotalDisplay"></span>
         </div>
 
         <div class="calc-total calc-total--home">
@@ -296,7 +297,7 @@ permalink: /cost-calculator/
           <div class="calc-bar-track">
             <div class="calc-bar calc-bar--avg" id="barAvg"></div>
           </div>
-          <div class="calc-bar-amount">$3,940 / mo</div>
+          <div class="calc-bar-amount" id="barAvgAmt"></div>
         </div>
         <div class="calc-bar-wrap">
           <div class="calc-bar-label">Azalea Estates</div>
@@ -722,8 +723,22 @@ permalink: /cost-calculator/
     assisted: 5000
   };
 
-  var NATIONAL_AVG_BASE = 3940;      // independent living baseline
-  var NATIONAL_AVG_ASSISTED = 8932; // baseline + aide ($4,767) + medical transport ($150) + med mgmt ($75)
+  // Compute national averages directly from data-avg attributes so the
+  // displayed total is always in sync with whatever hints are on the inputs.
+  var NATIONAL_AVG_BASE = (function() {
+    var sum = 0;
+    document.querySelectorAll('.calc-input:not(.calc-input--assisted)').forEach(function(inp) {
+      sum += parseFloat(inp.getAttribute('data-avg') || 0);
+    });
+    return sum;
+  }());
+  var NATIONAL_AVG_ASSISTED = (function() {
+    var sum = NATIONAL_AVG_BASE;
+    document.querySelectorAll('.calc-input--assisted').forEach(function(inp) {
+      sum += parseFloat(inp.getAttribute('data-avg') || 0);
+    });
+    return sum;
+  }());
 
   var careSelect = document.getElementById('careLevel');
   var calcLayout = document.querySelector('.calc-layout');
@@ -735,7 +750,8 @@ permalink: /cost-calculator/
   var barHomeAmt = document.getElementById('barHomeAmt');
   var barAzaleaAmt = document.getElementById('barAzaleaAmt');
   var calcNote = document.getElementById('calcNote');
-  var avgTotalValue = document.querySelector('.calc-avg-total-value');
+  var avgTotalValue = document.getElementById('avgTotalDisplay');
+  var barAvgAmt    = document.getElementById('barAvgAmt');
   var inputs = document.querySelectorAll('.calc-input');
   var assistedInputs = document.querySelectorAll('.calc-input--assisted');
   var useAvgBtn = document.getElementById('useAverages');
@@ -769,10 +785,8 @@ permalink: /cost-calculator/
     barAzalea.style.width = (azaleaRate / max * 100) + '%';
     barHomeAmt.textContent = formatDollars(homeTotal) + ' / mo';
     barAzaleaAmt.textContent = formatDollars(azaleaRate) + '+ / mo';
-    // Update the avg bar label amount
-    var avgAmtEl = barAvg.closest('.calc-bar-wrap') && barAvg.closest('.calc-bar-wrap').querySelector('.calc-bar-amount');
-    if (avgAmtEl) avgAmtEl.textContent = formatDollars(natAvg) + ' / mo';
-    // Update the avg total row
+    // Update the avg bar amount and avg total row
+    if (barAvgAmt) barAvgAmt.textContent = formatDollars(natAvg) + ' / mo';
     if (avgTotalValue) avgTotalValue.textContent = formatDollars(natAvg) + '/mo';
 
     if (homeTotal > 0) {

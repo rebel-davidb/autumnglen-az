@@ -21,7 +21,6 @@ module.exports = {
   },
   nav: [
     { label: "About", url: "/about/", allLabel: "About Azalea Estates", children: [
-      { label: "Our Story",            url: "/about/" },
       { label: "Meet Our Team",        url: "/team/" },
       { label: "Resident-Centered Care", url: "/resident-centered-care/" },
       { label: "Cost Calculator",      url: "/cost-calculator/" }

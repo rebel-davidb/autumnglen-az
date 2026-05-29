@@ -21,7 +21,22 @@ eleventyComputed:
   • <img> poster shown while the video buffers and if playback fails.
 -->
 <section class="hero">
-  <div class="hero__bg" aria-hidden="true">
+
+  {# ── Left panel: solid colour + all copy ── #}
+  <div class="hero__panel">
+    <div class="hero__inner">
+      <span class="eyebrow">Assisted Living &amp; Retirement · Fayetteville, GA</span>
+      <h1>A graceful place to call home.</h1>
+      <p class="lead">For more than 25 years, we&rsquo;ve welcomed seniors into a gracious, blended community of independent and assisted living. Every day here feels a little lighter and a lot more like home.</p>
+      <div class="hero__cta">
+        <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Private Tour</a>
+        <a href="/living-options/" class="btn btn--outline">Explore Living Options</a>
+      </div>
+    </div>
+  </div>
+
+  {# ── Right panel: video, no overlay ── #}
+  <div class="hero__media" aria-hidden="true">
     <video
       class="hero__video"
       autoplay
@@ -39,33 +54,41 @@ eleventyComputed:
         src="https://seek-cdn.nyc3.cdn.digitaloceanspaces.com/azalea/video/SterlingAzaleaofFayettevilleTour.mp4"
         type="video/mp4"
       >
-      {# Browsers that can't play MP4 will fall back to the poster image. #}
     </video>
+
+    {# Pause/play toggle — WCAG 2.2.2 #}
+    <button
+      type="button"
+      class="hero__video-toggle"
+      aria-label="Pause background video"
+      aria-pressed="false"
+      data-paused="false"
+    >
+      <span class="hero__video-toggle-icon" aria-hidden="true">
+        <svg class="icon-pause" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="2" width="3.2" height="12" rx="0.8"/><rect x="9.8" y="2" width="3.2" height="12" rx="0.8"/></svg>
+        <svg class="icon-play" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.2v11.6c0 .6.7 1 1.2.7l9.2-5.8c.5-.3.5-1 0-1.3L5.2 1.5C4.7 1.2 4 1.6 4 2.2z"/></svg>
+      </span>
+      <span class="hero__video-toggle-label">Pause</span>
+    </button>
+
+    {# Expand/collapse video toggle #}
+    <button
+      type="button"
+      class="hero__video-expand"
+      id="heroVideoExpand"
+      aria-label="View full-size video"
+      aria-expanded="false"
+    >
+      <span class="hero__video-expand-icon" aria-hidden="true">
+        {# Expand icon #}
+        <svg class="icon-expand" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+        {# Collapse icon #}
+        <svg class="icon-collapse" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/></svg>
+      </span>
+      <span class="hero__video-expand-label">View full size</span>
+    </button>
   </div>
-  <button
-    type="button"
-    class="hero__video-toggle"
-    aria-label="Pause background video"
-    aria-pressed="false"
-    data-paused="false"
-  >
-    <span class="hero__video-toggle-icon" aria-hidden="true">
-      <svg class="icon-pause" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="2" width="3.2" height="12" rx="0.8"/><rect x="9.8" y="2" width="3.2" height="12" rx="0.8"/></svg>
-      <svg class="icon-play" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.2v11.6c0 .6.7 1 1.2.7l9.2-5.8c.5-.3.5-1 0-1.3L5.2 1.5C4.7 1.2 4 1.6 4 2.2z"/></svg>
-    </span>
-    <span class="hero__video-toggle-label">Pause</span>
-  </button>
-  <div class="container">
-    <div class="hero__inner">
-      <span class="eyebrow">Assisted Living &amp; Retirement · Fayetteville, GA</span>
-      <h1>A graceful place to call home.</h1>
-      <p class="lead">For more than 25 years, we&rsquo;ve welcomed seniors into a gracious, blended community of independent and assisted living. Every day here feels a little lighter and a lot more like home.</p>
-      <div class="hero__cta">
-        <a href="/schedule-a-tour/" class="btn btn--primary">Schedule a Private Tour</a>
-        <a href="/living-options/" class="btn btn--outline">Explore Living Options</a>
-      </div>
-    </div>
-  </div>
+
 </section>
 
 <!-- STATS BAR -->
