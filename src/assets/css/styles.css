@@ -661,7 +661,6 @@ p.lead {
   grid-template-columns: 2fr 3fr;
   grid-template-rows: 1fr;
   min-height: 88vh;
-  height: 88vh;
   max-height: 1000px;
   color: var(--c-white);
   overflow: hidden;
@@ -882,7 +881,7 @@ p.lead {
   }
   .hero__panel {
     overflow: hidden;
-    padding: var(--space-9) var(--space-5) var(--space-8);
+    padding: var(--space-7) var(--space-5) var(--space-6);
     justify-content: center;
     text-align: center;
   }
@@ -894,6 +893,7 @@ p.lead {
     justify-content: center;
   }
   .hero__media {
+    order: -1;
     min-height: 52vw;
     max-height: 420px;
   }
@@ -1072,7 +1072,7 @@ p.lead {
     min-height: unset;
   }
   .page-hero__panel {
-    padding: var(--space-8) var(--space-5) var(--space-7);
+    padding: var(--space-6) var(--space-5) var(--space-5);
     justify-content: center;
     text-align: center;
     overflow: hidden;
@@ -4472,6 +4472,8 @@ body.modal-open { overflow: hidden; }
 /* Hide decorative photo on mobile — full solid cream-2 */
 @media (max-width: 900px) {
   .events-hero__photo { display: none; }
+  .events-hero { min-height: auto; }
+  .events-hero__inner { padding: var(--space-6) 0; }
 }
 
 /* ── Countdown (hero listing page) ────────────────────────────────── */
@@ -5026,10 +5028,18 @@ body.modal-open { overflow: hidden; }
   .ersvp-hero__grid {
     grid-template-columns: 1fr;
     min-height: auto;
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-6);
   }
-  .ersvp-hero__form-col { padding-bottom: var(--space-8); }
+  .ersvp-hero__form-col { padding-bottom: var(--space-6); }
   .ersvp-hero { min-height: auto; }
   .ersvp-hero__info { padding-top: 0; }
+}
+@media (max-width: 600px) {
+  .ersvp-hero__grid {
+    padding-top: var(--space-4);
+    gap: var(--space-5);
+  }
 }
 @media (max-width: 900px) {
   .event-below-grid {
@@ -5477,7 +5487,7 @@ body.modal-open { overflow: hidden; }
 .home-events-strip__cta { white-space: nowrap; }
 
 @media (max-width: 760px) {
-  .events-hero__inner { padding: var(--space-7) 0; }
+  .events-hero__inner { padding: var(--space-5) 0; }
   .events-grid { grid-template-columns: 1fr; }
   .event-countdown-banner__inner { gap: var(--space-3); }
   .event-countdown-banner__unit strong { font-size: 1.3rem; }
