@@ -114,17 +114,17 @@ function buildAdPayload(fields, formName) {
     addCustom("Availability",       fields.availability);
   }
 
-  // ActiveDemand REST API — top-level contact fields
-  const payload = {
-    first_name:    fields.first_name    || "",
-    last_name:     fields.last_name     || "",
-    email_address: fields.email         || "",   // AD uses email_address, not email
-    phone:         fields.phone         || "",
+  // ActiveDemand REST API — nested emails/phones arrays per their schema
+  const contact = {
+    first_name: fields.first_name || "",
+    last_name:  fields.last_name  || "",
   };
 
-  if (custom.length) payload.custom_fields = custom;
+  if (fields.email) contact.emails = [{ email_address: fields.email }];
+  if (fields.phone) contact.phones = [{ phone_number:  fields.phone }];
+  if (custom.length) contact.custom_fields = custom;
 
-  return payload;
+  return { contact };
 }
 
 // ── Main handler ──────────────────────────────────────────────────────────────
@@ -171,9 +171,12 @@ exports.handler = async function (event) {
       const responseText = await res.text();
       console.log("[submit-form] AD response status:", res.status);
       console.log("[submit-form] AD response body:", responseText);
+      console.log("[submit-form] AD payload sent:", JSON.stringify(payload));
 
       if (!res.ok) {
         errors.push(`ActiveDemand API error ${res.status}: ${responseText}`);
+      } else {
+        console.log("[submit-form] AD contact created successfully");
       }
     } catch (e) {
       errors.push(`ActiveDemand fetch failed: ${e.message}`);
