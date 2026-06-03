@@ -23,6 +23,10 @@
     toggle.setAttribute("aria-label", "Open menu");
     document.body.style.overflow = "";
     toggle.focus();
+    // Collapse all mobile submenus when drawer closes
+    document.querySelectorAll("[data-dropdown].open").forEach(function (dd) {
+      dd.classList.remove("open");
+    });
   }
 
   if (toggle && nav) {
@@ -40,8 +44,10 @@
       if (e.key === "Escape" && nav.classList.contains("open")) closeMenu();
     });
 
-    // Any nav link click closes the drawer
+    // Any nav link click closes the drawer — but NOT the dropdown trigger
+    // (that needs to stay open to expand/collapse the submenu)
     nav.querySelectorAll("a").forEach(function (a) {
+      if (a.classList.contains("nav-dropdown__trigger")) return;
       a.addEventListener("click", function () {
         if (nav.classList.contains("open")) closeMenu();
       });
@@ -251,7 +257,7 @@
 
   // ── Nav dropdown ───────────────────────────────────────────────────────
   // Desktop: CSS :hover/:focus-within handles show/hide automatically.
-  // Touch/click: JS toggles .open class on first tap; second tap navigates.
+  // Mobile drawer: JS intercepts click, prevents navigation, toggles .open.
   // Keyboard: Escape closes the open dropdown.
   var dropdowns = document.querySelectorAll("[data-dropdown]");
   dropdowns.forEach(function (dd) {
@@ -267,29 +273,46 @@
 
     if (trigger) {
       trigger.addEventListener("click", function (e) {
-        // On touch-only devices, intercept the first tap to reveal the panel
-        var isTouch = window.matchMedia("(hover: none)").matches;
-        if (isTouch && !dd.classList.contains("open")) {
+        var inDrawer = nav && nav.classList.contains("open");
+        var isTouch  = window.matchMedia("(hover: none)").matches;
+
+        if (inDrawer) {
+          // Mobile drawer: always toggle, never navigate
+          e.preventDefault();
+          var isOpen = dd.classList.contains("open");
+          dropdowns.forEach(function (o) {
+            o.classList.remove("open");
+            var t = o.querySelector(".nav-dropdown__trigger");
+            if (t) t.setAttribute("aria-expanded", "false");
+          });
+          if (!isOpen) {
+            dd.classList.add("open");
+            trigger.setAttribute("aria-expanded", "true");
+          }
+        } else if (isTouch && !dd.classList.contains("open")) {
+          // Desktop touch: first tap opens, second follows link
           e.preventDefault();
           dropdowns.forEach(function (o) { if (o !== dd) o.classList.remove("open"); });
           dd.classList.add("open");
-          return;
         }
-        // Desktop or second touch tap — follow the link
       });
     }
 
-    // Escape closes the panel and returns focus
+    // Escape closes
     dd.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && dd.classList.contains("open")) {
         dd.classList.remove("open");
-        if (trigger) trigger.focus();
+        if (trigger) {
+          trigger.setAttribute("aria-expanded", "false");
+          trigger.focus();
+        }
       }
     });
   });
 
-  // Click outside closes all open dropdowns
+  // Click outside closes all open dropdowns (desktop only)
   document.addEventListener("click", function (e) {
+    if (nav && nav.classList.contains("open")) return;
     dropdowns.forEach(function (dd) {
       if (!dd.contains(e.target)) dd.classList.remove("open");
     });

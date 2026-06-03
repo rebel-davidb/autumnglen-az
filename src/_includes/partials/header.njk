@@ -45,7 +45,7 @@
       {% for item in site.nav %}
         {% if item.children %}
           <div class="nav-dropdown" data-dropdown>
-            <a href="{{ item.url }}" class="nav-dropdown__trigger">
+            <a href="{{ item.url }}" class="nav-dropdown__trigger" aria-expanded="false" data-dropdown-trigger>
               {{ item.label }}
               <svg class="nav-dropdown__chevron" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true" focusable="false">
                 <path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -79,8 +79,7 @@
           <a href="/events/" class="nav-drawer-util">Events</a>
           <a href="/calendar/" class="nav-drawer-util">Activity Calendar</a>
           <a href="/calendar/" class="nav-drawer-util">Wellness Calendar</a>
-          <a href="/team/" class="nav-drawer-util">Meet Our Team</a>
-          <a href="/careers/" class="nav-drawer-util">Careers</a>
+<a href="/careers/" class="nav-drawer-util">Careers</a>
         </div>
       </div>
 
