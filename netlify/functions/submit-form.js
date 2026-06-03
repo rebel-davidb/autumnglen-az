@@ -1,14 +1,11 @@
 /**
  * Azalea Estates — Form submission handler
  *
- * Receives all site form POSTs, does two things in parallel:
- *   1. Forwards the submission to ActiveDemand as a contact via their REST API
- *   2. Re-posts to Netlify Forms so email notifications keep working
- *
- * Then redirects the user to the appropriate thank-you page.
+ * Receives all site form POSTs, sends to ActiveDemand via REST API,
+ * then redirects the user to the appropriate thank-you page.
  *
  * Environment variable required:
- *   ACTIVEDEMAND_API_KEY — account-level API key from ActiveDemand settings
+ *   ACTIVEDEMAND_API_KEY — REST API key from ActiveDemand → Settings → API Keys
  *
  * Form routing (form-name → thanks page):
  *   schedule-tour          → /schedule-a-tour/thanks/
@@ -52,13 +49,15 @@ function parseBody(body) {
 }
 
 // ── Build ActiveDemand contact payload ────────────────────────────────────────
-// Maps site form fields → ActiveDemand contact + custom fields.
-// Custom fields use the name-based format so no field IDs are needed.
+// ActiveDemand REST API v1 — contact fields at top level, custom fields as array.
+// Ref: https://developer.activedemand.com/api/rest/v1/contacts
 function buildAdPayload(fields, formName) {
   const custom = [];
 
   function addCustom(name, value) {
-    if (value) custom.push({ name, value: String(value) });
+    if (value !== undefined && value !== null && value !== "") {
+      custom.push({ name, value: String(value) });
+    }
   }
 
   // UTM / attribution
@@ -70,8 +69,6 @@ function buildAdPayload(fields, formName) {
   addCustom("Landing Page",  fields.cf_landing_page);
   addCustom("Referrer",      fields.cf_referrer);
   addCustom("Form Page",     fields.cf_form_page);
-
-  // Form-specific custom fields
   addCustom("Form Name",     formName);
 
   if (formName === "schedule-tour") {
@@ -98,7 +95,7 @@ function buildAdPayload(fields, formName) {
   }
 
   if (formName.startsWith("event-rsvp-")) {
-    addCustom("Event Title",        fields.event_title);
+    addCustom("Event Name",         fields.event_title);
     addCustom("Event Date",         fields.event_date);
     addCustom("Event Time",         fields.event_time);
     addCustom("Event Location",     fields.event_location);
@@ -117,33 +114,17 @@ function buildAdPayload(fields, formName) {
     addCustom("Availability",       fields.availability);
   }
 
-  const contact = {
-    first_name: fields.first_name || "",
-    last_name:  fields.last_name  || "",
-    email:      fields.email      || "",
-    phone:      fields.phone      || "",
+  // ActiveDemand REST API — top-level contact fields
+  const payload = {
+    first_name:    fields.first_name    || "",
+    last_name:     fields.last_name     || "",
+    email_address: fields.email         || "",   // AD uses email_address, not email
+    phone:         fields.phone         || "",
   };
 
-  if (custom.length) contact.custom_fields = custom;
+  if (custom.length) payload.custom_fields = custom;
 
-  return { contact };
-}
-
-// ── Re-post to Netlify Forms (fire-and-forget) ────────────────────────────────
-// Keeps email notifications working during the transition period.
-async function forwardToNetlify(rawBody, headers) {
-  try {
-    await fetch("https://azaleaestatesfayetteville.com/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: rawBody,
-    });
-  } catch (e) {
-    // Non-fatal — AD is the source of truth
-    console.warn("Netlify Forms forward failed:", e.message);
-  }
+  return payload;
 }
 
 // ── Main handler ──────────────────────────────────────────────────────────────
@@ -154,6 +135,10 @@ exports.handler = async function (event) {
 
   const fields   = parseBody(event.body);
   const formName = fields["form-name"] || "unknown";
+
+  // Log received fields (redact nothing — server-side only, no PII exposure risk)
+  console.log("[submit-form] form-name:", formName);
+  console.log("[submit-form] fields received:", Object.keys(fields).join(", "));
 
   // Honeypot — bail silently if filled (bot)
   if (fields["bot-field"]) {
@@ -166,36 +151,40 @@ exports.handler = async function (event) {
 
   const errors = [];
 
-  // ── 1. Send to ActiveDemand ────────────────────────────────────────────────
+  // ── Send to ActiveDemand ───────────────────────────────────────────────────
   if (!AD_API_KEY) {
     errors.push("ACTIVEDEMAND_API_KEY environment variable is not set");
   } else {
     try {
       const payload = buildAdPayload(fields, formName);
+      console.log("[submit-form] AD payload:", JSON.stringify(payload));
+
       const res = await fetch(`${AD_API_BASE}/v1/contacts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Api-Key": AD_API_KEY,
+          "X-Api-Key":    AD_API_KEY,
         },
         body: JSON.stringify(payload),
       });
 
+      const responseText = await res.text();
+      console.log("[submit-form] AD response status:", res.status);
+      console.log("[submit-form] AD response body:", responseText);
+
       if (!res.ok) {
-        const text = await res.text();
-        errors.push(`ActiveDemand API error ${res.status}: ${text}`);
+        errors.push(`ActiveDemand API error ${res.status}: ${responseText}`);
       }
     } catch (e) {
       errors.push(`ActiveDemand fetch failed: ${e.message}`);
     }
   }
 
-  // Log errors server-side but don't fail the user experience
   if (errors.length) {
     console.error("[submit-form] Errors:", errors);
   }
 
-  // ── 2. Redirect to thank-you page ─────────────────────────────────────────
+  // ── Redirect to thank-you page ────────────────────────────────────────────
   return {
     statusCode: 302,
     headers: { Location: getThanksPage(formName) },
