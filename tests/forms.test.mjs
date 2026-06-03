@@ -135,9 +135,9 @@ describe("Contact page (/contact/)", () => {
     assert.equal(form.getAttribute("data-netlify"), "true", "contact form missing data-netlify");
   });
 
-  test("contact form submits to /contact/thanks/", () => {
+  test("contact form submits to serverless function", () => {
     const form = getForm(doc, "contact");
-    assert.equal(form.getAttribute("action"), "/contact/thanks/", "contact form wrong action URL");
+    assert.equal(form.getAttribute("action"), "/.netlify/functions/submit-form", "contact form wrong action URL");
   });
 
   test("contact form has required fields", () => {
@@ -184,11 +184,11 @@ describe("Schedule a Tour page (/schedule-a-tour/)", () => {
     assert.equal(form.getAttribute("data-netlify"), "true", "schedule-tour missing data-netlify");
   });
 
-  test("schedule-tour form submits to /schedule-a-tour/thanks/", () => {
+  test("schedule-tour form submits to serverless function", () => {
     const form = getForm(doc, "schedule-tour");
     assert.equal(
       form.getAttribute("action"),
-      "/schedule-a-tour/thanks/",
+      "/.netlify/functions/submit-form",
       "schedule-tour wrong action URL"
     );
   });
