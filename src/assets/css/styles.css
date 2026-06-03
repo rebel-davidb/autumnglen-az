@@ -5060,6 +5060,10 @@ body.modal-open { overflow: hidden; }
   line-height: 1.6;
 }
 
+/* Mobile-only image + CTA — hidden on desktop */
+.ersvp-hero__mobile-photo,
+.ersvp-hero__mobile-cta { display: none; }
+
 /* ── Responsive ─────────────────────────────────────────────────────── */
 @media (max-width: 1060px) {
   .ersvp-hero__grid {
@@ -5071,6 +5075,27 @@ body.modal-open { overflow: hidden; }
   .ersvp-hero__form-col { padding-bottom: var(--space-6); }
   .ersvp-hero { min-height: auto; }
   .ersvp-hero__info { padding-top: 0; }
+  /* Hide background photo — text legibility over image is poor at this width */
+  .ersvp-hero__photo { display: none; }
+
+  /* Show inline image and register CTA between subtitle and details */
+  .ersvp-hero__mobile-photo {
+    display: block;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    margin: var(--space-5) 0;
+  }
+  .ersvp-hero__mobile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .ersvp-hero__mobile-cta {
+    display: inline-flex;
+    margin-bottom: var(--space-6);
+  }
 }
 @media (max-width: 600px) {
   .ersvp-hero__grid {

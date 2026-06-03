@@ -54,7 +54,7 @@ eleventyComputed:
      Left column: event identity, countdown, quick facts
      Right column: RSVP form — visible immediately on load
      ════════════════════════════════════════════════════════════════════ -->
-<section class="ersvp-hero" id="rsvp-form" aria-label="{{ event.title }} registration">
+<section class="ersvp-hero" aria-label="{{ event.title }} registration">
 
   {# Background photo — right half visible through the panel gap #}
   {% if event.image %}
@@ -86,6 +86,18 @@ eleventyComputed:
 
       <h1 class="ersvp-hero__title">{{ event.title }}</h1>
       <p class="ersvp-hero__subtitle">{{ event.subtitle }}</p>
+
+      {# Mobile-only event photo — shown between subtitle and details #}
+      {% if event.image %}
+      <div class="ersvp-hero__mobile-photo" aria-hidden="true">
+        <img src="{{ event.image }}" alt="" decoding="async" loading="eager">
+      </div>
+      {% endif %}
+
+      {# Mobile quick-register CTA #}
+      <a href="#rsvp-form" class="ersvp-hero__mobile-cta btn btn--primary">
+        Register for This Event
+      </a>
 
       {# Quick-glance facts #}
       <div class="ersvp-hero__facts">
@@ -151,7 +163,7 @@ eleventyComputed:
 
 
     <!-- ── RIGHT: RSVP Form card ─────────────────────────────────────── -->
-    <div class="ersvp-hero__form-col">
+    <div class="ersvp-hero__form-col" id="rsvp-form">
       <div class="ersvp-form-card">
 
         <div class="ersvp-form-card__head">
