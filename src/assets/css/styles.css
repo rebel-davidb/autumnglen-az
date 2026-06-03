@@ -554,10 +554,13 @@ p.lead {
     overflow-y: auto;
     overflow-x: hidden;
     z-index: 200;
-    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.18);
+    box-shadow: none;
     -webkit-overflow-scrolling: touch;
   }
-  .nav.open { transform: translateX(0); }
+  .nav.open {
+    transform: translateX(0);
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.18);
+  }
 
   /* Drawer header: logo + close button */
   .nav-drawer-head {
@@ -4565,7 +4568,7 @@ body.modal-open { overflow: hidden; }
 }
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
   gap: var(--space-7);
 }
 
@@ -5521,7 +5524,7 @@ body.modal-open { overflow: hidden; }
 .home-events-strip__cta { white-space: nowrap; }
 
 @media (max-width: 760px) {
-  .events-hero__inner { padding: var(--space-5) 0; }
+  .events-hero__inner { padding: var(--space-5) var(--space-5); }
   .events-grid { grid-template-columns: 1fr; }
   .event-countdown-banner__inner { gap: var(--space-3); }
   .event-countdown-banner__unit strong { font-size: 1.3rem; }
