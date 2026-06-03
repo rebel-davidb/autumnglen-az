@@ -40,7 +40,7 @@ module.exports = [
         <li>🍹 Refreshing tropical mocktails</li>
       </ul>
       <p>This is a wonderful opportunity to come see our community in a festive, relaxed setting — whether you're a current family member, a neighbor, or someone curious about what life at Azalea Estates looks like. All are welcome.</p>
-      <p><strong>Please RSVP by June 11</strong> so we can make sure we have plenty of food and drinks for everyone. You can call us at <a href="tel:7704610039">770-461-0039</a> or email <a href="mailto:azaleaoffice105@gmail.com">azaleaoffice105@gmail.com</a>.</p>
+      <p><strong>Please RSVP by June 11</strong> so we can make sure we have plenty of food and drinks for everyone. You can call us at <a href="tel:7625725194">(762) 572-5194</a> or email <a href="mailto:azaleaoffice105@gmail.com">azaleaoffice105@gmail.com</a>.</p>
     `,
     date: "2026-06-18",
     rsvpDeadline: "June 11, 2026",
@@ -60,7 +60,7 @@ module.exports = [
       "Live music all afternoon",
       "Tropical hors d'oeuvres",
       "Tropical mocktails",
-      "RSVP by June 11 — call 770-461-0039 or email us"
+      "RSVP by June 11 — call (762) 572-5194 or email us"
     ]
   },
 
@@ -72,7 +72,7 @@ module.exports = [
       <p>Join Azalea Estates for a festive Independence Day celebration featuring live music by the talented <strong>Penny Miller</strong>!</p>
       <p>Come celebrate the spirit of the holiday with great music, good company, and a community that knows how to have a good time. This event is open to residents, families, and friends — all are welcome to join in the fun.</p>
       <p>Penny Miller brings warmth and energy to every performance, and this is sure to be a memorable afternoon at Azalea Estates.</p>
-      <p><strong>Please RSVP by June 26</strong> so we can plan accordingly. Call us at <a href="tel:7704610039">770-461-0039</a> or email <a href="mailto:azaleaoffice105@gmail.com">azaleaoffice105@gmail.com</a>.</p>
+      <p><strong>Please RSVP by June 26</strong> so we can plan accordingly. Call us at <a href="tel:7625725194">(762) 572-5194</a> or email <a href="mailto:azaleaoffice105@gmail.com">azaleaoffice105@gmail.com</a>.</p>
     `,
     date: "2026-07-03",
     rsvpDeadline: "June 26, 2026",
@@ -92,7 +92,7 @@ module.exports = [
       "Live music by Penny Miller",
       "Independence Day celebration atmosphere",
       "Open to residents, families & friends",
-      "RSVP by June 26 — call 770-461-0039 or email us"
+      "RSVP by June 26 — call (762) 572-5194 or email us"
     ]
   },
 

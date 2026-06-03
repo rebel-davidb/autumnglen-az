@@ -6,8 +6,8 @@ module.exports = {
     "For more than 30 years, Azalea Estates has been a trusted home for Independent and Assisted Living residents in Fayetteville, Georgia. A blended community where residents live the life they love with compassionate care at every step.",
   url: "https://www.azaleaestatesfayetteville.com",
   contact: {
-    phone: "770-461-0039",
-    phoneRaw: "7704610039",
+    phone: "(762) 572-5194",
+    phoneRaw: "7625725194",
     email: "info@azaleaestatesfayetteville.com",
     addressLine1: "105 Autumn Glen Circle",
     addressLine2: "Fayetteville, GA 30215",

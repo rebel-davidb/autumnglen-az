@@ -8,6 +8,9 @@
 [build.environment]
   NODE_VERSION = "22"
 
+[functions]
+  directory = "netlify/functions"
+
 # Netlify Forms detection is enabled by default via data-netlify attributes
 # and the static form stub in src/forms.html (copied to output).
 

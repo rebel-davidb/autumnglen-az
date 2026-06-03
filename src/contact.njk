@@ -2,7 +2,7 @@
 layout: layouts/page.njk
 title: Contact Us
 metaTitle: "Schedule a Tour — Contact Azalea Estates in Fayetteville, GA"
-description: "Call 770-461-0039 or request a private tour of Azalea Estates in Fayetteville, GA. Our admissions team responds within one business day."
+description: "Call (762) 572-5194 or request a private tour of Azalea Estates in Fayetteville, GA. Our admissions team responds within one business day."
 eyebrow: "We’d Love to Hear from You"
 pageIntro: "Call, email, or drop us a note. Our admissions team responds within one business day."
 eleventyComputed:
@@ -24,7 +24,7 @@ permalink: /contact/
         <form
           name="contact"
           method="POST"
-          action="/contact/thanks/"
+          action="/.netlify/functions/submit-form"
           data-netlify="true"
           data-netlify-honeypot="bot-field"
           class="form"

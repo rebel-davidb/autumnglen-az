@@ -174,7 +174,7 @@ eleventyComputed:
         <form
           name="event-rsvp-{{ event.slug }}"
           method="POST"
-          action="/events/rsvp-thanks/"
+          action="/.netlify/functions/submit-form"
           data-netlify="true"
           data-netlify-honeypot="bot-field"
           class="form ersvp-form"
@@ -313,7 +313,7 @@ eleventyComputed:
 
         <div class="ersvp-form-card__phone">
           <span>Or call to register:</span>
-          <a href="tel:7704610039">770-461-0039</a>
+          <a href="tel:7625725194">(762) 572-5194</a>
         </div>
 
       </div><!-- /.ersvp-form-card -->
@@ -420,7 +420,7 @@ eleventyComputed:
         <div class="event-aside-card">
           <h3>Questions?</h3>
           <p>Our team is happy to answer anything before you register.</p>
-          <a href="tel:7704610039" class="event-aside-card__phone">770-461-0039</a>
+          <a href="tel:7625725194" class="event-aside-card__phone">(762) 572-5194</a>
           <p class="event-aside-card__hours">Monday–Friday, 9 am–5 pm<br>Saturday by appointment</p>
           <a href="mailto:azaleaoffice105@gmail.com" class="btn btn--ghost btn--sm" style="margin-top:var(--space-3);">Send an Email</a>
         </div>
