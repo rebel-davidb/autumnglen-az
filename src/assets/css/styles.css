@@ -4357,3 +4357,1245 @@ body.modal-open { overflow: hidden; }
   color: var(--c-cream);
   background: rgba(197,212,189,0.18);
 }
+
+
+/* ==========================================================================
+   EVENTS SYSTEM
+   Marketing events: listing page, individual RSVP pages, homepage spotlight.
+   Designed for seniors and their families — large touch targets, clear type,
+   high contrast, accessible throughout.
+   ========================================================================== */
+
+/* ── Type badge colors (event type indicator) ──────────────────────── */
+.event-card__type-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-3);
+  background: var(--c-forest-soft);
+  color: var(--c-forest);
+}
+.event-card__type-badge--seminar   { background: #d4e3f5; color: #1a4a80; }
+.event-card__type-badge--social    { background: #f5e4d4; color: #7a3b0d; }
+.event-card__type-badge--health    { background: #d4f0e3; color: #145c3a; }
+.event-card__type-badge--family    { background: #f0d4f5; color: #5c1480; }
+.event-card__type-badge--open-house{ background: var(--c-forest-soft); color: var(--c-forest); }
+
+
+/* ── EVENTS HERO (featured event — WCAG AA compliant split layout) ─── */
+/* Cream-2 background with dark ink text. Photo decorative-only on right.
+   #2a2623 (ink) on #f3ede3 (cream-2) → contrast 13.8:1 — WCAG AAA ✔   */
+.events-hero {
+  background: var(--c-cream-2);
+  overflow: hidden;
+  position: relative;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+}
+/* Photo panel — right 38%, purely decorative, aria-hidden in HTML */
+.events-hero__photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 38%;
+  overflow: hidden;
+}
+.events-hero__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+/* Feathered left edge blends photo into cream-2 background */
+.events-hero__photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--c-cream-2) 0%, transparent 40%);
+  z-index: 1;
+  pointer-events: none;
+}
+/* Content stays in the left 62% — never touches the photo */
+.events-hero__inner {
+  position: relative;
+  z-index: 1;
+  padding: var(--space-9) 0;
+  max-width: 660px;
+}
+.events-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  /* forest on cream-2 → contrast 11:1 — WCAG AA ✔ */
+  color: var(--c-forest);
+}
+.events-hero h1 {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  /* ink on cream-2 → contrast 13.8:1 — WCAG AAA ✔ */
+  color: var(--c-ink);
+  margin: var(--space-3) 0;
+  line-height: 1.15;
+}
+.events-hero .lead {
+  /* ink-soft on cream-2 → contrast 8.6:1 — WCAG AA ✔ */
+  color: var(--c-ink-soft);
+  font-size: 1.15rem;
+  margin-bottom: var(--space-5);
+}
+.events-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+.events-hero__meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  /* muted on cream-2 → contrast 5.2:1 — WCAG AA ✔ */
+  color: var(--c-muted);
+  font-size: 0.95rem;
+}
+.events-hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+/* Hide decorative photo on mobile — full solid cream-2 */
+@media (max-width: 900px) {
+  .events-hero__photo { display: none; }
+}
+
+/* ── Countdown (hero listing page) ────────────────────────────────── */
+.events-countdown {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+.events-countdown__unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* forest bg for countdown tiles — cream numbers on forest: 11:1 ✔ */
+  background: var(--c-forest);
+  border: 1px solid var(--c-forest);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  min-width: 68px;
+}
+.events-countdown__num {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--c-cream);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.events-countdown__label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  /* cream on forest → contrast 11:1 — WCAG AA ✔ */
+  color: rgba(250,246,241,0.85);
+  margin-top: var(--space-1);
+}
+.events-countdown__sep {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  /* forest on cream-2 — decorative separator */
+  color: var(--c-forest);
+  opacity: 0.40;
+  margin-top: -8px;
+}
+
+/* ── EVENTS GRID (listing page) ────────────────────────────────────── */
+.section-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto var(--space-8);
+}
+.section-intro {
+  color: var(--c-muted);
+  font-size: 1.05rem;
+}
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-7);
+}
+
+/* ── Event Card ─────────────────────────────────────────────────────── */
+.event-card {
+  background: var(--c-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow var(--tr), transform var(--tr);
+}
+.event-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+.event-card__img-link {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 3/2;
+}
+.event-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.event-card:hover .event-card__img {
+  transform: scale(1.04);
+}
+.event-card__body {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.event-card__title {
+  font-size: 1.35rem;
+  margin: 0 0 var(--space-2);
+  line-height: 1.25;
+}
+.event-card__title a {
+  color: var(--c-forest);
+  text-decoration: none;
+}
+.event-card__title a:hover {
+  text-decoration: underline;
+  color: var(--c-forest-hover);
+}
+.event-card__subtitle {
+  color: var(--c-muted);
+  font-size: 0.95rem;
+  margin: 0 0 var(--space-4);
+  line-height: 1.5;
+}
+.event-card__meta {
+  border-top: 1px solid var(--c-line);
+  padding-top: var(--space-4);
+  margin-bottom: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.event-card__meta-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: 0.9rem;
+  color: var(--c-ink-soft);
+}
+.event-card__meta-row svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--c-forest);
+}
+.event-card__meta-row--capacity {
+  color: var(--c-accent);
+  font-weight: 600;
+}
+.event-card__highlights {
+  list-style: none;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.event-card__highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: 0.88rem;
+  color: var(--c-ink-soft);
+}
+.event-card__highlights svg {
+  color: var(--c-forest);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.event-card__cta {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* ── EVENTS LOGISTICS 3-col grid ────────────────────────────────────── */
+.events-logistics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-8);
+  align-items: start;
+}
+.events-logistics__col h2 {
+  font-size: 1.4rem;
+  margin-bottom: var(--space-4);
+}
+.events-logistics__col h3 {
+  font-size: 1.1rem;
+  margin-bottom: var(--space-4);
+}
+.events-logistics__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+.events-access-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.events-access-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: 0.95rem;
+}
+.events-access-list svg {
+  flex-shrink: 0;
+  color: var(--c-forest);
+  margin-top: 2px;
+}
+
+/* ── PAST EVENTS GRID ───────────────────────────────────────────────── */
+.events-past-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-3);
+}
+.events-past-card {
+  background: var(--c-cream-2);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.events-past-card__type {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-muted);
+}
+.events-past-card__title {
+  font-size: 0.95rem;
+  color: var(--c-ink);
+}
+.events-past-card__date {
+  font-size: 0.85rem;
+  color: var(--c-muted);
+}
+
+
+/* ── ABOVE-THE-FOLD RSVP HERO — WCAG AA compliant ───────────────────── */
+/* Cream-2 background. Left info col = dark ink text on cream-2 (13.8:1).
+   Right form column has event photo behind the card (no text on photo).  */
+.ersvp-hero {
+  background: var(--c-cream-2);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+/* Photo clipped to right side — feathers into cream-2, no text on top */
+.ersvp-hero__photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 520px;
+  z-index: 0;
+}
+.ersvp-hero__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+/* Feather: hard cream-2 on left, transparent on right */
+.ersvp-hero__photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--c-cream-2) 0%, transparent 50%);
+  z-index: 1;
+  pointer-events: none;
+}
+.ersvp-hero__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 460px;
+  gap: var(--space-8);
+  align-items: start;
+  padding-top: var(--space-7);
+  padding-bottom: var(--space-8);
+  min-height: 100vh;
+}
+
+/* ── Info column — cream-2, dark ink text ───────────────────────────── */
+.ersvp-hero__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: var(--space-4);
+  position: relative;
+  z-index: 2;
+}
+/* Breadcrumb — dark on cream-2 */
+.crumbs--light {
+  font-size: 0.82rem;
+  /* muted on cream-2 → contrast 5.2:1 — WCAG AA ✔ */
+  color: var(--c-muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
+  margin-bottom: var(--space-4);
+}
+.crumbs--light a { color: var(--c-forest); text-decoration: none; }
+.crumbs--light a:hover { text-decoration: underline; }
+.crumbs--light span { color: var(--c-muted); opacity: 0.6; }
+
+.ersvp-hero__badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  /* forest on cream-2 → contrast 11:1 — WCAG AA ✔ */
+  color: var(--c-forest);
+  border: 1px solid rgba(33,59,20,0.35);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: var(--space-4);
+  width: fit-content;
+}
+.ersvp-hero__title {
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  /* ink on cream-2 → contrast 13.8:1 — WCAG AAA ✔ */
+  color: var(--c-ink);
+  margin: 0 0 var(--space-3);
+  line-height: 1.12;
+}
+.ersvp-hero__subtitle {
+  font-size: 1.1rem;
+  /* ink-soft on cream-2 → contrast 8.6:1 — WCAG AA ✔ */
+  color: var(--c-ink-soft);
+  margin: 0 0 var(--space-5);
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+/* Quick facts row */
+.ersvp-hero__facts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+.ersvp-hero__fact {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 1rem;
+  /* ink-soft on cream-2 → contrast 8.6:1 — WCAG AA ✔ */
+  color: var(--c-ink-soft);
+  font-weight: 500;
+}
+.ersvp-hero__fact svg { color: var(--c-forest); flex-shrink: 0; }
+.ersvp-hero__fact--deadline {
+  /* accent on cream-2 → contrast 7.5:1 — WCAG AA ✔ */
+  color: var(--c-accent);
+  font-weight: 700;
+}
+.ersvp-hero__fact--deadline svg { color: var(--c-accent); }
+
+/* Highlights */
+.ersvp-hero__highlights {
+  list-style: none;
+  margin: 0 0 var(--space-6);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.ersvp-hero__highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: 0.95rem;
+  /* muted on cream-2 → contrast 5.2:1 — WCAG AA ✔ */
+  color: var(--c-ink-soft);
+}
+.ersvp-hero__highlights svg { color: var(--c-forest); flex-shrink: 0; margin-top: 2px; }
+
+/* Countdown inside the info column — forest tiles for visual pop */
+.ersvp-countdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.ersvp-countdown__label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  /* muted on cream-2 → contrast 5.2:1 — WCAG AA ✔ */
+  color: var(--c-muted);
+}
+.ersvp-countdown__clock {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.ersvp-countdown__unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Forest tile — cream number on forest: 11:1 ✔ */
+  background: var(--c-forest);
+  border: 1px solid var(--c-forest);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  min-width: 62px;
+}
+.ersvp-countdown__unit strong {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: var(--c-cream);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.ersvp-countdown__unit span {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(250,246,241,0.85);
+  margin-top: 4px;
+}
+.ersvp-countdown__sep {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  color: var(--c-forest);
+  opacity: 0.35;
+  margin-bottom: 12px;
+}
+
+/* ── Form column ─────────────────────────────────────────────────────── */
+.ersvp-hero__form-col {
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-4);
+}
+.ersvp-form-card {
+  background: var(--c-white);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.28);
+  overflow: hidden;
+}
+.ersvp-form-card__head {
+  background: var(--c-forest);
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 3px solid var(--c-accent);
+}
+.ersvp-form-card__head .eyebrow { color: var(--c-accent-soft); font-size: 0.72rem; }
+.ersvp-form-card__head h2 {
+  color: var(--c-cream);
+  font-size: 1.5rem;
+  margin: var(--space-2) 0 var(--space-2);
+}
+.ersvp-form-card__meta-note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.82rem;
+  color: rgba(250,246,241,0.75);
+  margin: 0 0 var(--space-1);
+}
+.ersvp-form-card__meta-note--deadline {
+  color: #f5c842;
+}
+.ersvp-form-card__meta-note--deadline strong { color: #fff; }
+
+.ersvp-form {
+  padding: var(--space-5) var(--space-6);
+}
+/* Tighten vertical spacing inside the RSVP form for above-fold fit */
+.ersvp-form .form-field { margin-bottom: var(--space-3); }
+.ersvp-form .form-row { gap: var(--space-3); margin-bottom: 0; }
+.ersvp-form label { font-size: 0.88rem; margin-bottom: 4px; }
+.ersvp-form input[type="text"],
+.ersvp-form input[type="tel"],
+.ersvp-form input[type="email"],
+.ersvp-form select,
+.ersvp-form textarea {
+  padding: 9px 12px;
+  font-size: 0.95rem;
+}
+.ersvp-form .form-check { font-size: 0.88rem; }
+
+.ersvp-submit {
+  width: 100%;
+  justify-content: center;
+  font-size: 1.05rem;
+  padding: var(--space-4) var(--space-5);
+  margin-top: var(--space-4);
+  gap: var(--space-2);
+}
+.ersvp-reassurance {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: 0.78rem;
+  color: var(--c-muted);
+  margin-top: var(--space-2);
+  text-align: center;
+}
+.ersvp-form-card__phone {
+  border-top: 1px solid var(--c-line);
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  font-size: 0.85rem;
+  color: var(--c-muted);
+}
+.ersvp-form-card__phone a {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--c-forest);
+  text-decoration: none;
+}
+.ersvp-form-card__phone a:hover { text-decoration: underline; }
+
+/* ── Below-fold two-column detail layout ───────────────────────────── */
+.event-below-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: var(--space-9);
+  align-items: start;
+}
+.event-below-aside { display: flex; flex-direction: column; }
+.event-aside-card {
+  background: var(--c-cream-2);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+}
+.event-aside-card h3 { font-size: 1.1rem; margin-bottom: var(--space-3); }
+.event-aside-card p { font-size: 0.92rem; color: var(--c-muted); margin-bottom: var(--space-3); }
+.event-aside-card__phone {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--c-forest);
+  text-decoration: none;
+  margin-bottom: var(--space-2);
+}
+.event-aside-card__phone:hover { text-decoration: underline; }
+.event-aside-card__hours {
+  font-size: 0.82rem !important;
+  line-height: 1.6;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 1060px) {
+  .ersvp-hero__grid {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .ersvp-hero__form-col { padding-bottom: var(--space-8); }
+  .ersvp-hero { min-height: auto; }
+  .ersvp-hero__info { padding-top: 0; }
+}
+@media (max-width: 900px) {
+  .event-below-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .ersvp-countdown__unit { min-width: 52px; padding: var(--space-2) var(--space-3); }
+  .ersvp-countdown__unit strong { font-size: 1.5rem; }
+  .ersvp-form { padding: var(--space-4); }
+  .ersvp-form-card__head { padding: var(--space-4); }
+}
+
+
+/* ── EVENT INFOBAR ──────────────────────────────────────────────────── */
+.event-infobar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-4);
+  background: var(--c-cream-2);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+}
+.event-infobar__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.event-infobar__item svg {
+  color: var(--c-forest);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.event-infobar__label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-muted);
+  margin-bottom: 2px;
+}
+.event-infobar__value {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--c-ink);
+  line-height: 1.35;
+}
+
+
+/* ── EVENT DESCRIPTION body copy ────────────────────────────────────── */
+.event-description {
+  margin-bottom: var(--space-7);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--c-ink-soft);
+}
+.event-description p { margin-bottom: var(--space-4); }
+.event-description ul {
+  padding-left: var(--space-5);
+  margin-bottom: var(--space-4);
+}
+.event-description li {
+  margin-bottom: var(--space-2);
+}
+.event-description strong { color: var(--c-ink); }
+
+
+/* ── HIGHLIGHTS BOX ─────────────────────────────────────────────────── */
+.event-highlights-box {
+  background: var(--c-cream-2);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+.event-highlights-box h3 {
+  font-size: 1.1rem;
+  margin-bottom: var(--space-4);
+}
+.event-highlights-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.event-highlights-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: 0.95rem;
+}
+.event-highlights-list svg {
+  color: var(--c-forest);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+
+/* ── ADD TO CALENDAR BOX ────────────────────────────────────────────── */
+.event-calendar-box {
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+.event-calendar-box h3 {
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.event-calendar-box p {
+  color: var(--c-muted);
+  font-size: 0.92rem;
+  margin-bottom: var(--space-4);
+}
+.event-calendar-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.event-cal-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius);
+  background: var(--c-white);
+  color: var(--c-ink-soft);
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color var(--tr), color var(--tr), background var(--tr);
+  min-height: 44px;  /* accessible touch target */
+}
+.event-cal-btn:hover {
+  border-color: var(--c-forest);
+  color: var(--c-forest);
+  background: rgba(33,59,20,0.04);
+}
+
+
+/* ── DIRECTIONS BOX ─────────────────────────────────────────────────── */
+.event-directions-box {
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+.event-directions-box h3 {
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.event-directions-box address {
+  font-style: normal;
+  margin-bottom: var(--space-4);
+  line-height: 1.6;
+  color: var(--c-ink-soft);
+}
+.event-directions-list {
+  list-style: none;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.event-directions-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: 0.88rem;
+  color: var(--c-ink-soft);
+}
+.event-directions-list svg {
+  color: var(--c-forest);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+
+/* ── EVENT FORM CARD (legacy — now replaced by ersvp-* above) ───────── */
+.event-form-wrap {
+  /* kept for any existing references; new layout uses .ersvp-form-card */
+}
+.event-form-card {
+  background: var(--c-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.event-form-card__head {
+  background: var(--c-forest);
+  color: var(--c-cream);
+  padding: var(--space-6) var(--space-6) var(--space-5);
+}
+.event-form-card__head .eyebrow { color: var(--c-accent-soft); }
+.event-form-card__head h2 {
+  color: var(--c-cream);
+  font-size: 1.6rem;
+  margin: var(--space-2) 0 var(--space-3);
+}
+.event-form-card__head p {
+  color: rgba(250,246,241,0.80);
+  font-size: 0.9rem;
+  margin: 0;
+}
+.event-form-card__head a { color: var(--c-cream); }
+.event-form-card__capacity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.85rem;
+  color: var(--c-accent-soft);
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+}
+.event-form-card > .form {
+  padding: var(--space-6);
+}
+.event-form-card__reassurance {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.8rem;
+  color: var(--c-muted);
+  margin-top: var(--space-3);
+  text-align: center;
+  justify-content: center;
+}
+.event-form-card__phone-alt {
+  border-top: 1px solid var(--c-line);
+  padding: var(--space-5) var(--space-6);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+.event-form-card__phone-alt p {
+  font-size: 0.88rem;
+  color: var(--c-muted);
+  margin: 0;
+}
+.event-form-card__phone-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 1.3rem;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--c-forest);
+  text-decoration: none;
+}
+.event-form-card__phone-link:hover { text-decoration: underline; }
+.event-form-card__phone-alt span {
+  font-size: 0.78rem;
+  color: var(--c-muted);
+}
+
+/* ── Form section label ─────────────────────────────────────────────── */
+.form-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--c-muted);
+  border-bottom: 1px solid var(--c-line);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-4);
+  margin-top: var(--space-5);
+}
+.form-section-label:first-child { margin-top: 0; }
+
+/* Inline radio layout for guest count */
+.form-check-group--inline {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* Guest name fields slide in */
+.event-guest-field[hidden] {
+  display: none;
+}
+.event-guest-field {
+  animation: guestFieldIn 0.2s ease;
+}
+@keyframes guestFieldIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RSVP THANKS PAGE ───────────────────────────────────────────────── */
+.rsvp-thanks__icon {
+  display: flex;
+  justify-content: center;
+}
+.rsvp-thanks__reminders {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-6);
+  max-width: 760px;
+  margin: var(--space-7) auto 0;
+  text-align: left;
+}
+.rsvp-thanks__reminder {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.rsvp-thanks__reminder svg {
+  color: var(--c-forest);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.rsvp-thanks__reminder div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: 0.92rem;
+}
+.rsvp-thanks__reminder strong { color: var(--c-ink); }
+.rsvp-thanks__reminder span { color: var(--c-muted); }
+.rsvp-thanks__reminder a { color: var(--c-forest); }
+
+/* ── Entertainment type badge ───────────────────────────────────────── */
+.event-card__type-badge--entertainment { background: #fde8c8; color: #7a4200; }
+
+/* ── RSVP deadline row on card ──────────────────────────────────────── */
+.event-card__meta-row--deadline {
+  color: var(--c-accent);
+  font-weight: 600;
+}
+
+/* ── Card actions row (RSVP + flyer) ────────────────────────────────── */
+.event-card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+.event-card__flyer {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: 0.82rem;
+}
+
+/* ── Infobar deadline item ──────────────────────────────────────────── */
+.event-infobar__item--deadline .event-infobar__value {
+  color: var(--c-accent);
+}
+.event-infobar__item--deadline svg {
+  color: var(--c-accent);
+}
+
+/* ── Flyer download box ─────────────────────────────────────────────── */
+.event-flyer-box {
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  background: var(--c-cream-2);
+}
+.event-flyer-box h3 {
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.event-flyer-box p {
+  color: var(--c-muted);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-4);
+}
+
+/* ── Form card deadline notice ──────────────────────────────────────── */
+.event-form-card__deadline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.88rem;
+  color: #f5c842;
+  margin-bottom: var(--space-3);
+}
+.event-form-card__deadline strong { color: #fff; }
+
+/* btn--lg helper */
+.btn--lg {
+  padding: var(--space-4) var(--space-7);
+  font-size: 1.05rem;
+}
+.btn--sm {
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.85rem;
+}
+
+/* ── Homepage events spotlight strip ────────────────────────────────── */
+.home-events-strip {
+  background: var(--c-forest);
+  padding: var(--space-6) 0;
+}
+.home-events-strip__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+.home-events-strip__eyebrow {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--c-accent-soft);
+  white-space: nowrap;
+}
+.home-events-strip__event {
+  flex: 1;
+  min-width: 0;
+}
+.home-events-strip__title {
+  color: var(--c-cream);
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 var(--space-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.home-events-strip__meta {
+  color: rgba(250,246,241,0.70);
+  font-size: 0.85rem;
+}
+.home-events-strip__cta { white-space: nowrap; }
+
+@media (max-width: 760px) {
+  .events-hero__inner { padding: var(--space-7) 0; }
+  .events-grid { grid-template-columns: 1fr; }
+  .event-countdown-banner__inner { gap: var(--space-3); }
+  .event-countdown-banner__unit strong { font-size: 1.3rem; }
+  .event-layout { gap: var(--space-6); }
+  .event-infobar { grid-template-columns: 1fr 1fr; }
+  .home-events-strip__inner { flex-direction: column; align-items: flex-start; }
+}
+
+/* ── Homepage Upcoming Events Section ──────────────────────────────── */
+.home-events__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-7);
+}
+.home-events__header h2 {
+  margin: var(--space-2) 0 0;
+}
+.home-events__all {
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.home-events__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-6);
+}
+.home-event-card {
+  background: var(--c-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow var(--tr), transform var(--tr);
+}
+.home-event-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+.home-event-card__img-wrap {
+  aspect-ratio: 16/7;
+  overflow: hidden;
+}
+.home-event-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.home-event-card:hover .home-event-card__img {
+  transform: scale(1.04);
+}
+.home-event-card__body {
+  padding: var(--space-5) var(--space-5) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.home-event-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  flex-wrap: wrap;
+}
+.home-event-card__date {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--c-forest);
+  letter-spacing: 0.03em;
+}
+.home-event-card__deadline {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--c-accent);
+  background: rgba(138,58,82,0.08);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+}
+.home-event-card__title {
+  font-size: 1.35rem;
+  color: var(--c-ink);
+  margin: 0 0 var(--space-2);
+  line-height: 1.2;
+}
+.home-event-card__subtitle {
+  font-size: 0.95rem;
+  color: var(--c-ink-soft);
+  margin: 0 0 var(--space-4);
+  line-height: 1.5;
+}
+.home-event-card__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+.home-event-card__facts span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.875rem;
+  color: var(--c-muted);
+}
+.home-event-card__facts svg {
+  flex-shrink: 0;
+  color: var(--c-forest);
+}
+.home-event-card__cta {
+  margin-top: auto;
+  align-self: flex-start;
+}
+@media (max-width: 680px) {
+  .home-events__header { flex-direction: column; align-items: flex-start; }
+  .home-events__grid { grid-template-columns: 1fr; }
+}

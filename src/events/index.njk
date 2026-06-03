@@ -1,0 +1,326 @@
+---
+layout: layouts/base.njk
+title: Upcoming Events
+metaTitle: "Upcoming Events | Azalea Estates of Fayetteville, GA"
+description: "Join Azalea Estates for open houses, family seminars, wellness events, and community socials. Free to attend — register online or call us at 770-461-0039."
+permalink: /events/
+noindex: false
+---
+
+{% from "partials/icons.njk" import icon %}
+
+{# ── Derive upcoming vs past events ──────────────────────────────────── #}
+{%- set today = "2026-06-02" -%}
+{%- set upcomingEvents = [] -%}
+{%- set pastEvents = [] -%}
+{%- for event in events -%}
+  {%- if event.date >= today -%}
+    {%- set upcomingEvents = upcomingEvents.concat([event]) -%}
+  {%- else -%}
+    {%- set pastEvents = pastEvents.concat([event]) -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{# ── Featured upcoming event (first featured=true, or first upcoming) ── #}
+{%- set featuredEvent = null -%}
+{%- for event in upcomingEvents -%}
+  {%- if event.featured and not featuredEvent -%}
+    {%- set featuredEvent = event -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if not featuredEvent and upcomingEvents.length > 0 -%}
+  {%- set featuredEvent = upcomingEvents[0] -%}
+{%- endif -%}
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     EVENTS HERO — shown only when upcoming events exist
+     ════════════════════════════════════════════════════════════════════ -->
+{% if upcomingEvents.length > 0 %}
+
+<section class="events-hero section--cream" aria-label="Featured upcoming event">
+  {% if featuredEvent.image %}
+  <div class="events-hero__photo" aria-hidden="true">
+    <img src="{{ featuredEvent.image }}" alt="" role="presentation" loading="eager" decoding="async">
+  </div>
+  {% endif %}
+
+  <div class="container events-hero__inner">
+    <div class="events-hero__copy">
+      <span class="eyebrow events-hero__eyebrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Featured Upcoming Event
+      </span>
+      <h1>{{ featuredEvent.title }}</h1>
+      <p class="lead">{{ featuredEvent.subtitle }}</p>
+
+      <div class="events-hero__meta">
+        <div class="events-hero__meta-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <time datetime="{{ featuredEvent.date }}">
+            {{ featuredEvent.date | replace("-", " ") }}
+          </time>
+        </div>
+        <div class="events-hero__meta-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          {{ featuredEvent.time }}
+        </div>
+        <div class="events-hero__meta-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          {{ featuredEvent.location }}
+        </div>
+      </div>
+
+      {# Countdown #}
+      <div class="events-countdown" data-event-date="{{ featuredEvent.date }}" data-event-time="{{ featuredEvent.timeStart }}" aria-label="Time until event">
+        <div class="events-countdown__unit">
+          <span class="events-countdown__num" data-unit="days">--</span>
+          <span class="events-countdown__label">Days</span>
+        </div>
+        <div class="events-countdown__sep" aria-hidden="true">:</div>
+        <div class="events-countdown__unit">
+          <span class="events-countdown__num" data-unit="hours">--</span>
+          <span class="events-countdown__label">Hours</span>
+        </div>
+        <div class="events-countdown__sep" aria-hidden="true">:</div>
+        <div class="events-countdown__unit">
+          <span class="events-countdown__num" data-unit="minutes">--</span>
+          <span class="events-countdown__label">Minutes</span>
+        </div>
+        <div class="events-countdown__sep" aria-hidden="true">:</div>
+        <div class="events-countdown__unit">
+          <span class="events-countdown__num" data-unit="seconds">--</span>
+          <span class="events-countdown__label">Seconds</span>
+        </div>
+      </div>
+
+      <div class="events-hero__cta">
+        <a href="/events/{{ featuredEvent.slug }}/" class="btn btn--primary btn--lg">
+          {{ featuredEvent.cta or "RSVP Now" }}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="tel:7704610039" class="btn btn--outline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.38 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call to Register
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% else %}
+
+<!-- No upcoming events — show a friendly holding page -->
+<section class="page-hero" style="background:var(--c-forest); padding: var(--space-10) 0;">
+  <div class="container" style="text-align:center; color:var(--c-cream);">
+    <span class="eyebrow" style="color:var(--c-accent-soft);">Events &amp; Programs</span>
+    <h1 style="color:var(--c-cream);">No Events Scheduled Right Now</h1>
+    <p class="lead" style="color:rgba(250,246,241,.85); max-width:540px; margin:0 auto var(--space-6);">
+      We host open houses, family seminars, and community socials throughout the year. Check back soon — or call us and we'll let you know when the next one is scheduled.
+    </p>
+    <a href="tel:7704610039" class="btn btn--primary">Call 770-461-0039</a>
+  </div>
+</section>
+
+{% endif %}
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     UPCOMING EVENTS LISTING
+     ════════════════════════════════════════════════════════════════════ -->
+{% if upcomingEvents.length > 0 %}
+<section class="section" aria-labelledby="upcoming-heading">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="eyebrow">What's Coming Up</span>
+      <h2 id="upcoming-heading">All Upcoming Events</h2>
+      <p class="section-intro">All events are free to attend and open to seniors, families, and anyone curious about Azalea Estates. Reserve your spot online or call <a href="tel:7704610039"><strong>770-461-0039</strong></a>.</p>
+    </div>
+
+    <div class="events-grid">
+      {% for event in upcomingEvents %}
+      <article class="event-card reveal" aria-labelledby="event-title-{{ loop.index }}">
+        {% if event.image %}
+        <a href="/events/{{ event.slug }}/" class="event-card__img-link" tabindex="-1" aria-hidden="true">
+          <img
+            src="{{ event.image }}"
+            alt="{{ event.imageAlt }}"
+            class="event-card__img"
+            loading="lazy"
+            decoding="async"
+            width="600"
+            height="400"
+          >
+        </a>
+        {% endif %}
+
+        <div class="event-card__body">
+          <div class="event-card__type-badge event-card__type-badge--{{ event.type }}">
+            {% if event.type == "open-house" %}Open House
+            {% elif event.type == "seminar" %}Seminar
+            {% elif event.type == "social" %}Community Social
+            {% elif event.type == "health" %}Health & Wellness
+            {% elif event.type == "family" %}Family Event
+            {% elif event.type == "entertainment" %}Live Entertainment
+            {% else %}Event{% endif %}
+          </div>
+
+          <h3 class="event-card__title" id="event-title-{{ loop.index }}">
+            <a href="/events/{{ event.slug }}/">{{ event.title }}</a>
+          </h3>
+          <p class="event-card__subtitle">{{ event.subtitle }}</p>
+
+          <div class="event-card__meta">
+            <div class="event-card__meta-row">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <time datetime="{{ event.date }}">
+                {%- set d = event.date | replace("-", " ") -%}
+                {{ event.date }}
+              </time>
+            </div>
+            <div class="event-card__meta-row">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              {{ event.time }}
+            </div>
+            <div class="event-card__meta-row">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              {{ event.location }}
+            </div>
+            {% if event.capacity %}
+            <div class="event-card__meta-row event-card__meta-row--capacity">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Limited to {{ event.capacity }} guests
+            </div>
+            {% endif %}
+            {% if event.rsvpDeadline %}
+            <div class="event-card__meta-row event-card__meta-row--deadline">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              RSVP by {{ event.rsvpDeadline }}
+            </div>
+            {% endif %}
+          </div>
+
+          {% if event.highlights %}
+          <ul class="event-card__highlights">
+            {% for h in event.highlights %}
+            <li>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              {{ h }}
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+          <div class="event-card__actions">
+            <a href="/events/{{ event.slug }}/" class="btn btn--primary event-card__cta">
+              {{ event.cta or "RSVP Now" }}
+            </a>
+            {% if event.flyerPdf %}
+            <a href="{{ event.flyerPdf }}" class="btn btn--ghost btn--sm event-card__flyer" target="_blank" rel="noopener" aria-label="Download {{ event.title }} flyer (PDF)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Save Flyer
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     ACCESSIBILITY & DIRECTIONS STRIP
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section section--sand" aria-labelledby="directions-heading">
+  <div class="container">
+    <div class="events-logistics reveal">
+      <div class="events-logistics__col">
+        <h2 id="directions-heading">Finding Us</h2>
+        <p>All events take place at our campus at <strong>105 Autumn Glen Circle, Fayetteville, GA 30215</strong> — easy to reach from Peachtree City, Tyrone, and Newnan.</p>
+        <div class="events-logistics__links">
+          <a href="https://www.google.com/maps/search/?api=1&query=105+Autumn+Glen+Cir+Fayetteville+GA+30215" target="_blank" rel="noopener" class="btn btn--outline btn--sm">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Get Directions
+          </a>
+          <a href="tel:7704610039" class="btn btn--ghost btn--sm">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.38 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            770-461-0039
+          </a>
+        </div>
+      </div>
+
+      <div class="events-logistics__col">
+        <h3>Accessibility at Our Events</h3>
+        <ul class="events-access-list">
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="20 12 16 8 12 12 8 16 4 12"/></svg>
+            <div><strong>Single-story campus</strong> — no stairs, wide hallways, accessible throughout</div>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+            <div><strong>Reserved accessible parking</strong> — right at the entrance</div>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div><strong>Staff assistance</strong> — team members available to help from arrival to departure</div>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <div><strong>Dietary needs accommodated</strong> — let us know when you register</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="events-logistics__col">
+        <h3>Questions About an Event?</h3>
+        <p>Our admissions team is happy to answer any questions before you register — no obligation.</p>
+        <p style="font-size:1.5rem; font-family:var(--font-serif); font-weight:600; color:var(--c-forest);">
+          <a href="tel:7704610039" style="color:inherit; text-decoration:none;">770-461-0039</a>
+        </p>
+        <p style="color:var(--c-muted); font-size:0.9rem;">Monday–Friday, 9 am–5 pm<br>Saturday by appointment</p>
+        <p style="margin-top:var(--space-3);">
+          <a href="mailto:info@azaleaestatesfayetteville.com" class="btn btn--ghost btn--sm">Send Us an Email</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PAST EVENTS
+     ════════════════════════════════════════════════════════════════════ -->
+{% if pastEvents.length > 0 %}
+<section class="section" aria-labelledby="past-heading">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 id="past-heading" style="font-size:1.6rem;">Past Events</h2>
+    </div>
+    <div class="events-past-grid">
+      {% for event in pastEvents %}
+      <div class="events-past-card reveal">
+        <span class="events-past-card__type">{{ event.type | replace("-", " ") | capitalize }}</span>
+        <strong class="events-past-card__title">{{ event.title }}</strong>
+        <time class="events-past-card__date" datetime="{{ event.date }}">{{ event.date }}</time>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     BOTTOM CTA — SCHEDULE TOUR
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section section--ink" aria-labelledby="events-tour-cta">
+  <div class="container" style="text-align:center; max-width:680px;">
+    <span class="eyebrow" style="color:var(--c-accent-soft);">Can't Wait for an Event?</span>
+    <h2 id="events-tour-cta" style="color:var(--c-cream);">Schedule a Private Tour Anytime</h2>
+    <p style="color:rgba(250,246,241,.85); margin-bottom:var(--space-6);">Tours are available Monday through Saturday and take about 60–90 minutes. You'll see the full campus, meet our team, and enjoy a complimentary lunch — no pressure, no obligation.</p>
+    <a href="/schedule-a-tour/" class="btn btn--primary">Schedule My Tour</a>
+  </div>
+</section>

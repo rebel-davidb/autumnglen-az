@@ -311,6 +311,71 @@ eleventyComputed:
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════════════════════════════════
+     UPCOMING EVENTS STRIP
+     Shows up to 2 upcoming events. Hidden automatically if none exist.
+     ═══════════════════════════════════════════════════════════════════ -->
+{%- set today = "2026-06-02" -%}
+{%- set homeUpcoming = [] -%}
+{%- for ev in events -%}
+  {%- if ev.date >= today and homeUpcoming.length < 2 -%}
+    {%- set homeUpcoming = homeUpcoming.concat([ev]) -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{% if homeUpcoming.length > 0 %}
+<section class="section section--cream home-events" aria-labelledby="home-events-heading">
+  <div class="container">
+    <div class="home-events__header reveal">
+      <div>
+        <span class="eyebrow">Mark Your Calendar</span>
+        <h2 id="home-events-heading">Upcoming Events</h2>
+      </div>
+      <a href="/events/" class="btn btn--outline btn--sm home-events__all">
+        All Events
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="home-events__grid">
+      {% for ev in homeUpcoming %}
+      <article class="home-event-card reveal" aria-labelledby="hev-{{ loop.index }}">
+        {% if ev.image %}
+        <div class="home-event-card__img-wrap" aria-hidden="true">
+          <img src="{{ ev.image }}" alt="" role="presentation" class="home-event-card__img" loading="lazy" decoding="async">
+        </div>
+        {% endif %}
+        <div class="home-event-card__body">
+          <div class="home-event-card__meta">
+            <time datetime="{{ ev.date }}" class="home-event-card__date">{{ ev.date }}</time>
+            {% if ev.rsvpDeadline %}
+            <span class="home-event-card__deadline">RSVP by {{ ev.rsvpDeadline }}</span>
+            {% endif %}
+          </div>
+          <h3 class="home-event-card__title" id="hev-{{ loop.index }}">{{ ev.title }}</h3>
+          <p class="home-event-card__subtitle">{{ ev.subtitle }}</p>
+          <div class="home-event-card__facts">
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              {{ ev.time }}
+            </span>
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              {{ ev.location }}
+            </span>
+          </div>
+          <a href="/events/{{ ev.slug }}/" class="btn btn--primary btn--sm home-event-card__cta">
+            {{ ev.cta or "RSVP Now" }}
+          </a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+
 <!-- CTA PANEL -->
 <section class="cta-panel">
   <div class="container">

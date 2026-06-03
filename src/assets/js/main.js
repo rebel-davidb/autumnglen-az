@@ -1062,7 +1062,7 @@
           if (decBtn) decBtn.textContent = "Declined";
         });
         clearNonConsentCookies();
-        try { sessionStorage.removeItem("ae_attribution"); } catch (e) {}
+        try { localStorage.removeItem("ae_attribution"); } catch (e) {}
       }
     });
 
@@ -1090,75 +1090,20 @@
   }
 
   // ── Attribution capture ────────────────────────────────────────────────────
-  // Reads UTM params + referrer on every page load.
-  // If UTMs are present in the URL, they are written to sessionStorage so they
-  // survive navigation (e.g. user lands on homepage from an ad, then navigates
-  // to /schedule-a-tour/ — params are preserved).
-  // On any page that contains a tracked form, hidden inputs are injected with
-  // the stored values so attribution data is submitted alongside the lead.
+  // Respects cookie consent. Only captures and stores data when the user has
+  // accepted cookies (or hasn't decided yet — banner pending).
+  //
+  // Storage: localStorage (cross-session, first-touch for UTMs + landing page).
+  // On decline: all stored attribution data is wiped.
+  //
+  // Fields injected as hidden inputs on every data-netlify form at submit:
+  //   cf_utm_source, cf_utm_medium, cf_utm_campaign, cf_utm_content,
+  //   cf_utm_term, cf_landing_page, cf_referrer, cf_form_page
   // ──────────────────────────────────────────────────────────────────────────
   (function () {
     var ATTR_KEY = "ae_attribution";
+    var utmKeys  = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
 
-    // Don't capture anything if the user has declined cookie consent
-    if (localStorage.getItem(COOKIE_KEY) === "declined") return;
-
-    var TRACKED_FORMS = [
-      "contact",
-      "schedule-tour",
-      "floor-plan-inquiry"
-    ];
-
-    // ── 1. Read UTMs from URL and persist to sessionStorage ──────────────────
-    var params  = new URLSearchParams(window.location.search);
-    var utmKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
-    var fresh   = {};
-    var hasUtms = false;
-
-    utmKeys.forEach(function (k) {
-      if (params.get(k)) {
-        fresh[k] = params.get(k);
-        hasUtms = true;
-      }
-    });
-
-    // Always capture landing page and referrer on the first touch
-    var stored = {};
-    try {
-      stored = JSON.parse(sessionStorage.getItem(ATTR_KEY) || "{}");
-    } catch (e) { stored = {}; }
-
-    // If fresh UTMs are present, they win (new campaign click overrides session)
-    // Otherwise keep whatever was stored from the first touch this session
-    var attr = hasUtms ? fresh : stored;
-
-    // Landing page: first URL seen this session wins
-    if (!stored.landing_page) {
-      attr.landing_page = window.location.href;
-    } else {
-      attr.landing_page = stored.landing_page;
-    }
-
-    // Referrer: first external referrer wins (ignore same-domain navigation)
-    if (!stored.referrer && document.referrer) {
-      try {
-        var refHost = new URL(document.referrer).hostname;
-        if (refHost !== window.location.hostname) {
-          attr.referrer = document.referrer;
-        }
-      } catch (e) {}
-    } else {
-      attr.referrer = stored.referrer || "";
-    }
-
-    // Current page always updated so we know the form's page
-    attr.form_page = window.location.href;
-
-    try {
-      sessionStorage.setItem(ATTR_KEY, JSON.stringify(attr));
-    } catch (e) {}
-
-    // ── 2. Inject hidden attribution fields into tracked forms ───────────────
     var fieldMap = {
       utm_source:   "cf_utm_source",
       utm_medium:   "cf_utm_medium",
@@ -1170,36 +1115,136 @@
       form_page:    "cf_form_page"
     };
 
+    // ── Consent helpers ──────────────────────────────────────────────────────
+    function consentStatus() {
+      // Returns "accepted" | "declined" | null (pending — banner not answered)
+      try { return localStorage.getItem(COOKIE_KEY); } catch (e) { return null; }
+    }
+
+    function clearStoredAttribution() {
+      try { localStorage.removeItem(ATTR_KEY); } catch (e) {}
+    }
+
+    // ── Hook into consent events so tracking starts/stops dynamically ────────
+    // When the user clicks Accept in this session, capture immediately.
+    // When they click Decline, wipe everything.
+    var cookieBannerEl = document.getElementById("cookieBanner");
+    if (cookieBannerEl) {
+      cookieBannerEl.addEventListener("click", function (e) {
+        if (e.target.id === "cookieAccept") {
+          captureAttribution();
+          attachFormListeners();
+        } else if (e.target.id === "cookieDecline") {
+          clearStoredAttribution();
+        }
+      });
+    }
+
+    // ── Core: capture UTMs + referrer into localStorage ──────────────────────
+    function captureAttribution() {
+      var params  = new URLSearchParams(window.location.search);
+      var fresh   = {};
+      var hasUtms = false;
+
+      utmKeys.forEach(function (k) {
+        var v = params.get(k);
+        if (v) { fresh[k] = v; hasUtms = true; }
+      });
+
+      var stored = {};
+      try { stored = JSON.parse(localStorage.getItem(ATTR_KEY) || "{}"); }
+      catch (e) { stored = {}; }
+
+      // UTMs: first-touch wins — preserve the original source across visits
+      var attr = {};
+      utmKeys.forEach(function (k) {
+        attr[k] = stored[k] || fresh[k] || "";
+      });
+
+      // Landing page: first URL ever seen
+      attr.landing_page = stored.landing_page || window.location.href;
+
+      // Referrer: first external referrer (ignore same-domain navigation)
+      if (!stored.referrer && document.referrer) {
+        try {
+          if (new URL(document.referrer).hostname !== window.location.hostname) {
+            attr.referrer = document.referrer;
+          }
+        } catch (e) {}
+      }
+      attr.referrer = attr.referrer || stored.referrer || "(direct)";
+
+      try { localStorage.setItem(ATTR_KEY, JSON.stringify(attr)); } catch (e) {}
+    }
+
+    // ── Inject hidden fields into a single form at submit time ───────────────
     function injectAttrFields(form) {
-      Object.keys(fieldMap).forEach(function (attrKey) {
-        var val = attr[attrKey];
+      // Re-read storage at submit time so we always send the latest values
+      var attr = {};
+      try { attr = JSON.parse(localStorage.getItem(ATTR_KEY) || "{}"); }
+      catch (e) { attr = {}; }
+
+      // Always stamp the page the form was actually submitted from
+      attr.form_page = window.location.href;
+
+      Object.keys(fieldMap).forEach(function (key) {
+        var val = attr[key];
         if (!val) return;
-        // Don't double-inject
-        if (form.querySelector('[name="' + fieldMap[attrKey] + '"]')) return;
+        var fieldName = fieldMap[key];
+        if (form.querySelector('[name="' + fieldName + '"]')) return; // no dupes
         var inp = document.createElement("input");
         inp.type  = "hidden";
-        inp.name  = fieldMap[attrKey];
+        inp.name  = fieldName;
         inp.value = val;
         form.appendChild(inp);
       });
     }
 
-    TRACKED_FORMS.forEach(function (formName) {
-      // Forms may be in the DOM already (contact, tour) or injected into a
-      // modal later (floor-plan-inquiry). Handle both cases.
-      var form = document.querySelector('form[name="' + formName + '"]');
-      if (form) {
-        injectAttrFields(form);
-      }
-    });
-
-    // Re-run injection when the floor plan modal opens (form rendered in modal)
-    var planModal = document.getElementById("planModal");
-    if (planModal) {
-      planModal.addEventListener("click", function () {
-        var form = planModal.querySelector('form[name="floor-plan-inquiry"]');
-        if (form) injectAttrFields(form);
+    // ── Attach submit listeners to all data-netlify forms ────────────────────
+    function attachFormListeners() {
+      document.querySelectorAll("form[data-netlify]").forEach(function (form) {
+        // Guard against double-binding
+        if (form.dataset.attrBound) return;
+        form.dataset.attrBound = "1";
+        form.addEventListener("submit", function () { injectAttrFields(form); });
       });
+    }
+
+    // MutationObserver catches forms added to the DOM later (modals, etc.)
+    if (window.MutationObserver) {
+      var mo = new MutationObserver(function (mutations) {
+        if (consentStatus() === "declined") return;
+        mutations.forEach(function (m) {
+          m.addedNodes.forEach(function (node) {
+            if (node.nodeType !== 1) return;
+            var forms = node.matches && node.matches("form[data-netlify]")
+              ? [node]
+              : Array.from(node.querySelectorAll("form[data-netlify]"));
+            forms.forEach(function (form) {
+              if (form.dataset.attrBound) return;
+              form.dataset.attrBound = "1";
+              form.addEventListener("submit", function () { injectAttrFields(form); });
+            });
+          });
+        });
+      });
+      mo.observe(document.body, { childList: true, subtree: true });
+    }
+
+    // ── Run on page load if consent is already given (or still pending) ──────
+    // "declined" = do nothing and clear any previously stored data.
+    // "accepted" or null (banner not yet answered) = capture + bind forms.
+    // Rationale for capturing when pending: UTMs and referrer are present only
+    // on the landing page load. If we wait for the user to click Accept, the
+    // params may be gone. Data is stored locally only; nothing is sent anywhere
+    // until a form is actually submitted, at which point consent must have been
+    // given (forms are inside page content, past the banner).
+    var status = consentStatus();
+    if (status === "declined") {
+      clearStoredAttribution();
+    } else {
+      captureAttribution();
+      attachFormListeners();
     }
 
   }());
@@ -1645,6 +1690,207 @@
 
   }());
   // ── End Guided Tour ────────────────────────────────────────────────────────
+
+
+  // ── EVENTS: Countdown Timers ───────────────────────────────────────────────
+  // Works for both the listing-page hero countdown and the detail-page banner.
+  // Each countdown element needs data-event-date="YYYY-MM-DD".
+  // The banner additionally accepts data-event-time="HH:MM" (24h).
+  (function () {
+    function pad(n) { return n < 10 ? "0" + n : String(n); }
+
+    function updateCountdown(container, targetDate) {
+      var now  = Date.now();
+      var diff = targetDate - now;
+
+      if (diff <= 0) {
+        // Event has started — show a friendly message
+        var dayEl = container.querySelector("[data-unit='days']");
+        var hrEl  = container.querySelector("[data-unit='hours']");
+        var minEl = container.querySelector("[data-unit='minutes']");
+        var secEl = container.querySelector("[data-unit='seconds']");
+        if (dayEl) dayEl.textContent = "00";
+        if (hrEl)  hrEl.textContent  = "00";
+        if (minEl) minEl.textContent = "00";
+        if (secEl) secEl.textContent = "00";
+        return true; // done
+      }
+
+      var totalSec = Math.floor(diff / 1000);
+      var sec  = totalSec % 60;
+      var min  = Math.floor(totalSec / 60) % 60;
+      var hrs  = Math.floor(totalSec / 3600) % 24;
+      var days = Math.floor(totalSec / 86400);
+
+      var dayEl = container.querySelector("[data-unit='days']");
+      var hrEl  = container.querySelector("[data-unit='hours']");
+      var minEl = container.querySelector("[data-unit='minutes']");
+      var secEl = container.querySelector("[data-unit='seconds']");
+
+      if (dayEl) dayEl.textContent = days;
+      if (hrEl)  hrEl.textContent  = pad(hrs);
+      if (minEl) minEl.textContent = pad(min);
+      if (secEl) secEl.textContent = pad(sec);
+
+      return false; // not done
+    }
+
+    function initCountdown(el) {
+      var dateStr = el.getAttribute("data-event-date"); // YYYY-MM-DD
+      var timeStr = el.getAttribute("data-event-time") || "09:00"; // HH:MM 24h
+      if (!dateStr) return;
+
+      // Build target as local midnight + event time offset
+      var parts     = dateStr.split("-");
+      var timeParts = timeStr.split(":");
+      var target    = new Date(
+        parseInt(parts[0], 10),
+        parseInt(parts[1], 10) - 1,
+        parseInt(parts[2], 10),
+        parseInt(timeParts[0], 10),
+        parseInt(timeParts[1], 10),
+        0
+      );
+
+      var done = updateCountdown(el, target.getTime());
+      if (!done) {
+        // Use 1-second interval when we have seconds, 1-minute otherwise
+        var hasSeconds = !!el.querySelector("[data-unit='seconds']");
+        var interval = hasSeconds ? 1000 : 60000;
+        var timer = setInterval(function () {
+          var finished = updateCountdown(el, target.getTime());
+          if (finished) clearInterval(timer);
+        }, interval);
+      }
+    }
+
+    // Listing-page hero countdown
+    document.querySelectorAll(".events-countdown").forEach(initCountdown);
+    // Detail-page above-fold countdown (new layout)
+    document.querySelectorAll(".ersvp-countdown").forEach(initCountdown);
+    // Legacy detail-page banner countdown (kept for compatibility)
+    document.querySelectorAll(".event-countdown-banner").forEach(initCountdown);
+  }());
+  // ── END Countdown Timers ───────────────────────────────────────────────────
+
+
+  // ── EVENTS: Guest name fields (show/hide based on count selection) ─────────
+  (function () {
+    var guestRadios = document.querySelectorAll("input[name='guest_count']");
+    var guestFields = document.getElementById("guestFields");
+    if (!guestRadios.length || !guestFields) return;
+
+    function updateGuestFields(count) {
+      var allFields = guestFields.querySelectorAll("[data-guest-index]");
+      allFields.forEach(function (field) {
+        var idx = parseInt(field.getAttribute("data-guest-index"), 10);
+        // Show field 1 for count>=1, field 2 for count>=2, field 3 for count="3+"
+        var show = false;
+        if (count === "1" && idx === 1) show = true;
+        if (count === "2" && (idx === 1 || idx === 2)) show = true;
+        if (count === "3+" && (idx === 1 || idx === 2 || idx === 3)) show = true;
+        field.hidden = !show;
+      });
+    }
+
+    guestRadios.forEach(function (radio) {
+      radio.addEventListener("change", function () {
+        updateGuestFields(this.value);
+      });
+    });
+  }());
+  // ── END Guest Fields ───────────────────────────────────────────────────────
+
+
+  // ── EVENTS: Add-to-calendar .ics generator ─────────────────────────────────
+  (function () {
+    function pad(n) { return n < 10 ? "0" + n : String(n); }
+
+    function toIcsDate(dateStr, timeStr) {
+      // dateStr: YYYY-MM-DD, timeStr: HH:MM
+      var d = dateStr.replace(/-/g, "");
+      var t = timeStr.replace(":", "") + "00";
+      return d + "T" + t + "00";
+    }
+
+    function makeIcs(data) {
+      var now = new Date();
+      var stamp = now.getFullYear().toString()
+        + pad(now.getMonth() + 1)
+        + pad(now.getDate())
+        + "T" + pad(now.getHours()) + pad(now.getMinutes()) + pad(now.getSeconds()) + "Z";
+
+      return [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Azalea Estates//Events//EN",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+        "BEGIN:VEVENT",
+        "UID:" + stamp + "@azaleaestatesfayetteville.com",
+        "DTSTAMP:" + stamp,
+        "DTSTART;TZID=America/New_York:" + toIcsDate(data.date, data.timeStart),
+        "DTEND;TZID=America/New_York:"   + toIcsDate(data.date, data.timeEnd),
+        "SUMMARY:" + data.title.replace(/,/g, "\\,"),
+        "DESCRIPTION:" + data.description.replace(/,/g, "\\,").replace(/\n/g, "\\n"),
+        "LOCATION:" + data.location.replace(/,/g, "\\,"),
+        "URL:" + data.url,
+        "STATUS:CONFIRMED",
+        "END:VEVENT",
+        "END:VCALENDAR"
+      ].join("\r\n");
+    }
+
+    document.querySelectorAll("[data-ics-download]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var ics = makeIcs({
+          title:       btn.getAttribute("data-title")       || "Azalea Estates Event",
+          date:        btn.getAttribute("data-date")        || "",
+          timeStart:   btn.getAttribute("data-time-start")  || "09:00",
+          timeEnd:     btn.getAttribute("data-time-end")    || "10:00",
+          location:    btn.getAttribute("data-location")    || "105 Autumn Glen Circle, Fayetteville, GA 30215",
+          description: btn.getAttribute("data-description") || "",
+          url:         btn.getAttribute("data-url")         || "https://www.azaleaestatesfayetteville.com/events/"
+        });
+
+        var blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+        var link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "azalea-estates-event.ics";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+      });
+    });
+  }());
+  // ── END .ics generator ─────────────────────────────────────────────────────
+
+
+  // ── EVENTS: Format dates in a human-readable way ────────────────────────────
+  (function () {
+    var MONTHS = [
+      "January","February","March","April","May","June",
+      "July","August","September","October","November","December"
+    ];
+    var DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+    document.querySelectorAll("time[datetime]").forEach(function (el) {
+      var raw = el.getAttribute("datetime"); // YYYY-MM-DD
+      if (!raw || !/^\d{4}-\d{2}-\d{2}$/.test(raw)) return;
+      var parts = raw.split("-");
+      // Parse as local date (avoid UTC off-by-one)
+      var d = new Date(
+        parseInt(parts[0], 10),
+        parseInt(parts[1], 10) - 1,
+        parseInt(parts[2], 10)
+      );
+      el.textContent = DAYS[d.getDay()] + ", " + MONTHS[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
+    });
+  }());
+  // ── END Date formatting ─────────────────────────────────────────────────────
+
+
 
 
 })();

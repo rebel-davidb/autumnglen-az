@@ -1,0 +1,449 @@
+---
+pagination:
+  data: events
+  size: 1
+  alias: event
+layout: layouts/base.njk
+eleventyComputed:
+  title: "{{ event.title }}"
+  description: "{{ event.subtitle }}"
+  permalink: "/events/{{ event.slug }}/"
+  pageHero: "{{ event.image }}"
+---
+
+{% from "partials/icons.njk" import icon %}
+
+{# ── Structured data: Event ──────────────────────────────────────────── #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "{{ event.title }}",
+  "description": "{{ event.subtitle }}",
+  "startDate": "{{ event.date }}T{{ event.timeStart }}:00-04:00",
+  "endDate": "{{ event.date }}T{{ event.timeEnd }}:00-04:00",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "location": {
+    "@type": "Place",
+    "name": "{{ event.location }}",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "105 Autumn Glen Circle",
+      "addressLocality": "Fayetteville",
+      "addressRegion": "GA",
+      "postalCode": "30215",
+      "addressCountry": "US"
+    }
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "Azalea Estates of Fayetteville",
+    "url": "{{ site.url }}",
+    "telephone": "{{ site.contact.phone }}"
+  },
+  "image": "{{ site.url }}{{ event.image }}",
+  "url": "{{ site.url }}/events/{{ event.slug }}/",
+  "isAccessibleForFree": true
+}
+</script>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     ABOVE-THE-FOLD HERO + FORM
+     Left column: event identity, countdown, quick facts
+     Right column: RSVP form — visible immediately on load
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="ersvp-hero" id="rsvp-form" aria-label="{{ event.title }} registration">
+
+  {# Background photo — right half visible through the panel gap #}
+  {% if event.image %}
+  <div class="ersvp-hero__photo" aria-hidden="true">
+    <img src="{{ event.image }}" alt="" decoding="async" loading="eager">
+  </div>
+  {% endif %}
+
+  <div class="container ersvp-hero__grid">
+
+    <!-- ── LEFT: Event details + breadcrumb ─────────────────────────── -->
+    <div class="ersvp-hero__info">
+
+      <p class="crumbs crumbs--light">
+        <a href="/">Home</a> <span>/</span>
+        <a href="/events/">Events</a> <span>/</span>
+        <span>{{ event.title }}</span>
+      </p>
+
+      <span class="ersvp-hero__badge">
+        {% if event.type == "open-house" %}Open House
+        {% elif event.type == "seminar" %}Seminar
+        {% elif event.type == "social" %}Community Social
+        {% elif event.type == "health" %}Health &amp; Wellness
+        {% elif event.type == "family" %}Family Event
+        {% elif event.type == "entertainment" %}Live Entertainment
+        {% else %}Upcoming Event{% endif %}
+      </span>
+
+      <h1 class="ersvp-hero__title">{{ event.title }}</h1>
+      <p class="ersvp-hero__subtitle">{{ event.subtitle }}</p>
+
+      {# Quick-glance facts #}
+      <div class="ersvp-hero__facts">
+        <div class="ersvp-hero__fact">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <time datetime="{{ event.date }}">{{ event.date }}</time>
+        </div>
+        <div class="ersvp-hero__fact">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          {{ event.time }}
+        </div>
+        <div class="ersvp-hero__fact">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          {{ event.location }}
+        </div>
+        {% if event.rsvpDeadline %}
+        <div class="ersvp-hero__fact ersvp-hero__fact--deadline">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          RSVP by {{ event.rsvpDeadline }}
+        </div>
+        {% endif %}
+      </div>
+
+      {# Highlights #}
+      {% if event.highlights %}
+      <ul class="ersvp-hero__highlights">
+        {% for h in event.highlights %}
+        <li>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          {{ h }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      {# Countdown timer #}
+      <div class="ersvp-countdown" data-event-date="{{ event.date }}" data-event-time="{{ event.timeStart }}" aria-label="Countdown to event">
+        <span class="ersvp-countdown__label">Event begins in</span>
+        <div class="ersvp-countdown__clock">
+          <div class="ersvp-countdown__unit">
+            <strong data-unit="days">--</strong>
+            <span>Days</span>
+          </div>
+          <span class="ersvp-countdown__sep" aria-hidden="true">:</span>
+          <div class="ersvp-countdown__unit">
+            <strong data-unit="hours">--</strong>
+            <span>Hours</span>
+          </div>
+          <span class="ersvp-countdown__sep" aria-hidden="true">:</span>
+          <div class="ersvp-countdown__unit">
+            <strong data-unit="minutes">--</strong>
+            <span>Min</span>
+          </div>
+          <span class="ersvp-countdown__sep" aria-hidden="true">:</span>
+          <div class="ersvp-countdown__unit">
+            <strong data-unit="seconds">--</strong>
+            <span>Sec</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.ersvp-hero__info -->
+
+
+    <!-- ── RIGHT: RSVP Form card ─────────────────────────────────────── -->
+    <div class="ersvp-hero__form-col">
+      <div class="ersvp-form-card">
+
+        <div class="ersvp-form-card__head">
+          <span class="eyebrow">Secure Your Spot</span>
+          <h2>{{ event.cta or "RSVP Now" }}</h2>
+          {% if event.capacity %}
+          <p class="ersvp-form-card__meta-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Limited to {{ event.capacity }} guests
+          </p>
+          {% endif %}
+          {% if event.rsvpDeadline %}
+          <p class="ersvp-form-card__meta-note ersvp-form-card__meta-note--deadline">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            RSVP by <strong>{{ event.rsvpDeadline }}</strong>
+          </p>
+          {% endif %}
+        </div>
+
+        <form
+          name="event-rsvp-{{ event.slug }}"
+          method="POST"
+          action="/events/rsvp-thanks/"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+          class="form ersvp-form"
+          aria-label="RSVP Registration Form"
+        >
+          <input type="hidden" name="form-name" value="event-rsvp-{{ event.slug }}">
+          <input type="hidden" name="event_title" value="{{ event.title }}">
+          <input type="hidden" name="event_date" value="{{ event.date }}">
+          <input type="hidden" name="event_time" value="{{ event.time }}">
+          <input type="hidden" name="event_location" value="{{ event.location }}">
+          <p style="display:none;" aria-hidden="true">
+            <label>Leave empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+          </p>
+
+          {# Name #}
+          <div class="form-row">
+            <div class="form-field">
+              <label for="rsvp_first_name">First Name <span class="form-req" aria-hidden="true">*</span></label>
+              <input type="text" id="rsvp_first_name" name="first_name" required autocomplete="given-name" placeholder="First name">
+            </div>
+            <div class="form-field">
+              <label for="rsvp_last_name">Last Name <span class="form-req" aria-hidden="true">*</span></label>
+              <input type="text" id="rsvp_last_name" name="last_name" required autocomplete="family-name" placeholder="Last name">
+            </div>
+          </div>
+
+          {# Contact #}
+          <div class="form-row">
+            <div class="form-field">
+              <label for="rsvp_phone">Phone <span class="form-req" aria-hidden="true">*</span></label>
+              <input type="tel" id="rsvp_phone" name="phone" required autocomplete="tel" placeholder="(770) 000-0000">
+            </div>
+            <div class="form-field">
+              <label for="rsvp_email">Email</label>
+              <input type="email" id="rsvp_email" name="email" autocomplete="email" placeholder="your@email.com">
+              <span class="form-hint">Confirmation sent here</span>
+            </div>
+          </div>
+
+          {# Guests #}
+          <div class="form-field">
+            <fieldset class="form-fieldset">
+              <legend>Guests joining you? <span class="form-req" aria-hidden="true">*</span></legend>
+              <div class="form-check-group form-check-group--inline">
+                <label class="form-check"><input type="radio" name="guest_count" value="0" required id="guests_none"> Just me</label>
+                <label class="form-check"><input type="radio" name="guest_count" value="1" id="guests_1"> 1 guest</label>
+                <label class="form-check"><input type="radio" name="guest_count" value="2" id="guests_2"> 2 guests</label>
+                <label class="form-check"><input type="radio" name="guest_count" value="3+" id="guests_3plus"> 3+</label>
+              </div>
+            </fieldset>
+          </div>
+
+          {# Guest names — revealed by JS #}
+          <div class="event-guest-fields" id="guestFields" aria-live="polite">
+            <div class="form-row event-guest-field" data-guest-index="1" hidden>
+              <div class="form-field">
+                <label for="guest_1_first">Guest 1 First Name</label>
+                <input type="text" id="guest_1_first" name="guest_1_first" autocomplete="off" placeholder="First name">
+              </div>
+              <div class="form-field">
+                <label for="guest_1_last">Guest 1 Last Name</label>
+                <input type="text" id="guest_1_last" name="guest_1_last" autocomplete="off" placeholder="Last name">
+              </div>
+            </div>
+            <div class="form-row event-guest-field" data-guest-index="2" hidden>
+              <div class="form-field">
+                <label for="guest_2_first">Guest 2 First Name</label>
+                <input type="text" id="guest_2_first" name="guest_2_first" autocomplete="off" placeholder="First name">
+              </div>
+              <div class="form-field">
+                <label for="guest_2_last">Guest 2 Last Name</label>
+                <input type="text" id="guest_2_last" name="guest_2_last" autocomplete="off" placeholder="Last name">
+              </div>
+            </div>
+            <div class="form-field event-guest-field" data-guest-index="3" hidden>
+              <label for="guest_additional">Additional Guest Names</label>
+              <textarea id="guest_additional" name="guest_additional" rows="2" placeholder="One per line"></textarea>
+            </div>
+          </div>
+
+          {# Accessibility #}
+          <div class="form-field">
+            <label for="rsvp_dietary">Dietary needs or allergies <span style="color:var(--c-muted);font-weight:400;">(optional)</span></label>
+            <input type="text" id="rsvp_dietary" name="dietary" placeholder="e.g. gluten-free, nut allergy">
+          </div>
+
+          <div class="form-field">
+            <fieldset class="form-fieldset">
+              <legend style="font-size:0.92rem;">Accessibility needs? <span style="color:var(--c-muted);font-weight:400;">(check all that apply)</span></legend>
+              <div class="form-check-group form-check-group--inline">
+                <label class="form-check"><input type="checkbox" name="accessibility" value="wheelchair"> Wheelchair</label>
+                <label class="form-check"><input type="checkbox" name="accessibility" value="hearing"> Hearing assist</label>
+                <label class="form-check"><input type="checkbox" name="accessibility" value="seating"> Special seating</label>
+              </div>
+            </fieldset>
+          </div>
+
+          {# Source #}
+          <div class="form-field">
+            <label for="rsvp_source">How did you hear about us?</label>
+            <select id="rsvp_source" name="source">
+              <option value="">— Select —</option>
+              <option value="google">Google</option>
+              <option value="facebook">Facebook</option>
+              <option value="friend-family">Friend or family</option>
+              <option value="doctor">Doctor / healthcare provider</option>
+              <option value="mail">Postcard or mailer</option>
+              <option value="already-know">I already know Azalea Estates</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          {# Consent #}
+          <label class="form-consent">
+            <input type="checkbox" name="consent" required>
+            <span>I'd like to receive a confirmation and reminders about this event. I can opt out anytime.</span>
+          </label>
+
+          {# Hidden attribution #}
+          <input type="hidden" name="cf_utm_source">
+          <input type="hidden" name="cf_utm_medium">
+          <input type="hidden" name="cf_utm_campaign">
+          <input type="hidden" name="cf_landing_page">
+          <input type="hidden" name="cf_referrer">
+
+          <button type="submit" class="btn btn--primary ersvp-submit">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Confirm My RSVP
+          </button>
+
+          <p class="ersvp-reassurance">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Free &nbsp;·&nbsp; No obligation &nbsp;·&nbsp; We'll confirm within one business day
+          </p>
+        </form>
+
+        <div class="ersvp-form-card__phone">
+          <span>Or call to register:</span>
+          <a href="tel:7704610039">770-461-0039</a>
+        </div>
+
+      </div><!-- /.ersvp-form-card -->
+    </div><!-- /.ersvp-hero__form-col -->
+
+  </div><!-- /.ersvp-hero__grid -->
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     EVENT DETAIL — below the fold
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="event-below-grid">
+
+      <!-- Description + calendar + flyer + directions -->
+      <div class="event-below-main reveal">
+
+        <div class="event-description">
+          {{ event.description | safe }}
+        </div>
+
+        <!-- Add to Calendar -->
+        <div class="event-calendar-box" aria-label="Add to your calendar">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Don't Miss It — Add to Your Calendar
+          </h3>
+          <p>Save this event so you have the date, time, and address right in your calendar.</p>
+          <div class="event-calendar-btns" role="list">
+            <a
+              href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={{ event.title | urlencode }}&dates={{ event.date | replace('-', '') }}T{{ event.timeStart | replace(':', '') }}00%2F{{ event.date | replace('-', '') }}T{{ event.timeEnd | replace(':', '') }}00&details={{ event.subtitle | urlencode }}&location={{ event.address | urlencode }}"
+              target="_blank" rel="noopener" class="event-cal-btn" role="listitem" aria-label="Add to Google Calendar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="4" width="20" height="18" rx="2" fill="#4285F4"/><path d="M7 2v4M17 2v4M2 10h20" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><text x="8" y="19" font-size="7" fill="#fff" font-family="sans-serif" font-weight="bold">G</text></svg>
+              Google Calendar
+            </a>
+            <button class="event-cal-btn" role="listitem" aria-label="Add to Apple Calendar"
+              data-ics-download data-title="{{ event.title }}" data-date="{{ event.date }}"
+              data-time-start="{{ event.timeStart }}" data-time-end="{{ event.timeEnd }}"
+              data-location="{{ event.address }}" data-description="{{ event.subtitle }}"
+              data-url="{{ site.url }}/events/{{ event.slug }}/">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="4" width="20" height="18" rx="2" fill="#1c1c1e"/><path d="M7 2v4M17 2v4M2 10h20" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Apple Calendar
+            </button>
+            <button class="event-cal-btn" role="listitem" aria-label="Add to Outlook"
+              data-ics-download data-title="{{ event.title }}" data-date="{{ event.date }}"
+              data-time-start="{{ event.timeStart }}" data-time-end="{{ event.timeEnd }}"
+              data-location="{{ event.address }}" data-description="{{ event.subtitle }}"
+              data-url="{{ site.url }}/events/{{ event.slug }}/">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="4" width="20" height="18" rx="2" fill="#0078d4"/><path d="M7 2v4M17 2v4M2 10h20" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><text x="6" y="19" font-size="6" fill="#fff" font-family="sans-serif" font-weight="bold">OL</text></svg>
+              Outlook
+            </button>
+          </div>
+        </div>
+
+        {% if event.flyerPdf %}
+        <div class="event-flyer-box">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Save or Print the Event Flyer
+          </h3>
+          <p>Share this event with a friend or family member — download and print the flyer to keep on hand.</p>
+          <a href="{{ event.flyerPdf }}" target="_blank" rel="noopener" class="btn btn--outline" aria-label="Download {{ event.title }} flyer PDF">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Flyer (PDF)
+          </a>
+        </div>
+        {% endif %}
+
+        <div class="event-directions-box">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Getting Here
+          </h3>
+          <address>
+            <strong>{{ event.location }}</strong><br>
+            {{ event.address }}
+          </address>
+          <ul class="event-directions-list">
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="20 12 16 8 12 12 8 16 4 12"/></svg>
+              Accessible parking at the main entrance
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Staff will greet you at the door
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              Single-story, fully accessible campus
+            </li>
+          </ul>
+          <a href="{{ site.contact.mapsUrl }}" target="_blank" rel="noopener" class="btn btn--outline btn--sm">
+            Open in Google Maps
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+
+      </div><!-- /.event-below-main -->
+
+      <!-- Sidebar: quick contact + phone -->
+      <aside class="event-below-aside reveal">
+        <div class="event-aside-card">
+          <h3>Questions?</h3>
+          <p>Our team is happy to answer anything before you register.</p>
+          <a href="tel:7704610039" class="event-aside-card__phone">770-461-0039</a>
+          <p class="event-aside-card__hours">Monday–Friday, 9 am–5 pm<br>Saturday by appointment</p>
+          <a href="mailto:azaleaoffice105@gmail.com" class="btn btn--ghost btn--sm" style="margin-top:var(--space-3);">Send an Email</a>
+        </div>
+
+        <div class="event-aside-card" style="margin-top:var(--space-4);">
+          <h3>Not ready to register?</h3>
+          <p>You can always call or email us — no forms required.</p>
+          <a href="/schedule-a-tour/" class="btn btn--outline btn--sm">Schedule a Private Tour Instead</a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     MORE EVENTS
+     ════════════════════════════════════════════════════════════════════ -->
+<section class="section section--sand" aria-labelledby="more-events-heading">
+  <div class="container" style="text-align:center;">
+    <h2 id="more-events-heading" style="font-size:1.6rem;">More Upcoming Events</h2>
+    <p>See everything we have planned — open houses, seminars, wellness events, and community socials.</p>
+    <a href="/events/" class="btn btn--outline">View All Events</a>
+  </div>
+</section>
