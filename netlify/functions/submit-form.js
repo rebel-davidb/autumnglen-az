@@ -10,7 +10,7 @@
  * Form routing (form-name → thanks page):
  *   schedule-tour          → /schedule-a-tour/thanks/
  *   contact                → /contact/thanks/
- *   floor-plan-inquiry     → /floor-plans/?submitted=true (modal form, no dedicated page)
+ *   floor-plan-inquiry     → /floor-plans/thanks/
  *   event-rsvp-*           → /events/rsvp-thanks/
  *   job-application        → /careers/thanks/
  */
@@ -24,7 +24,7 @@ const AD_API_KEY  = process.env.ACTIVEDEMAND_API_KEY;
 const THANKS_PAGES = {
   "schedule-tour":      "/schedule-a-tour/thanks/",
   "contact":            "/contact/thanks/",
-  "floor-plan-inquiry": "/floor-plans/?submitted=true",
+  "floor-plan-inquiry": "/floor-plans/thanks/",
   "job-application":    "/careers/thanks/",
 };
 

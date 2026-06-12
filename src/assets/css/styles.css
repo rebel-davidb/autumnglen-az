@@ -5623,11 +5623,14 @@ body.modal-open { overflow: hidden; }
 }
 
 /* ── RSVP THANKS PAGE ───────────────────────────────────────────────── */
-.rsvp-thanks__icon {
+/* Shared confirmation / thank-you page styles (used by all form thanks pages) */
+.rsvp-thanks__icon,
+.thanks__icon {
   display: flex;
   justify-content: center;
 }
-.rsvp-thanks__reminders {
+.rsvp-thanks__reminders,
+.thanks__reminders {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--space-6);
@@ -5635,25 +5638,31 @@ body.modal-open { overflow: hidden; }
   margin: var(--space-7) auto 0;
   text-align: left;
 }
-.rsvp-thanks__reminder {
+.rsvp-thanks__reminder,
+.thanks__reminder {
   display: flex;
   align-items: flex-start;
   gap: var(--space-3);
 }
-.rsvp-thanks__reminder svg {
+.rsvp-thanks__reminder svg,
+.thanks__reminder svg {
   color: var(--c-forest);
   flex-shrink: 0;
   margin-top: 3px;
 }
-.rsvp-thanks__reminder div {
+.rsvp-thanks__reminder div,
+.thanks__reminder div {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
   font-size: 0.92rem;
 }
-.rsvp-thanks__reminder strong { color: var(--c-ink); }
-.rsvp-thanks__reminder span { color: var(--c-muted); }
-.rsvp-thanks__reminder a { color: var(--c-forest); }
+.rsvp-thanks__reminder strong,
+.thanks__reminder strong { color: var(--c-ink); }
+.rsvp-thanks__reminder span,
+.thanks__reminder span { color: var(--c-muted); }
+.rsvp-thanks__reminder a,
+.thanks__reminder a { color: var(--c-forest); }
 
 /* ── Entertainment type badge ───────────────────────────────────────── */
 .event-card__type-badge--entertainment { background: #fde8c8; color: #7a4200; }
