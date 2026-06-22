@@ -42,6 +42,7 @@ eleventyExcludeFromCollections: true
   { url: "/gallery/",                           priority: "0.70", changefreq: "monthly" },
   { url: "/videos/",                            priority: "0.65", changefreq: "monthly" },
   { url: "/calendar/",                          priority: "0.65", changefreq: "weekly"  },
+  { url: "/blog/",                              priority: "0.80", changefreq: "weekly"  },
 
   { url: "/privacy/",                           priority: "0.10", changefreq: "yearly"  },
   { url: "/accessibility/",                     priority: "0.10", changefreq: "yearly"  }
@@ -53,6 +54,14 @@ eleventyExcludeFromCollections: true
     <lastmod>{{ buildDate }}</lastmod>
     <changefreq>{{ p.changefreq }}</changefreq>
     <priority>{{ p.priority }}</priority>
+  </url>
+{%- endfor %}
+{%- for post in posts.all %}
+  <url>
+    <loc>{{ site.url }}/blog/{{ post.slug }}/</loc>
+    <lastmod>{{ post.date }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
   </url>
 {%- endfor %}
 </urlset>

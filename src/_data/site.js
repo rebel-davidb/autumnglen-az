@@ -23,7 +23,8 @@ module.exports = {
     { label: "About", url: "/about/", allLabel: "About Azalea Estates", children: [
       { label: "Meet Our Team",        url: "/team/" },
       { label: "Resident-Centered Care", url: "/resident-centered-care/" },
-      { label: "Cost Calculator",      url: "/cost-calculator/" }
+      { label: "Cost Calculator",      url: "/cost-calculator/" },
+      { label: "Blog",                 url: "/blog/" }
     ]},
     { label: "Living Options", url: "/living-options/", allLabel: "All living options", children: [
       { label: "Independent Living", url: "/living-options/independent-living/" },

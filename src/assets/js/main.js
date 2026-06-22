@@ -2037,4 +2037,143 @@
   // ── END ActiveDEMAND embed context ──────────────────────────────────────────
 
 
+  // ── Blog search & filter ────────────────────────────────────────────────────
+  // Client-side filtering for /blog/. Filters the rendered post cards by a live
+  // search term (matched against data-search) and a category chip (data-category).
+  // Reads ?category= from the URL so category links from posts deep-link the list.
+  (function () {
+    var controls = document.querySelector("[data-blog-controls]");
+    var grid     = document.querySelector("[data-blog-grid]");
+    if (!controls || !grid) return;
+
+    var searchInput = controls.querySelector("[data-blog-search]");
+    var clearBtn    = controls.querySelector("[data-blog-search-clear]");
+    var chips       = Array.prototype.slice.call(controls.querySelectorAll("[data-blog-filter]"));
+    var cards       = Array.prototype.slice.call(grid.querySelectorAll("[data-blog-post]"));
+    var countEl     = document.querySelector("[data-blog-count]");
+    var emptyEl     = document.querySelector("[data-blog-empty]");
+    var resetBtn    = document.querySelector("[data-blog-reset]");
+
+    var activeCategory = "all";
+    var query = "";
+
+    function setActiveChip(category) {
+      chips.forEach(function (chip) {
+        var isActive = chip.getAttribute("data-blog-filter") === category;
+        chip.classList.toggle("is-active", isActive);
+        chip.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+    }
+
+    function render() {
+      var q = query.trim().toLowerCase();
+      var shown = 0;
+      cards.forEach(function (card) {
+        var matchesCat = activeCategory === "all" ||
+          card.getAttribute("data-category") === activeCategory;
+        var matchesText = !q ||
+          (card.getAttribute("data-search") || "").indexOf(q) !== -1;
+        var show = matchesCat && matchesText;
+        card.hidden = !show;
+        if (show) shown++;
+      });
+
+      if (clearBtn) clearBtn.hidden = !query;
+
+      if (countEl) {
+        if (q || activeCategory !== "all") {
+          countEl.textContent = shown + (shown === 1 ? " article" : " articles") +
+            (activeCategory !== "all" ? " in “" + activeCategory + "”" : "") +
+            (q ? " matching “" + query.trim() + "”" : "");
+        } else {
+          countEl.textContent = "";
+        }
+      }
+      if (emptyEl) emptyEl.hidden = shown !== 0;
+    }
+
+    // Search input (debounced lightly via input event)
+    if (searchInput) {
+      searchInput.addEventListener("input", function () {
+        query = searchInput.value;
+        render();
+      });
+    }
+    if (clearBtn) {
+      clearBtn.addEventListener("click", function () {
+        query = "";
+        if (searchInput) { searchInput.value = ""; searchInput.focus(); }
+        render();
+      });
+    }
+
+    // Category chips
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        activeCategory = chip.getAttribute("data-blog-filter");
+        setActiveChip(activeCategory);
+        render();
+      });
+    });
+
+    // Reset (empty-state button)
+    if (resetBtn) {
+      resetBtn.addEventListener("click", function () {
+        query = "";
+        activeCategory = "all";
+        if (searchInput) searchInput.value = "";
+        setActiveChip("all");
+        render();
+      });
+    }
+
+    // Deep link: /blog/?category=Healthy%20Aging
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var cat = params.get("category");
+      if (cat) {
+        var match = chips.filter(function (c) {
+          return c.getAttribute("data-blog-filter").toLowerCase() === cat.toLowerCase();
+        })[0];
+        if (match) {
+          activeCategory = match.getAttribute("data-blog-filter");
+          setActiveChip(activeCategory);
+        }
+      }
+    } catch (e) {}
+
+    render();
+  }());
+  // ── END Blog search & filter ────────────────────────────────────────────────
+
+
+  // ── Blog: copy-link share button ─────────────────────────────────────────────
+  (function () {
+    var btns = document.querySelectorAll("[data-copy-link]");
+    if (!btns.length) return;
+    btns.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var url = btn.getAttribute("data-url") || window.location.href;
+        var done = function () {
+          btn.classList.add("is-copied");
+          btn.setAttribute("aria-label", "Link copied");
+          window.setTimeout(function () {
+            btn.classList.remove("is-copied");
+            btn.setAttribute("aria-label", "Copy link");
+          }, 1800);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(done).catch(function () {});
+        } else {
+          var ta = document.createElement("textarea");
+          ta.value = url; document.body.appendChild(ta); ta.select();
+          try { document.execCommand("copy"); done(); } catch (e) {}
+          document.body.removeChild(ta);
+        }
+      });
+    });
+  }());
+  // ── END copy-link ─────────────────────────────────────────────────────────────
+
+
 })();
