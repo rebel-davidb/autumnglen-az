@@ -364,10 +364,19 @@
       var divider = planModal.querySelector("[data-plan-display-divider]");
       if (divider) divider.style.display = (type && specs) ? "" : "none";
 
-      // Hidden inputs that get submitted to Netlify
-      setHidden("[data-plan-hidden-name]", name);
-      setHidden("[data-plan-hidden-type]", type);
-      setHidden("[data-plan-hidden-specs]", specs);
+      // Stash the plan context on the embed wrapper. The ActiveDEMAND form is
+      // injected asynchronously, so the embed-context module (below) reads these
+      // data-* attrs and copies them into the form's hidden fields once it
+      // renders — and re-applies on each open in case the user switches plans.
+      var adWrap = planModal.querySelector("[data-ad-plan-form]");
+      if (adWrap) {
+        adWrap.setAttribute("data-plan-context-name", name);
+        adWrap.setAttribute("data-plan-context-type", type);
+        adWrap.setAttribute("data-plan-context-specs", specs);
+        if (window.AEFormContext && typeof window.AEFormContext.applyPlan === "function") {
+          window.AEFormContext.applyPlan();
+        }
+      }
 
       planModal.hidden = false;
       document.body.classList.add("modal-open");
@@ -1914,6 +1923,118 @@
   // ── END Date formatting ─────────────────────────────────────────────────────
 
 
+  // ── ActiveDEMAND embed context ──────────────────────────────────────────────
+  // The Floor Plan (314873) and RSVP (314798) forms are now ActiveDEMAND embeds.
+  // ActiveDEMAND injects each form into the DOM asynchronously, after this script
+  // runs, so we can't set hidden field values inline anymore.
+  //
+  // This module watches the embed wrappers and, once a <form> appears inside one,
+  // copies the page/modal context (which plan, which event) into matching hidden
+  // fields on the rendered form. ActiveDEMAND form fields use the field's "name"
+  // attribute, so we target by name and create the hidden input if it's missing —
+  // that way the lead record still shows which floor plan or event it came from
+  // regardless of how the ActiveDEMAND form is configured.
+  (function () {
+    // Map of wrapper data-* attribute -> the field on the embedded form to fill.
+    // Each target may specify a CSS `selector` (matched first — use this when the
+    // ActiveDEMAND field is identified by class rather than name) and/or a field
+    // `name`. The floor-plan name field in ActiveDEMAND carries class
+    // `.floor-plan-name`, so we target that; the rest fall back to name + a
+    // created hidden input.
+    var PLAN_MAP = {
+      "data-plan-context-name":  { selector: ".floor-plan-name", name: "plan-name" },
+      "data-plan-context-type":  { name: "plan-type" },
+      "data-plan-context-specs": { name: "plan-specs" }
+    };
+    var EVENT_MAP = {
+      "data-event-title":    { selector: ".rsvp_event_title", name: "event_title" },
+      "data-event-date":     { name: "event_date" },
+      "data-event-time":     { name: "event_time" },
+      "data-event-location": { name: "event_location" }
+    };
+
+    // Find the live <form> inside a wrapper. ActiveDEMAND renders either a real
+    // <form> or a div with id^="Form_"; we set values on the actual form so they
+    // submit, falling back to the wrapper if no <form> has rendered yet.
+    function formIn(wrap) {
+      return wrap.querySelector("form") || wrap.querySelector('[id^="Form_"]');
+    }
+
+    // Write a value into a form field, preferring an existing field matched by
+    // CSS selector, then by name; if neither exists, inject a hidden input so
+    // the value still posts.
+    function setField(target, field, value) {
+      if (!target) return;
+      var el = null;
+      if (field.selector) el = target.querySelector(field.selector);
+      if (!el && field.name) el = target.querySelector('[name="' + field.name + '"]');
+      if (el) {
+        if ("value" in el) el.value = value;
+        // Fire input/change so any ActiveDEMAND validation/state notices the value.
+        try {
+          el.dispatchEvent(new Event("input", { bubbles: true }));
+          el.dispatchEvent(new Event("change", { bubbles: true }));
+        } catch (e) {}
+        return;
+      }
+      if (!field.name) return; // selector-only target not present; nothing to inject
+      var input = document.createElement("input");
+      input.type = "hidden";
+      input.name = field.name;
+      input.value = value;
+      target.appendChild(input);
+    }
+
+    // Copy every mapped attribute from wrap into the rendered form.
+    function apply(wrap, map) {
+      if (!wrap) return false;
+      var target = formIn(wrap);
+      if (!target) return false; // form not rendered yet
+      Object.keys(map).forEach(function (attr) {
+        var value = wrap.getAttribute(attr);
+        if (value !== null && value !== "") setField(target, map[attr], value);
+      });
+      return true;
+    }
+
+    function applyPlan() {
+      document.querySelectorAll("[data-ad-plan-form]").forEach(function (wrap) {
+        apply(wrap, PLAN_MAP);
+      });
+    }
+    function applyEvent() {
+      document.querySelectorAll("[data-ad-event-form]").forEach(function (wrap) {
+        apply(wrap, EVENT_MAP);
+      });
+    }
+
+    // Expose applyPlan so the modal can re-run it when the user opens the modal
+    // (and switches plans) after the form has already rendered.
+    window.AEFormContext = { applyPlan: applyPlan, applyEvent: applyEvent };
+
+    var wrappers = document.querySelectorAll("[data-ad-plan-form], [data-ad-event-form]");
+    if (!wrappers.length) return;
+
+    // Try immediately in case ActiveDEMAND already rendered before we ran.
+    applyPlan();
+    applyEvent();
+
+    // Watch each wrapper for the asynchronously-injected form.
+    wrappers.forEach(function (wrap) {
+      var isPlan = wrap.hasAttribute("data-ad-plan-form");
+      var map    = isPlan ? PLAN_MAP : EVENT_MAP;
+      var done   = false;
+      var observer = new MutationObserver(function () {
+        if (done) return;
+        if (apply(wrap, map)) {
+          done = true;
+          observer.disconnect();
+        }
+      });
+      observer.observe(wrap, { childList: true, subtree: true });
+    });
+  }());
+  // ── END ActiveDEMAND embed context ──────────────────────────────────────────
 
 
 })();

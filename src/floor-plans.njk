@@ -171,70 +171,30 @@ hasPdfs: true
       </p>
     </div>
 
-    <form name="floor-plan-inquiry"
-          method="POST"
-          action="/.netlify/functions/submit-form"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          class="form modal__form">
-      <input type="hidden" name="form-name" value="floor-plan-inquiry">
-      <input type="hidden" name="plan-name" data-plan-hidden-name value="">
-      <input type="hidden" name="plan-type" data-plan-hidden-type value="">
-      <input type="hidden" name="plan-specs" data-plan-hidden-specs value="">
-      <p class="form-hp" aria-hidden="true">
-        <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
-      </p>
+    {#
+      ActiveDEMAND Floor Plan form (id 314873). Tracking script loaded in base.njk.
+      The embed is appended into .modal__form by ActiveDEMAND at runtime.
 
-      <div class="form-row">
-        <div class="form-field">
-          <label for="plan-first-name">First name <span class="form-req" aria-hidden="true">*</span></label>
-          <input id="plan-first-name" type="text" name="first_name" autocomplete="given-name" required>
-        </div>
-        <div class="form-field">
-          <label for="plan-last-name">Last name <span class="form-req" aria-hidden="true">*</span></label>
-          <input id="plan-last-name" type="text" name="last_name" autocomplete="family-name" required>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-field">
-          <label for="plan-email">Email <span class="form-req" aria-hidden="true">*</span></label>
-          <input id="plan-email" type="email" name="email" autocomplete="email" required>
-        </div>
-        <div class="form-field">
-          <label for="plan-phone">Phone</label>
-          <input id="plan-phone" type="tel" name="phone" autocomplete="tel">
-        </div>
-      </div>
-      <div class="form-field">
-        <label for="plan-timeframe">When are you looking to move?</label>
-        <select id="plan-timeframe" name="timeframe">
-          <option value="">Select a timeframe</option>
-          <option value="Within 30 days">Within 30 days</option>
-          <option value="1-3 months">1–3 months</option>
-          <option value="3-6 months">3–6 months</option>
-          <option value="Just exploring">Just exploring for now</option>
-        </select>
-      </div>
-      <div class="form-field">
-        <label for="plan-message">Questions or details</label>
-        <textarea id="plan-message" name="message" rows="3" placeholder="Anything specific you'd like to know?"></textarea>
-      </div>
+      Plan context (name/type/specs) is carried on the wrapper as data-* attributes,
+      set by main.js when the modal opens from a plan card. Once ActiveDEMAND
+      renders the form, main.js copies those values into the embedded form's
+      hidden fields (plan-name, plan-type, plan-specs) so the lead still records
+      which floor plan it came from. See "Floor Plan modal" + "ActiveDEMAND embed
+      context" sections in main.js.
+    #}
+    <div class="modal__form ad-embed-form"
+         data-ad-plan-form
+         data-plan-context-name=""
+         data-plan-context-type=""
+         data-plan-context-specs="">
+      <div class='activedemand-replace' data-type='Form' data-id='314873'></div>
+    </div>
 
-      {# Attribution fields — populated by JS on page load #}
-      <input type="hidden" name="cf_utm_source">
-      <input type="hidden" name="cf_utm_medium">
-      <input type="hidden" name="cf_utm_campaign">
-      <input type="hidden" name="cf_utm_content">
-      <input type="hidden" name="cf_utm_term">
-      <input type="hidden" name="cf_landing_page">
-      <input type="hidden" name="cf_referrer">
-      <input type="hidden" name="cf_form_page">
-
-      <div class="modal__actions">
-        <button type="button" class="btn btn--outline" data-modal-close>Cancel</button>
-        <button type="submit" class="btn btn--primary">Send Inquiry</button>
-      </div>
-    </form>
+    {# Cancel lives outside the embed wrapper so ActiveDEMAND's injected form
+       can't render on top of it. The X button (top-right) also closes. #}
+    <div class="modal__actions modal__actions--single">
+      <button type="button" class="btn btn--outline" data-modal-close>Cancel</button>
+    </div>
   </div>
 </div>
 

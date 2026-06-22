@@ -183,145 +183,30 @@ eleventyComputed:
           {% endif %}
         </div>
 
-        <form
-          name="event-rsvp-{{ event.slug }}"
-          method="POST"
-          action="/.netlify/functions/submit-form"
-          data-netlify="true"
-          data-netlify-honeypot="bot-field"
-          class="form ersvp-form"
-          aria-label="RSVP Registration Form"
-        >
-          <input type="hidden" name="form-name" value="event-rsvp-{{ event.slug }}">
-          <input type="hidden" name="event_title" value="{{ event.title }}">
-          <input type="hidden" name="event_date" value="{{ event.date }}">
-          <input type="hidden" name="event_time" value="{{ event.time }}">
-          <input type="hidden" name="event_location" value="{{ event.location }}">
-          <p style="display:none;" aria-hidden="true">
-            <label>Leave empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
-          </p>
+        {#
+          ActiveDEMAND RSVP form (id 314798). Tracking script loaded in base.njk.
+          The embed is appended into this wrapper by ActiveDEMAND at runtime.
 
-          {# Name #}
-          <div class="form-row">
-            <div class="form-field">
-              <label for="rsvp_first_name">First Name <span class="form-req" aria-hidden="true">*</span></label>
-              <input type="text" id="rsvp_first_name" name="first_name" required autocomplete="given-name" placeholder="First name">
-            </div>
-            <div class="form-field">
-              <label for="rsvp_last_name">Last Name <span class="form-req" aria-hidden="true">*</span></label>
-              <input type="text" id="rsvp_last_name" name="last_name" required autocomplete="family-name" placeholder="Last name">
-            </div>
-          </div>
-
-          {# Contact #}
-          <div class="form-row">
-            <div class="form-field">
-              <label for="rsvp_phone">Phone <span class="form-req" aria-hidden="true">*</span></label>
-              <input type="tel" id="rsvp_phone" name="phone" required autocomplete="tel" placeholder="(770) 000-0000">
-            </div>
-            <div class="form-field">
-              <label for="rsvp_email">Email</label>
-              <input type="email" id="rsvp_email" name="email" autocomplete="email" placeholder="your@email.com">
-              <span class="form-hint">Confirmation sent here</span>
-            </div>
-          </div>
-
-          {# Guests #}
-          <div class="form-field">
-            <fieldset class="form-fieldset">
-              <legend>Guests joining you? <span class="form-req" aria-hidden="true">*</span></legend>
-              <div class="form-check-group form-check-group--inline">
-                <label class="form-check"><input type="radio" name="guest_count" value="0" required id="guests_none"> Just me</label>
-                <label class="form-check"><input type="radio" name="guest_count" value="1" id="guests_1"> 1 guest</label>
-                <label class="form-check"><input type="radio" name="guest_count" value="2" id="guests_2"> 2 guests</label>
-                <label class="form-check"><input type="radio" name="guest_count" value="3+" id="guests_3plus"> 3+</label>
-              </div>
-            </fieldset>
-          </div>
-
-          {# Guest names — revealed by JS #}
-          <div class="event-guest-fields" id="guestFields" aria-live="polite">
-            <div class="form-row event-guest-field" data-guest-index="1" hidden>
-              <div class="form-field">
-                <label for="guest_1_first">Guest 1 First Name</label>
-                <input type="text" id="guest_1_first" name="guest_1_first" autocomplete="off" placeholder="First name">
-              </div>
-              <div class="form-field">
-                <label for="guest_1_last">Guest 1 Last Name</label>
-                <input type="text" id="guest_1_last" name="guest_1_last" autocomplete="off" placeholder="Last name">
-              </div>
-            </div>
-            <div class="form-row event-guest-field" data-guest-index="2" hidden>
-              <div class="form-field">
-                <label for="guest_2_first">Guest 2 First Name</label>
-                <input type="text" id="guest_2_first" name="guest_2_first" autocomplete="off" placeholder="First name">
-              </div>
-              <div class="form-field">
-                <label for="guest_2_last">Guest 2 Last Name</label>
-                <input type="text" id="guest_2_last" name="guest_2_last" autocomplete="off" placeholder="Last name">
-              </div>
-            </div>
-            <div class="form-field event-guest-field" data-guest-index="3" hidden>
-              <label for="guest_additional">Additional Guest Names</label>
-              <textarea id="guest_additional" name="guest_additional" rows="2" placeholder="One per line"></textarea>
-            </div>
-          </div>
-
-          {# Accessibility #}
-          <div class="form-field">
-            <label for="rsvp_dietary">Dietary needs or allergies <span style="color:var(--c-muted);font-weight:400;">(optional)</span></label>
-            <input type="text" id="rsvp_dietary" name="dietary" placeholder="e.g. gluten-free, nut allergy">
-          </div>
-
-          <div class="form-field">
-            <fieldset class="form-fieldset">
-              <legend style="font-size:0.92rem;">Accessibility needs? <span style="color:var(--c-muted);font-weight:400;">(check all that apply)</span></legend>
-              <div class="form-check-group form-check-group--inline">
-                <label class="form-check"><input type="checkbox" name="accessibility" value="wheelchair"> Wheelchair</label>
-                <label class="form-check"><input type="checkbox" name="accessibility" value="hearing"> Hearing assist</label>
-                <label class="form-check"><input type="checkbox" name="accessibility" value="seating"> Special seating</label>
-              </div>
-            </fieldset>
-          </div>
-
-          {# Source #}
-          <div class="form-field">
-            <label for="rsvp_source">How did you hear about us?</label>
-            <select id="rsvp_source" name="source">
-              <option value="">— Select —</option>
-              <option value="google">Google</option>
-              <option value="facebook">Facebook</option>
-              <option value="friend-family">Friend or family</option>
-              <option value="doctor">Doctor / healthcare provider</option>
-              <option value="mail">Postcard or mailer</option>
-              <option value="already-know">I already know Azalea Estates</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-
-          {# Consent #}
-          <label class="form-consent">
-            <input type="checkbox" name="consent" required>
-            <span>I'd like to receive a confirmation and reminders about this event. I can opt out anytime.</span>
-          </label>
-
-          {# Hidden attribution #}
-          <input type="hidden" name="cf_utm_source">
-          <input type="hidden" name="cf_utm_medium">
-          <input type="hidden" name="cf_utm_campaign">
-          <input type="hidden" name="cf_landing_page">
-          <input type="hidden" name="cf_referrer">
-
-          <button type="submit" class="btn btn--primary ersvp-submit">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            Confirm My RSVP
-          </button>
+          Event context (title/date/time/location) is carried on the wrapper as
+          data-* attributes. Once ActiveDEMAND renders the form, main.js copies
+          those values into the embedded form's hidden fields (event_title,
+          event_date, event_time, event_location) so each RSVP records which
+          event it belongs to. See "ActiveDEMAND embed context" section in main.js.
+        #}
+        <div class="ersvp-form ad-embed-form"
+             data-ad-event-form
+             data-event-title="{{ event.title }}"
+             data-event-date="{{ event.date }}"
+             data-event-time="{{ event.time }}"
+             data-event-location="{{ event.location }}"
+             aria-label="RSVP Registration Form">
+          <div class='activedemand-replace' data-type='Form' data-id='314798'></div>
 
           <p class="ersvp-reassurance">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Free &nbsp;·&nbsp; No obligation &nbsp;·&nbsp; We'll confirm within one business day
           </p>
-        </form>
+        </div>
 
         <div class="ersvp-form-card__phone">
           <span>Or call to register:</span>

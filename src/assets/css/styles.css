@@ -2588,6 +2588,42 @@ p.lead {
   color: var(--c-accent);
 }
 
+/* --------------------------------------------------------------------------
+   Context-specific placement for the ActiveDEMAND embeds
+   The Floor Plan embed lives inside the inquiry modal; the RSVP embed lives
+   inside the event hero form card. Both wrappers (.ad-embed-form) are already
+   padded by their parent, so the embed should sit flush and inherit width.
+   -------------------------------------------------------------------------- */
+.ad-embed-form { position: relative; }
+.ad-embed-form .activedemand-replace { display: block; }
+/* Keep ActiveDEMAND's injected form in normal document flow inside the wrapper
+   so it can't render on top of sibling controls (e.g. the modal Cancel button).
+   ActiveDEMAND occasionally ships absolutely-positioned wrappers during load. */
+.ad-embed-form [id^="Form_"] {
+  position: static !important;
+  float: none !important;
+}
+
+/* Floor Plan modal: the embed replaces the native form. The Cancel button now
+   sits in its own single-action row beneath the embed (a sibling of the embed
+   wrapper, so the injected form can never overlap it). */
+.modal__actions--single {
+  justify-content: flex-start;
+  margin-top: var(--space-4);
+}
+
+/* RSVP card: the embed sits inside the already-padded .ersvp-form-card, so the
+   wrapper itself shouldn't re-add the old .ersvp-form padding. Make the embed's
+   submit button full-width like the native .ersvp-submit it replaces. */
+.ersvp-form.ad-embed-form {
+  padding: var(--space-5) 0;
+}
+.ersvp-form-card .ad-embed-form [id^="Form_"] .activedemand-button,
+.ersvp-form-card .ad-embed-form [id^="Form_"] button[type="submit"],
+.ersvp-form-card .ad-embed-form [id^="Form_"] input[type="submit"] {
+  width: 100% !important;
+}
+
 /* ==========================================================================
    MISC
    ========================================================================== */
@@ -2850,6 +2886,8 @@ p.lead {
   letter-spacing: 0.02em;
 }
 .modal__form {
+  display: flex;
+  flex-direction: column;
   gap: var(--space-4);
 }
 .modal__actions {

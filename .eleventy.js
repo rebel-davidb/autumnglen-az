@@ -8,6 +8,20 @@ module.exports = function (eleventyConfig) {
   // Usage: {{ '' | year }}  -> "2026"
   eleventyConfig.addFilter("year", () => new Date().getFullYear().toString());
 
+  // Format an ISO "YYYY-MM-DD" date as e.g. "June 18, 2026".
+  // Parsed as a local date (not UTC) to avoid off-by-one day shifts.
+  // Usage: {{ "2026-06-18" | readableDate }} -> "June 18, 2026"
+  eleventyConfig.addFilter("readableDate", (iso) => {
+    if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso || "";
+    const [y, m, d] = iso.split("-").map(Number);
+    const date = new Date(y, m - 1, d);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  });
+
   // --- Passthrough copies --------------------------------------------------
   // Static assets that Eleventy should copy straight through to _site/
 

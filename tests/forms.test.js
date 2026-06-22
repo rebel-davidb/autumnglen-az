@@ -1,13 +1,22 @@
 /**
  * Build-time form integrity tests
  * ─────────────────────────────────────────────────────────────────────────────
- * Parses the built HTML in _site/ and asserts that each Netlify form is:
- *   - Present in the expected page
- *   - Registered with data-netlify="true" (or netlify attribute on stub)
- *   - Has a honeypot field (bot-field)
- *   - Contains every required field by name
- *   - Attribution hidden fields are present
- *   - Submits to the correct action URL
+ * All public-facing forms are ActiveDEMAND embeds, rendered at runtime by the
+ * ActiveDEMAND tracking script (loaded in base.njk). The embeds appear in the
+ * built HTML as placeholder divs:
+ *
+ *     <div class="activedemand-replace" data-type="Form" data-id="<id>"></div>
+ *
+ * These tests assert that:
+ *   - Each page contains the expected ActiveDEMAND embed (correct data-id)
+ *   - The dynamic-context wrappers carry the data-* attributes that main.js
+ *     copies into the embedded form's hidden fields (plan + event context)
+ *
+ * Form IDs:
+ *   Contact Us      314128  (/contact/)
+ *   Schedule a Tour 314131  (/schedule-a-tour/)
+ *   Floor Plan      314873  (/floor-plans/ inquiry modal)
+ *   RSVP            314798  (/events/<slug>/)
  *
  * Run:  npm test
  * ─────────────────────────────────────────────────────────────────────────────
@@ -18,10 +27,17 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 import { parse } from "node-html-parser";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT      = resolve(__dirname, "..");
+const require   = createRequire(import.meta.url);
+
+// Source of truth for which event pages Eleventy generates. Reading the data
+// file (rather than scanning _site/events/) avoids picking up stale build
+// directories left over from removed events.
+const EVENTS = require(resolve(ROOT, "src/_data/events.js"));
 
 function load(relPath) {
   const full = resolve(ROOT, "_site", relPath);
@@ -32,240 +48,130 @@ function load(relPath) {
   }
 }
 
-/** Return the <form> element with a matching name attribute */
-function getForm(doc, name) {
-  return doc.querySelector(`form[name="${name}"]`);
+/** Return the ActiveDEMAND embed placeholder with a matching data-id. */
+function getEmbed(doc, id) {
+  return doc.querySelector(`.activedemand-replace[data-id="${id}"]`);
 }
-
-/** Assert a form contains an input/select/textarea with each listed name */
-function assertFields(form, fields, formLabel) {
-  fields.forEach((name) => {
-    const el = form.querySelector(
-      `[name="${name}"], input[name="${name}"], select[name="${name}"], textarea[name="${name}"]`
-    );
-    assert.ok(el, `${formLabel}: missing field name="${name}"`);
-  });
-}
-
-/** Attribution hidden fields injected by JS — must be present as hidden inputs in the HTML */
-const ATTRIBUTION_FIELDS = [
-  "cf_utm_source",
-  "cf_utm_medium",
-  "cf_utm_campaign",
-  "cf_utm_content",
-  "cf_utm_term",
-  "cf_landing_page",
-  "cf_referrer",
-  "cf_form_page",
-];
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-describe("Netlify form stub (forms.html)", () => {
-  const doc = load("forms.html");
-
-  test("contact stub exists with netlify attribute", () => {
-    const form = getForm(doc, "contact");
-    assert.ok(form, "contact form stub missing");
-    assert.ok(
-      form.getAttribute("netlify") !== null || form.getAttribute("data-netlify") === "true",
-      "contact stub missing netlify attribute"
-    );
-  });
-
-  test("contact stub has required fields", () => {
-    const form = getForm(doc, "contact");
-    assertFields(
-      form,
-      ["first_name", "last_name", "email", "phone", "relation", "interest", "message", "consent"],
-      "contact stub"
-    );
-  });
-
-  test("contact stub has attribution fields", () => {
-    const form = getForm(doc, "contact");
-    assertFields(form, ATTRIBUTION_FIELDS, "contact stub");
-  });
-
-  test("contact stub has honeypot", () => {
-    const form = getForm(doc, "contact");
-    assert.ok(form.querySelector('[name="bot-field"]'), "contact stub missing bot-field honeypot");
-  });
-
-  test("floor-plan-inquiry stub exists with netlify attribute", () => {
-    const form = getForm(doc, "floor-plan-inquiry");
-    assert.ok(form, "floor-plan-inquiry form stub missing");
-    assert.ok(
-      form.getAttribute("netlify") !== null || form.getAttribute("data-netlify") === "true",
-      "floor-plan-inquiry stub missing netlify attribute"
-    );
-  });
-
-  test("floor-plan-inquiry stub has required fields", () => {
-    const form = getForm(doc, "floor-plan-inquiry");
-    assertFields(
-      form,
-      ["plan-name", "plan-type", "plan-specs", "first_name", "last_name", "email", "phone", "timeframe", "message"],
-      "floor-plan-inquiry stub"
-    );
-  });
-
-  test("floor-plan-inquiry stub has attribution fields", () => {
-    const form = getForm(doc, "floor-plan-inquiry");
-    assertFields(form, ATTRIBUTION_FIELDS, "floor-plan-inquiry stub");
-  });
-
-  test("floor-plan-inquiry stub has honeypot", () => {
-    const form = getForm(doc, "floor-plan-inquiry");
-    assert.ok(form.querySelector('[name="bot-field"]'), "floor-plan-inquiry stub missing bot-field honeypot");
-  });
-});
-
-// ─────────────────────────────────────────────────────────────────────────────
-
-describe("Contact page (/contact/)", () => {
+describe("Contact page (/contact/) — ActiveDEMAND embed", () => {
   const doc = load("contact/index.html");
 
-  test("contact form exists", () => {
-    assert.ok(getForm(doc, "contact"), "contact form not found on /contact/");
+  test("contact embed (314128) is present", () => {
+    const embed = getEmbed(doc, "314128");
+    assert.ok(embed, "contact ActiveDEMAND embed (314128) not found on /contact/");
   });
 
-  test("contact form has data-netlify", () => {
-    const form = getForm(doc, "contact");
-    assert.equal(form.getAttribute("data-netlify"), "true", "contact form missing data-netlify");
-  });
-
-  test("contact form submits to /contact/thanks/", () => {
-    const form = getForm(doc, "contact");
-    assert.equal(form.getAttribute("action"), "/contact/thanks/", "contact form wrong action URL");
-  });
-
-  test("contact form has required fields", () => {
-    const form = getForm(doc, "contact");
-    assertFields(
-      form,
-      ["first_name", "last_name", "email", "phone", "relation", "interest", "message", "consent", "form-name"],
-      "contact form"
-    );
-  });
-
-  test("contact form has attribution fields", () => {
-    const form = getForm(doc, "contact");
-    assertFields(form, ATTRIBUTION_FIELDS, "contact form");
-  });
-
-  test("contact form has honeypot", () => {
-    const form = getForm(doc, "contact");
-    assert.ok(form.querySelector('[name="bot-field"]'), "contact form missing bot-field honeypot");
-  });
-
-  test("contact form consent is required", () => {
-    const form   = getForm(doc, "contact");
-    const consent = form.querySelector('[name="consent"]');
-    assert.ok(consent, "contact form missing consent field");
-    assert.ok(
-      consent.getAttribute("required") !== null,
-      "contact form consent field is not required"
-    );
+  test("contact embed declares data-type=Form", () => {
+    const embed = getEmbed(doc, "314128");
+    assert.equal(embed.getAttribute("data-type"), "Form", "contact embed missing data-type=Form");
   });
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-describe("Schedule a Tour page (/schedule-a-tour/)", () => {
+describe("Schedule a Tour page (/schedule-a-tour/) — ActiveDEMAND embed", () => {
   const doc = load("schedule-a-tour/index.html");
 
-  test("schedule-tour form exists", () => {
-    assert.ok(getForm(doc, "schedule-tour"), "schedule-tour form not found");
+  test("schedule-tour embed (314131) is present", () => {
+    const embed = getEmbed(doc, "314131");
+    assert.ok(embed, "schedule-tour ActiveDEMAND embed (314131) not found");
   });
 
-  test("schedule-tour form has data-netlify", () => {
-    const form = getForm(doc, "schedule-tour");
-    assert.equal(form.getAttribute("data-netlify"), "true", "schedule-tour missing data-netlify");
+  test("schedule-tour embed declares data-type=Form", () => {
+    const embed = getEmbed(doc, "314131");
+    assert.equal(embed.getAttribute("data-type"), "Form", "schedule-tour embed missing data-type=Form");
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe("Floor Plans page — inquiry modal (/floor-plans/) — ActiveDEMAND embed", () => {
+  const doc = load("floor-plans/index.html");
+
+  test("floor-plan embed (314873) is present", () => {
+    const embed = getEmbed(doc, "314873");
+    assert.ok(embed, "floor-plan ActiveDEMAND embed (314873) not found on /floor-plans/");
   });
 
-  test("schedule-tour form submits to /schedule-a-tour/thanks/", () => {
-    const form = getForm(doc, "schedule-tour");
-    assert.equal(
-      form.getAttribute("action"),
-      "/schedule-a-tour/thanks/",
-      "schedule-tour wrong action URL"
-    );
+  test("floor-plan embed declares data-type=Form", () => {
+    const embed = getEmbed(doc, "314873");
+    assert.equal(embed.getAttribute("data-type"), "Form", "floor-plan embed missing data-type=Form");
   });
 
-  test("schedule-tour form has required fields", () => {
-    const form = getForm(doc, "schedule-tour");
-    assertFields(
-      form,
-      ["first_name", "last_name", "phone", "email", "relation", "interest",
-       "days", "time_pref", "guests", "notes", "consent", "form-name"],
-      "schedule-tour form"
-    );
+  test("floor-plan embed lives inside the inquiry modal", () => {
+    const modal = doc.querySelector("#planModal");
+    assert.ok(modal, "planModal not found");
+    assert.ok(getEmbed(modal, "314873"), "floor-plan embed not inside #planModal");
   });
 
-  test("schedule-tour form has attribution fields", () => {
-    const form = getForm(doc, "schedule-tour");
-    assertFields(form, ATTRIBUTION_FIELDS, "schedule-tour form");
+  test("plan-context wrapper carries the data-* attrs main.js copies into hidden fields", () => {
+    const wrap = doc.querySelector("[data-ad-plan-form]");
+    assert.ok(wrap, "[data-ad-plan-form] context wrapper missing");
+    ["data-plan-context-name", "data-plan-context-type", "data-plan-context-specs"].forEach((attr) => {
+      assert.ok(wrap.getAttribute(attr) !== null, `plan wrapper missing ${attr}`);
+    });
+    // The embed must live inside the context wrapper so main.js can target it.
+    assert.ok(wrap.querySelector('.activedemand-replace[data-id="314873"]'),
+      "floor-plan embed not inside [data-ad-plan-form] wrapper");
   });
 
-  test("schedule-tour form has honeypot", () => {
-    const form = getForm(doc, "schedule-tour");
-    assert.ok(form.querySelector('[name="bot-field"]'), "schedule-tour missing bot-field honeypot");
-  });
-
-  test("schedule-tour required fields are marked required", () => {
-    const form   = getForm(doc, "schedule-tour");
-    const required = ["first_name", "last_name", "phone"];
-    required.forEach((name) => {
-      const el = form.querySelector(`[name="${name}"]`);
-      assert.ok(el && el.getAttribute("required") !== null, `schedule-tour: ${name} should be required`);
+  test("plan cards still pass plan details to the modal trigger", () => {
+    const trigger = doc.querySelector("[data-open-plan-modal][data-plan-name]");
+    assert.ok(trigger, "no plan-card trigger with data-plan-name found");
+    ["data-plan-name", "data-plan-type", "data-plan-specs"].forEach((attr) => {
+      assert.ok(trigger.getAttribute(attr) !== null, `plan trigger missing ${attr}`);
     });
   });
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-describe("Floor Plans page — inquiry modal (/floor-plans/)", () => {
-  const doc = load("floor-plans/index.html");
+describe("Event pages (/events/<slug>/) — RSVP ActiveDEMAND embed", () => {
+  // Only the events defined in the data file are generated by Eleventy.
+  const slugs = EVENTS.map((e) => e.slug);
 
-  test("floor-plan-inquiry form exists in modal", () => {
-    assert.ok(getForm(doc, "floor-plan-inquiry"), "floor-plan-inquiry form not found on /floor-plans/");
+  test("at least one event is defined", () => {
+    assert.ok(slugs.length > 0, "no events defined in src/_data/events.js");
   });
 
-  test("floor-plan-inquiry form has data-netlify", () => {
-    const form = getForm(doc, "floor-plan-inquiry");
-    assert.equal(form.getAttribute("data-netlify"), "true", "floor-plan-inquiry missing data-netlify");
-  });
+  for (const slug of slugs) {
+    describe(`/events/${slug}/`, () => {
+      const doc = load(`events/${slug}/index.html`);
 
-  test("floor-plan-inquiry form has required fields", () => {
-    const form = getForm(doc, "floor-plan-inquiry");
-    assertFields(
-      form,
-      ["plan-name", "plan-type", "plan-specs", "first_name", "last_name",
-       "email", "phone", "timeframe", "message", "form-name"],
-      "floor-plan-inquiry form"
-    );
-  });
+      test("RSVP embed (314798) is present", () => {
+        const embed = getEmbed(doc, "314798");
+        assert.ok(embed, `RSVP ActiveDEMAND embed (314798) not found on /events/${slug}/`);
+      });
 
-  test("floor-plan-inquiry form has attribution fields", () => {
-    const form = getForm(doc, "floor-plan-inquiry");
-    assertFields(form, ATTRIBUTION_FIELDS, "floor-plan-inquiry form");
-  });
+      test("RSVP embed declares data-type=Form", () => {
+        const embed = getEmbed(doc, "314798");
+        assert.equal(embed.getAttribute("data-type"), "Form", "RSVP embed missing data-type=Form");
+      });
 
-  test("floor-plan-inquiry form has honeypot", () => {
-    const form = getForm(doc, "floor-plan-inquiry");
-    assert.ok(
-      form.querySelector('[name="bot-field"]'),
-      "floor-plan-inquiry missing bot-field honeypot"
-    );
-  });
-
-  test("plan-name, plan-type, plan-specs are hidden inputs", () => {
-    const form = getForm(doc, "floor-plan-inquiry");
-    ["plan-name", "plan-type", "plan-specs"].forEach((name) => {
-      const el = form.querySelector(`input[name="${name}"]`);
-      assert.ok(el, `floor-plan-inquiry: ${name} input missing`);
-      assert.equal(el.getAttribute("type"), "hidden", `${name} should be type="hidden"`);
+      test("event-context wrapper carries the data-* attrs main.js copies into hidden fields", () => {
+        const wrap = doc.querySelector("[data-ad-event-form]");
+        assert.ok(wrap, "[data-ad-event-form] context wrapper missing");
+        ["data-event-title", "data-event-date", "data-event-time", "data-event-location"].forEach((attr) => {
+          const v = wrap.getAttribute(attr);
+          assert.ok(v !== null && v !== "", `event wrapper missing/empty ${attr}`);
+        });
+        assert.ok(wrap.querySelector('.activedemand-replace[data-id="314798"]'),
+          "RSVP embed not inside [data-ad-event-form] wrapper");
+      });
     });
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe("ActiveDEMAND tracking script", () => {
+  const doc = load("contact/index.html");
+
+  test("tracking loader is present", () => {
+    const scripts = doc.querySelectorAll("script[src]");
+    const hasLoader = scripts.some((s) => (s.getAttribute("src") || "").includes("staticfiles.io"));
+    assert.ok(hasLoader, "ActiveDEMAND tracking loader script not found");
   });
 });

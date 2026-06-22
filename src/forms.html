@@ -1,54 +1,24 @@
 <!--
-  Static form stub for Netlify Forms detection.
-  Netlify parses HTML files at deploy time to register forms.
-  This file mirrors the form used in /contact/ so submissions are captured
-  even though the real form is rendered by JavaScript-hydrated templates.
+  Form embeds note.
+
+  All public-facing forms on this site are now ActiveDEMAND embeds, rendered at
+  runtime from the ActiveDEMAND tracking script loaded in base.njk:
+
+    Contact Us       — id 314128  (/contact/)
+    Schedule a Tour  — id 314131  (/schedule-a-tour/)
+    Floor Plan       — id 314873  (/floor-plans/ inquiry modal)
+    RSVP             — id 314798  (/events/<slug>/)
+
+  Submissions are captured by ActiveDEMAND, not Netlify Forms, so this file no
+  longer needs to register static Netlify form stubs. It is kept (and still
+  passed through by .eleventy.js) only as a pointer for anyone auditing the
+  build. If Netlify Forms is ever reintroduced, add the hidden static stubs back
+  here so they're detected at deploy time.
 -->
 <!doctype html>
 <html>
-<head><meta charset="utf-8"><title>Forms</title></head>
+<head><meta charset="utf-8"><title>Forms</title><meta name="robots" content="noindex"></head>
 <body>
-  <!-- Contact form (rendered on /contact/) -->
-  <form name="contact" netlify netlify-honeypot="bot-field" hidden>
-    <input type="text" name="first_name">
-    <input type="text" name="last_name">
-    <input type="email" name="email">
-    <input type="tel" name="phone">
-    <select name="relation"></select>
-    <select name="interest"></select>
-    <textarea name="message"></textarea>
-    <input type="checkbox" name="consent">
-    <input type="hidden" name="cf_utm_source">
-    <input type="hidden" name="cf_utm_medium">
-    <input type="hidden" name="cf_utm_campaign">
-    <input type="hidden" name="cf_utm_content">
-    <input type="hidden" name="cf_utm_term">
-    <input type="hidden" name="cf_landing_page">
-    <input type="hidden" name="cf_referrer">
-    <input type="hidden" name="cf_form_page">
-    <input type="text" name="bot-field">
-  </form>
-
-  <!-- Floor Plan Inquiry form (rendered in modal on /floor-plans/) -->
-  <form name="floor-plan-inquiry" netlify netlify-honeypot="bot-field" hidden>
-    <input type="hidden" name="plan-name">
-    <input type="hidden" name="plan-type">
-    <input type="hidden" name="plan-specs">
-    <input type="text" name="first_name">
-    <input type="text" name="last_name">
-    <input type="email" name="email">
-    <input type="tel" name="phone">
-    <select name="timeframe"></select>
-    <textarea name="message"></textarea>
-    <input type="hidden" name="cf_utm_source">
-    <input type="hidden" name="cf_utm_medium">
-    <input type="hidden" name="cf_utm_campaign">
-    <input type="hidden" name="cf_utm_content">
-    <input type="hidden" name="cf_utm_term">
-    <input type="hidden" name="cf_landing_page">
-    <input type="hidden" name="cf_referrer">
-    <input type="hidden" name="cf_form_page">
-    <input type="text" name="bot-field">
-  </form>
+  <p>Forms on this site are delivered via ActiveDEMAND embeds. See the source comment for details.</p>
 </body>
 </html>

@@ -10,7 +10,9 @@ noindex: false
 {% from "partials/icons.njk" import icon %}
 
 {# ── Derive upcoming vs past events ──────────────────────────────────── #}
-{%- set today = "2026-06-02" -%}
+{# `today` is the build-time date (America/New_York) from src/_data/today.js, #}
+{# so a featured event automatically drops out of the hero the day after it    #}
+{# occurs — no hardcoded date to go stale. #}
 {%- set upcomingEvents = [] -%}
 {%- set pastEvents = [] -%}
 {%- for event in events -%}
@@ -294,17 +296,20 @@ noindex: false
      PAST EVENTS
      ════════════════════════════════════════════════════════════════════ -->
 {% if pastEvents.length > 0 %}
-<section class="section" aria-labelledby="past-heading">
+<section class="section section--cream" aria-labelledby="past-heading">
   <div class="container">
     <div class="section-header reveal">
+      <span class="eyebrow">A Look Back</span>
       <h2 id="past-heading" style="font-size:1.6rem;">Past Events</h2>
+      <p class="section-intro">A sampling of recent gatherings at Azalea Estates. Want to be there for the next one? <a href="tel:7625725194"><strong>Call (762) 572-5194</strong></a> or watch this page.</p>
     </div>
     <div class="events-past-grid">
-      {% for event in pastEvents %}
+      {# Newest first so the most recent past event leads. #}
+      {% for event in pastEvents | reverse %}
       <div class="events-past-card reveal">
         <span class="events-past-card__type">{{ event.type | replace("-", " ") | capitalize }}</span>
         <strong class="events-past-card__title">{{ event.title }}</strong>
-        <time class="events-past-card__date" datetime="{{ event.date }}">{{ event.date }}</time>
+        <time class="events-past-card__date" datetime="{{ event.date }}">{{ event.date | readableDate }}</time>
       </div>
       {% endfor %}
     </div>
