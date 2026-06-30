@@ -1922,6 +1922,20 @@ p.lead {
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
+.zoom-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(255, 255, 255, 0.92);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.zoom-legend__item svg {
+  color: rgba(255, 255, 255, 0.92);
+  flex-shrink: 0;
+}
 .lightbox__zoom-controls {
   display: flex;
   align-items: center;
@@ -1967,9 +1981,14 @@ p.lead {
   gap: var(--space-5);
   width: 100%;
   margin-top: var(--space-3);
+  /* Own dark backing so the legend stays readable even if the image
+     bleeds behind it (zoom/pan) or the backdrop shows a bright photo. */
+  background: rgba(20, 18, 16, 0.85);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
 }
 .lightbox__caption {
-  color: rgba(255, 255, 255, 0.88);
+  color: #ffffff;
   font-size: 0.95rem;
   line-height: 1.5;
   margin: 0;
@@ -1977,7 +1996,7 @@ p.lead {
   text-wrap: pretty;
 }
 .lightbox__counter {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 0.85rem;
   font-family: var(--font-sans);
   font-variant-numeric: tabular-nums;
@@ -3808,7 +3827,7 @@ body.modal-open { overflow: hidden; }
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(20, 33, 12, 0.82) 0%, rgba(20, 33, 12, 0.62) 55%, rgba(20, 33, 12, 0.42) 100%);
+  background: linear-gradient(90deg, rgba(20, 33, 12, 0.88) 0%, rgba(20, 33, 12, 0.78) 55%, rgba(20, 33, 12, 0.66) 100%);
 }
 .page-hero--slim > .container {
   position: relative;
