@@ -90,6 +90,18 @@ permalink: /careers/
       </div>
 
       <div class="benefit-card reveal">
+        <div class="benefit-card__icon">{{ icon('briefcase', 28) }}</div>
+        <h3>On-Demand Pay (PayActiv)</h3>
+        <p>Through PayActiv, you don&rsquo;t have to wait for payday. Access your earned wages when you need them, whether it&rsquo;s an unexpected bill or just a little breathing room between checks.</p>
+      </div>
+
+      <div class="benefit-card reveal">
+        <div class="benefit-card__icon">{{ icon('award', 28) }}</div>
+        <h3>401(k) Retirement Plan</h3>
+        <p>Plan for the future with our 401(k) retirement savings plan. We want the people who take care of our residents to be taken care of for the long run.</p>
+      </div>
+
+      <div class="benefit-card reveal">
         <div class="benefit-card__icon">{{ icon('award', 28) }}</div>
         <h3>Career Development</h3>
         <p>We actively support your growth. From in-service training and CEU opportunities to internal promotions, we&rsquo;d rather help you advance than see you leave for it.</p>
@@ -97,8 +109,8 @@ permalink: /careers/
 
       <div class="benefit-card reveal">
         <div class="benefit-card__icon">{{ icon('users', 28) }}</div>
-        <h3>Supportive Team Culture</h3>
-        <p>Our staff-to-resident ratio is intentionally low. You won&rsquo;t be stretched impossibly thin. You&rsquo;ll have colleagues who cover for each other and leadership that listens.</p>
+        <h3>The Best Management Team Around</h3>
+        <p>We&rsquo;ll say it plainly: we believe we have the best management team in Fayetteville, maybe the whole state. Our staff-to-resident ratio is intentionally low, so you won&rsquo;t be stretched thin, and you&rsquo;ll have colleagues who cover for each other and leadership that genuinely listens.</p>
       </div>
 
       <div class="benefit-card reveal">
@@ -211,6 +223,13 @@ permalink: /careers/
             <li>{{ icon('clock', 14) }} {{ job.shifts }}</li>
           </ul>
           <p class="job-row__summary">{{ job.summary }}</p>
+          {% if job.perks %}
+          <ul class="job-card__perks">
+            {% for perk in job.perks %}
+            <li>{{ perk }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
         </div>
         <div class="job-row__actions">
           <span class="job-card__badge job-card__badge--open">Now Hiring</span>

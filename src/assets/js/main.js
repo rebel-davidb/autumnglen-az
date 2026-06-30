@@ -1013,16 +1013,60 @@
   // They are only injected here after the user accepts cookies.
   // This ensures compliance with consent requirements before any tracking fires.
   //
-  // To activate tracking, set your GTM container ID below:
+  // To activate consent-gated analytics (GA4/GTM), set your container ID below.
+  // GTM is OPTIONAL tracking and only loads after the visitor clicks Accept.
   var GTM_CONTAINER_ID = "";   // e.g. "GTM-XXXXXXX"
+
+  // ActiveDEMAND script. This renders the site's forms (Contact, Schedule a Tour,
+  // Floor Plan, RSVP), so it is FUNCTIONAL and loads on every page for everyone —
+  // without it the forms do not appear. It also performs visitor tracking; that
+  // tracking is neutralized on decline via clearActiveDemandTracking() below, and
+  // can be fully suppressed in the ActiveDEMAND account's consent settings.
+  // Set to "" to disable entirely (forms will stop rendering).
+  var ACTIVEDEMAND_SRC = "https://data.staticfiles.io/accounts/8ceb53-c080d5-24ed0b/load.js";
 
   var COOKIE_KEY    = "ae_cookie_consent"; // "accepted" | "declined"
   var cookieBanner  = document.getElementById("cookieBanner");
   var cookieAccept  = document.getElementById("cookieAccept");
   var cookieDecline = document.getElementById("cookieDecline");
 
+  var _gtmLoaded = false; // guard: loadAnalytics may be called more than once
+
+  // Load ActiveDEMAND so forms render. Functional — runs regardless of consent.
+  function loadActiveDemand() {
+    if (!ACTIVEDEMAND_SRC) return;
+    if (document.querySelector('script[data-ad-script="activedemand"]')) return; // no dupes
+    var s = document.createElement("script");
+    s.src = ACTIVEDEMAND_SRC;
+    s.async = true;
+    s.defer = true;
+    s.setAttribute("data-ad-script", "activedemand");
+    document.head.appendChild(s);
+  }
+
+  // Best-effort client-side wipe of ActiveDEMAND's tracking cookies on decline.
+  // ActiveDEMAND tracking cookies are commonly prefixed "am_" / "ad_". For full
+  // suppression, also enable consent/anonymize mode in the ActiveDEMAND account.
+  function clearActiveDemandTracking() {
+    var domains = [location.hostname, "." + location.hostname, ""];
+    var paths   = ["/", location.pathname];
+    document.cookie.split(";").forEach(function (c) {
+      var name = c.split("=")[0].trim();
+      if (!name) return;
+      if (/^(am_|ad_|activedemand)/i.test(name)) {
+        domains.forEach(function (d) {
+          paths.forEach(function (p) {
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=" + p + (d ? ";domain=" + d : "");
+          });
+        });
+      }
+    });
+  }
+
+  // OPTIONAL analytics (GTM). Only ever called once consent === "accepted".
   function loadAnalytics() {
-    if (!GTM_CONTAINER_ID) return;
+    if (_gtmLoaded || !GTM_CONTAINER_ID) return;
+    _gtmLoaded = true;
     (function(w,d,s,l,i){
       w[l]=w[l]||[];
       w[l].push({"gtm.start": new Date().getTime(), event:"gtm.js"});
@@ -1034,6 +1078,9 @@
       f.parentNode.insertBefore(j,f);
     })(window,document,"script","dataLayer",GTM_CONTAINER_ID);
   }
+
+  // ActiveDEMAND is functional (renders forms) → load it on every page load.
+  loadActiveDemand();
 
   function clearNonConsentCookies() {
     // Wipe all cookies except the consent key itself
@@ -1094,6 +1141,7 @@
           if (decBtn) decBtn.textContent = "Declined";
         });
         clearNonConsentCookies();
+        clearActiveDemandTracking();
         try { localStorage.removeItem("ae_attribution"); } catch (e) {}
       }
     });

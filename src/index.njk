@@ -315,7 +315,8 @@ eleventyComputed:
      UPCOMING EVENTS STRIP
      Shows up to 2 upcoming events. Hidden automatically if none exist.
      ═══════════════════════════════════════════════════════════════════ -->
-{%- set today = "2026-06-02" -%}
+{# `today` is the build-time date (America/New_York) from src/_data/today.js,
+   so past events drop off the homepage automatically — no hardcoded date. #}
 {%- set homeUpcoming = [] -%}
 {%- for ev in events -%}
   {%- if ev.date >= today and homeUpcoming.length < 2 -%}

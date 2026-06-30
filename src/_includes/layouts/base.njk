@@ -64,8 +64,13 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap">
   </noscript>
 
-  {# --- ActiveDemand tracking --------------------------------------------- #}
-  <script src="https://data.staticfiles.io/accounts/8ceb53-c080d5-24ed0b/load.js" type="text/javascript" async defer></script>
+  {# --- ActiveDEMAND ------------------------------------------------------ #}
+  {# ActiveDEMAND renders the site's forms (Contact, Schedule a Tour, Floor  #}
+  {# Plan, RSVP), so it is FUNCTIONAL and is loaded by main.js on every page  #}
+  {# via loadActiveDemand() — without it the forms do not appear. Its visitor #}
+  {# tracking is cleared on decline (clearActiveDemandTracking) and should be #}
+  {# fully suppressed via the ActiveDEMAND account's consent settings.        #}
+  {# Do NOT hardcode the script tag here; main.js manages it.                 #}
 
   {# --- Styles ------------------------------------------------------------ #}
   <link rel="stylesheet" href="/assets/css/styles.css">
@@ -418,8 +423,8 @@
   <div class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie notice" hidden>
     <div class="cookie-banner__inner">
       <p class="cookie-banner__text">
-        We use cookies to understand how visitors use our site and to improve your experience.
-        No personal health information is collected.
+        We use cookies to run features like our forms and, with your permission, for analytics and marketing to improve your experience.
+        Optional analytics load only if you accept, and you can change your choice anytime. No personal health information is collected.
         <a href="/privacy/">Privacy Policy</a>
       </p>
       <div class="cookie-banner__actions">

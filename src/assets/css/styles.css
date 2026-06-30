@@ -2641,6 +2641,29 @@ p.lead {
 .prose p { font-size: 1.05rem; }
 .prose h2, .prose h3 { margin-top: var(--space-7); }
 
+/* Inline article images / infographics */
+.prose figure {
+  margin: var(--space-7) 0;
+}
+.prose figure img,
+.prose > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius, 12px);
+}
+.prose figcaption {
+  margin-top: var(--space-2);
+  font-size: 0.9rem;
+  color: var(--c-muted);
+  text-align: center;
+}
+/* Tall infographics: cap height so they don't overwhelm the column */
+.prose figure--portrait img {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
 .tag-list {
   display: flex;
   flex-wrap: wrap;
@@ -3724,6 +3747,29 @@ body.modal-open { overflow: hidden; }
   margin: var(--space-2) 0 0;
   line-height: 1.55;
 }
+.job-card__perks {
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.job-card__perks li {
+  position: relative;
+  padding-left: 1.35rem;
+  font-size: 0.88rem;
+  color: var(--c-ink-soft);
+  line-height: 1.45;
+}
+.job-card__perks li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--c-forest);
+  font-weight: 700;
+}
 .job-row__actions {
   display: flex;
   flex-direction: column;
@@ -3737,8 +3783,49 @@ body.modal-open { overflow: hidden; }
 }
 
 /* ── Position detail page ─────────────────────────────────────────────────── */
-.page-hero--slim .page-hero__bg { height: 280px; }
-@media (max-width: 640px) { .page-hero--slim .page-hero__bg { height: 200px; } }
+/* Full-bleed photo hero with a dark scrim so the white heading/crumbs stay
+   readable over any image (the default .page-hero is a two-column layout with
+   a solid panel; this --slim variant overlays text directly on the photo). */
+.page-hero--slim {
+  display: block;
+  position: relative;
+  min-height: 0;
+}
+.page-hero--slim .page-hero__bg {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  z-index: 0;
+}
+.page-hero--slim .page-hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* Dark gradient scrim over the photo for contrast */
+.page-hero--slim .page-hero__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(20, 33, 12, 0.82) 0%, rgba(20, 33, 12, 0.62) 55%, rgba(20, 33, 12, 0.42) 100%);
+}
+.page-hero--slim > .container {
+  position: relative;
+  z-index: 1;
+  padding-top: var(--space-7);
+  padding-bottom: var(--space-7);
+}
+/* Ensure hero text is light over the scrim */
+.page-hero--slim h1 { color: var(--c-white); }
+.page-hero--slim .eyebrow { color: var(--c-cream); }
+.page-hero--slim .crumbs,
+.page-hero--slim .crumbs span { color: rgba(250, 246, 241, 0.85); }
+.page-hero--slim .crumbs a { color: var(--c-white); }
+.page-hero--slim .crumbs a:hover { color: var(--c-white); text-decoration: underline; text-underline-offset: 3px; }
+
+.page-hero--slim .page-hero__bg { min-height: 280px; }
+@media (max-width: 640px) { .page-hero--slim .page-hero__bg { min-height: 200px; } }
 
 .position-layout {
   display: grid;
@@ -6134,6 +6221,11 @@ a.blog-tag:hover { background: var(--c-forest); color: var(--c-white); }
 
 /* ── Post detail ─────────────────────────────────────────────────────── */
 .blogpost-hero { background: var(--c-cream-2); padding: var(--space-8) 0 var(--space-6); }
+/* Hero sits on a light tan bg, so override the default cream crumbs (invisible here) with dark ink. */
+.blogpost-hero .crumbs { color: var(--c-ink-soft); opacity: 1; }
+.blogpost-hero .crumbs a { color: var(--c-forest); }
+.blogpost-hero .crumbs a:hover { color: var(--c-forest); text-decoration: underline; text-underline-offset: 3px; }
+.blogpost-hero .crumbs span { color: var(--c-muted); opacity: 0.6; }
 .blogpost-hero__inner { max-width: 760px; }
 .blogpost-hero h1 { font-size: clamp(1.9rem, 4.5vw, 2.9rem); line-height: 1.15; margin: var(--space-3) 0 var(--space-4); }
 .blogpost-hero__excerpt { font-size: 1.2rem; color: var(--c-ink-soft); line-height: 1.5; }

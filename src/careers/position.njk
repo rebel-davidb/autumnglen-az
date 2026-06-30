@@ -12,7 +12,7 @@ eleventyComputed:
 {% from "partials/icons.njk" import icon %}
 
 {# ── Slim page hero ───────────────────────────────────────────────────────── #}
-<section class="page-hero">
+<section class="page-hero page-hero--slim">
   <div class="page-hero__bg">
     <img src="{{ images.wellnessFitness }}" alt="" loading="eager">
   </div>
@@ -52,6 +52,15 @@ eleventyComputed:
           <li>{{ item }}</li>
           {% endfor %}
         </ul>
+
+        {% if job.perks %}
+        <h2>What you&rsquo;ll get</h2>
+        <ul class="position-list">
+          {% for item in job.perks %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
 
         <div class="position-cta-phone">
           <p>Prefer to talk first? Give us a call.</p>
